@@ -1,0 +1,246 @@
+# crear carpetas base
+    mkdir backend frontend database
+
+cd backend
+npm init -y
+npm i express sequelize mysql2 dotenv bcryptjs jsonwebtoken cors pdfkit exceljs
+npm i -D 
+
+mysql workbrench
+CREATE DATABASE repuestos_db;
+
+Editar package.json -> agregar scripts (será más cómodo):
+
+"scripts": {
+  "dev": "nodemon src/app.js",
+  "start": "node src/app.js",
+  "seed": "node src/seed.js"
+}
+
+se crean las carpetas 
+.env 
+Copia y pegá (modificá valores según tu MySQL):
+
+PORT=4000
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=tu_clave_mysql
+DB_NAME=repuestos_db
+DB_DIALECT=mysql
+JWT_SECRET=mi_jwt_secreto
+API_KEY=mi_api_key_super_secreta
+
+src/models 
+pasar todo
+
+src/middlewares
+pasar todo
+
+controladores y rutas
+
+productcontroller debe quedar 
+"""
+import { Product, Category } from "../models/index.js";
+import { Op } from "sequelize";
+
+export async function listProducts(req, res) {
+    const { page = 1, pageSize = 12, q, categoryId, inStock } = req.query;
+    const offset = (page - 1) * pageSize;
+
+    const filtros = {};
+    if (q) filtros.nombre = { [Op.like]: `%${q}%` };
+    if (categoryId) filtros.categoryId = categoryId;
+    if (inStock === "true") filtros.stock = { [Op.gt]: 0 };
+
+    const { rows, count } = await Product.findAndCountAll({
+        where: filtros,
+        include: Category,
+        offset: parseInt(offset),
+        limit: parseInt(pageSize)
+    });
+
+    res.json({
+        data: rows,
+        pagination: { page: +page, pageSize: +pageSize, total: count }
+    });
+}
+"""
+
+npm install bcrypt
+
+package.json agregar
+"type": "module",
+
+probar en postman
+headers
+Key: x-api-key
+Value: mi_api_key_super_secreta
+
+get http://localhost:4000/api/products 
+get http://localhost:4000/api/categories
+
+post 
+http://localhost:4000/api/auth/login
+body
+{
+  "email": "cliente@local",
+  "password": "user123"
+}
+el token que devuelva sin ""
+
+POST http://localhost:4000/api/auth/items
+ir a auth y poner bearer y el token
+body
+{
+  "userId": 2,
+  "productId": 1,
+  "cantidad": 2
+}
+
+1️⃣ Login (obtener JWT)
+
+Método: POST
+
+URL: http://localhost:4000/api/auth/login
+
+Headers:
+
+x-api-key: mi_api_key_super_secreta
+Content-Type: application/json
+
+
+Body → raw → JSON:
+
+{
+  "email": "cliente@local",
+  "password": "user123"
+}
+
+
+Respuesta esperada:
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+
+
+Guardá ese token porque lo vas a usar en los siguientes pasos.
+
+2️⃣ Agregar producto al carrito
+
+Método: POST
+
+URL: http://localhost:4000/api/cart/items
+
+Headers:
+
+x-api-key: mi_api_key_super_secreta
+Authorization: Bearer TU_TOKEN_AQUI
+Content-Type: application/json
+
+
+Body → raw → JSON:
+
+{
+  "userId": 2,
+  "productId": 1,
+  "cantidad": 2
+}
+
+
+Respuesta esperada:
+
+{
+    "id": 1,
+    "cartId": 2,
+    "productId": 1,
+    "cantidad": 2,
+    "updatedAt": "...",
+    "createdAt": "..."
+}
+
+3️⃣ Ver carrito del usuario
+
+Método: GET
+
+URL: http://localhost:4000/api/cart/2
+
+Headers:
+
+x-api-key: mi_api_key_super_secreta
+Authorization: Bearer TU_TOKEN_AQUI
+
+
+Respuesta esperada:
+
+{
+  "id": 2,
+  "userId": 2,
+  "CartItems": [
+    {
+      "id": 1,
+      "cartId": 2,
+      "productId": 1,
+      "cantidad": 2,
+      "Product": {
+        "id": 1,
+        "nombre": "Filtro de aceite",
+        "descripcion": "Filtro compat VW",
+        "precio": 3500,
+        "stock": 20
+      }
+    }
+  ]
+}
+
+4️⃣ Actualizar cantidad de un item del carrito
+
+Método: PUT
+
+URL: http://localhost:4000/api/cart/items/1 (1 = id del item)
+
+Headers:
+
+x-api-key: mi_api_key_super_secreta
+Authorization: Bearer TU_TOKEN_AQUI
+Content-Type: application/json
+
+
+Body → raw → JSON:
+
+{
+  "cantidad": 5
+}
+
+
+Respuesta esperada:
+
+{
+  "ok": true,
+  "item": {
+    "id": 1,
+    "cartId": 2,
+    "productId": 1,
+    "cantidad": 5,
+    "updatedAt": "...",
+    "createdAt": "..."
+  }
+}
+
+5️⃣ Eliminar un item del carrito
+
+Método: DELETE
+
+URL: http://localhost:4000/api/cart/items/1
+
+Headers:
+
+x-api-key: mi_api_key_super_secreta
+Authorization: Bearer TU_TOKEN_AQUI
+
+
+Respuesta esperada:
+
+{
+  "ok": true
+}
