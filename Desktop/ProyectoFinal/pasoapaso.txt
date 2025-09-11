@@ -273,3 +273,16 @@ Respuesta esperada:
 {
   "ok": true
 }
+
+----------------------------------------------------------------------------------- frontend ---------------------------------------------------------------------
+Parate en la carpeta ProyectoFinal
+npm create vite@latest frontend 
+elejir react 
+elejir javascript
+
+
+Instalar React Router:
+npm install react-router-dom
+
+abrir el backend en otra pestaña y 
+npm run dev 
