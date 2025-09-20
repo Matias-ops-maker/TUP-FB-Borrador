@@ -61,3 +61,35 @@ export default function Products() {
         </div>
     );
 }
+
+/*
+======================================================================================================
+// ...existing code...
+MODIFICIONES REALIZADAS PARA USAR API_URL DESDE api.js 
+
+import { API_URL } from '../api';
+import { useEffect, useState } from 'react';
+
+function Products() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch(`${API_URL}/products`)
+      .then(res => res.json())
+      .then(data => setProducts(data))
+      .catch(err => console.error('Error fetching products:', err));
+  }, []);
+
+  return (
+    <div>
+      <h1>Productos</h1>
+      <ul>
+        {products.map(p => <li key={p.id}>{p.name}</li>)}
+      </ul>
+    </div>
+  );
+}
+
+export default Products;
+// ...existing code...
+*/

@@ -4,6 +4,16 @@ import dotenv from "dotenv";
 dotenv.config();
 import { sequelize } from "./models/index.js";
 
+/*
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173', // Cambiar si el frontend corre en otro puerto
+  credentials: true
+}));
+*/
 import { checkApiKey } from "./middlewares/apiKey.js";
 
 import authRoutes from "./routes/auth.js";
