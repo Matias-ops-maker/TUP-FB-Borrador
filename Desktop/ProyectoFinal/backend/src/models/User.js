@@ -1,9 +1,31 @@
-import { DataTypes } from "sequelize";
+// backend/src/models/User.js
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/db.js';
 
-export default function defineUser(sequelize) {
-    return sequelize.define("User", {
-        nombre: { type: DataTypes.STRING, allowNull: false },
-        email: { type: DataTypes.STRING, allowNull: false, unique: true },
-        password: { type: DataTypes.STRING, allowNull: false }
-    });
-}
+const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  role: {
+    type: DataTypes.STRING,
+    defaultValue: 'user',
+  },
+});
+
+export default User;

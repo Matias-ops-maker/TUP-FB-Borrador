@@ -1,0 +1,60 @@
+# Ya hecho (según estructura):
+
++ Backend
+- Estructura de carpetas y archivos organizada.
+- Modelos principales (User, Product, Order, Cart, etc.).
+- Controladores para cada entidad.
+- Rutas para cada entidad.
+- Middlewares para autenticación y API Key.
+- Archivo de configuración de base de datos.
+- Seed de datos.
+- .env para variables de entorno.
+
++ Frontend
+- Estructura con React y Vite.
+- Componentes principales (Navbar, Sidebar).
+- Páginas para usuario y admin (Dashboard, Orders, Products, Reports, Catalogo, Home).
+- Páginas de autenticación (Login, Register, ForgotPassword).
+- Archivo de estilos.
+- Archivo de configuración de ESLint.
+- README.md inicial.
+
+(+)=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=(+)
+
+# Falta completar (según requisitos y estructura):
+
++ Backend
+- Implementar correctamente todas las operaciones CRUD en los controladores y rutas.
+- Validar que todas las rutas estén protegidas con API Key y autenticación.
+- Conexión real y pruebas con la base de datos (¿está configurado y funcionando?).
+- Generación de reportes en PDF/XLS en el backend (reportController.js debe implementarlo).
+- Tests unitarios y de integración para los endpoints.
+- Colección de Postman para pruebas.
+- Estandarización del código con linter (puedes agregar configuración si falta).
+- Documentación técnica detallada en README.md.
+
++ Frontend
+- Conexión real con la API (¿api.js está implementado y usado en las páginas?).
+- Visualización y gestión de datos (CRUD) desde el frontend.
+- Implementar login, registro y recuperación de contraseña funcionales.
+- Home con estadísticas principales.
+- Perfil de usuario (actualización de datos y contraseña).
+- Tabla de usuarios con ABM.
+- Listado, búsqueda, paginado y filtrado de registros.
+- Visualización de registro individual.
+- Operaciones de actualización/eliminación sobre registros.
+- Generación de reportes desde el frontend (descarga PDF/XLS).
+- Diseño responsive (opcional).
+- Tests de componentes.
+- Estandarización de carpetas/componentes si falta.
+- Documentación técnica detallada en README.md.
+
++ Base de Datos
+- Confirmar que el diagrama ER (modeloER.txt) está completo y correcto.
+- Script de creación y migración de la base de datos.
+- Modelos sincronizados con la base de datos real.
+
++ DevOps / Deploy
+- Repositorios separados y actualizados en GitHub.
+- Configuración y despliegue en plataformas públicas (Render, Netlify, Vercel).
+- Manual de instalación y ejecución en README.md.

@@ -1,55 +1,101 @@
-import { sequelize } from "../config/db.js";
-import defineUser from "./User.js";
-import defineCategory from "./Category.js";
-import defineProduct from "./Product.js";
-import defineOrder from "./Order.js";
-import defineOrderItem from "./OrderItem.js";
-import defineCart from "./Cart.js";
-import defineCartItem from "./CartItem.js";
+// backend/src/models/index.js
+import sequelize from '../config/db.js';
+import User from './User.js';
+import Product from './Product.js';
+import Category from './Category.js';
+import Order from './Order.js';
+import OrderItem from './OrderItem.js';
+import Cart from './Cart.js';
+import CartItem from './CartItem.js';
 
-// Inicializar modelos
-const User = defineUser(sequelize);
-const Category = defineCategory(sequelize);
-const Product = defineProduct(sequelize);
-const Order = defineOrder(sequelize);
-const OrderItem = defineOrderItem(sequelize);
-const Cart = defineCart(sequelize);
-const CartItem = defineCartItem(sequelize);
+// Relaciones ejemplo (ajusta según tu diagrama ER)
+User.hasMany(Order);
+Order.belongsTo(User);
 
-// Relaciones
+Product.belongsTo(Category);
+Category.hasMany(Product);
 
-// Productos y categorías
-Category.hasMany(Product, { foreignKey: "categoryId" });
-Product.belongsTo(Category, { foreignKey: "categoryId" });
+Order.hasMany(OrderItem);
+OrderItem.belongsTo(Order);
 
-// Usuarios y órdenes
-User.hasMany(Order, { foreignKey: "userId" });
-Order.belongsTo(User, { foreignKey: "userId" });
+Cart.belongsTo(User);
+User.hasOne(Cart);
 
-// Ordenes y detalles de orden
-Order.hasMany(OrderItem, { foreignKey: "orderId" });
-OrderItem.belongsTo(Order, { foreignKey: "orderId" });
-Product.hasMany(OrderItem, { foreignKey: "productId" });
-OrderItem.belongsTo(Product, { foreignKey: "productId" });
+Cart.hasMany(CartItem);
+CartItem.belongsTo(Cart);
 
-// Carrito de usuario
-User.hasOne(Cart, { foreignKey: "userId" });
-Cart.belongsTo(User, { foreignKey: "userId" });
+CartItem.belongsTo(Product);
+Product.hasMany(CartItem);
 
-// Carrito y items
-Cart.hasMany(CartItem, { foreignKey: "cartId" });
-CartItem.belongsTo(Cart, { foreignKey: "cartId" });
-Product.hasMany(CartItem, { foreignKey: "productId" });
-CartItem.belongsTo(Product, { foreignKey: "productId" });
-
-// Exportar modelos y sequelize
-export {
-    sequelize,
-    User,
-    Category,
-    Product,
-    Order,
-    OrderItem,
-    Cart,
-    CartItem
+// Función para sincronizar modelos
+export const syncModels = async () => {
+  try {
+    await sequelize.sync({ alter: true });
+    console.log('Modelos sincronizados con la base de datos.');
+  } catch (error) {
+    console.error('Error al sincronizar modelos:', error);
+  }
 };
+
+// Exportación de modelos y sequelize
+export {
+  sequelize,
+  User,
+  Product,
+  Category,
+  Order,
+  OrderItem,
+  Cart,
+  CartItem,
+};
+
+/*
+const sequelize = require('../config/db');
+const User = require('./User');
+const Product = require('./Product');
+const Category = require('./Category');
+const Order = require('./Order');
+const OrderItem = require('./OrderItem');
+const Cart = require('./Cart');
+const CartItem = require('./CartItem');
+
+// Relaciones ejemplo (ajusta según tu diagrama ER)
+User.hasMany(Order);
+Order.belongsTo(User);
+
+Product.belongsTo(Category);
+Category.hasMany(Product);
+
+Order.hasMany(OrderItem);
+OrderItem.belongsTo(Order);
+
+Cart.belongsTo(User);
+User.hasOne(Cart);
+
+Cart.hasMany(CartItem);
+CartItem.belongsTo(Cart);
+
+CartItem.belongsTo(Product);
+Product.hasMany(CartItem);
+
+const syncModels = async () => {
+  try {
+    await sequelize.sync({ alter: true });
+    console.log('Modelos sincronizados con la base de datos.');
+  } catch (error) {
+    console.error('Error al sincronizar modelos:', error);
+  }
+};
+
+module.exports = {
+  sequelize,
+  User,
+  Product,
+  Category,
+  Order,
+  OrderItem,
+  Cart,
+  CartItem,
+  syncModels,
+};
+*/
