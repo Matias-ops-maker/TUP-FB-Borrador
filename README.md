@@ -1,8 +1,8 @@
-# RepuestosAuto - Sistema Completo de E-commerce# Trabajo Final Integrador - TUP
+# RepuestosAuto - TUP
 
 
 
-🏪 **RepuestosAuto** es una aplicación web completa para la venta de repuestos automotrices, desarrollada con tecnologías modernas y completamente funcional.INTEGRANTES:
+🏪 **RepuestosAuto** es una aplicación web completa para la venta de repuestos automotrices, desarrollada con tecnologías modernas y completamente funcional.
 
 
 
