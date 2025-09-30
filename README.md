@@ -6,15 +6,15 @@
 
 
 
-## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅Sandoval Sirimarco, Lautaro Agustin [Lautaro.Sandoval98@gmail.com]
+## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅
 
 
 
-### 🎯 **Características Principales**Aispuro, Francisco [aispurofrancisco2003@gmail.com]
+### 🎯 **Características Principales**
 
 
 
-- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuarioPerez Daniele, Matias Sebastian [matiasperezdaniele@gmail.com]
+- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuario
 
 - **📦 Catálogo de Productos**: Con imágenes, categorías y búsqueda
 
