@@ -11,6 +11,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 // marketplace
 import Home from "./pages/usuario/Home"
 import Catalogo from "./pages/usuario/Catalogo"
+import Checkout from "./pages/usuario/Checkout"
 
 export default function App() {
     return (
@@ -23,6 +24,7 @@ export default function App() {
                 {/* Rutas marketplace */}
                 <Route path="/" element={<Home />} />
                 <Route path="/catalogo" element={<Catalogo />} />
+                <Route path="/checkout" element={<Checkout />} />
 
                 {/* Rutas admin con layout */}
                 <Route

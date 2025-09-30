@@ -1,9 +1,22 @@
 import express from "express";
-import { listCategories, createCategory, updateCategory, deleteCategory } from "../controllers/categoryController.js";
-import { authMiddleware } from "../middlewares/auth.js";
+import { 
+    listCategories, 
+    getCategory, 
+    createCategory, 
+    updateCategory, 
+    deleteCategory 
+} from "../controllers/categoryController.js";
+import { verifyToken, verifyAdmin } from "../middlewares/auth.js";
+
 const router = express.Router();
+
+// Rutas públicas
 router.get("/", listCategories);
-router.post("/", authMiddleware, createCategory);
-router.put("/:id", authMiddleware, updateCategory);
-router.delete("/:id", authMiddleware, deleteCategory);
+router.get("/:id", getCategory);
+
+// Rutas de administrador
+router.post("/", verifyToken, verifyAdmin, createCategory);
+router.put("/:id", verifyToken, verifyAdmin, updateCategory);
+router.delete("/:id", verifyToken, verifyAdmin, deleteCategory);
+
 export default router;

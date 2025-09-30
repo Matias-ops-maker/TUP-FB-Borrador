@@ -1,9 +1,36 @@
-import { DataTypes } from "sequelize";
+// backend/src/models/Order.js
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/db.js';
 
-export default function defineOrder(sequelize) {
-    return sequelize.define("Order", {
-        userId: { type: DataTypes.INTEGER, allowNull: false },
-        estado: { type: DataTypes.STRING, allowNull: false, defaultValue: "Pendiente" },
-        total: { type: DataTypes.FLOAT, allowNull: false, defaultValue: 0 }
-    });
-}
+const Order = sequelize.define('Order', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id',
+    },
+  },
+  total: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+  estado: {
+    type: DataTypes.ENUM('pendiente', 'procesando', 'enviado', 'entregado', 'cancelado'),
+    defaultValue: 'pendiente',
+  },
+  creado_en: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+}, {
+  tableName: 'orders',
+  timestamps: false,
+});
+
+export default Order;

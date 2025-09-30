@@ -1,7 +1,29 @@
-import { DataTypes } from "sequelize";
+// backend/src/models/Cart.js
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/db.js';
 
-export default function defineCart(sequelize) {
-    return sequelize.define("Cart", {
-        userId: { type: DataTypes.INTEGER, allowNull: false }
-    });
-}
+const Cart = sequelize.define('Cart', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    unique: true,
+    references: {
+      model: 'users',
+      key: 'id',
+    },
+  },
+  actualizado_en: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+}, {
+  tableName: 'carts',
+  timestamps: false,
+});
+
+export default Cart;

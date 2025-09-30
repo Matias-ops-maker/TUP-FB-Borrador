@@ -1,9 +1,20 @@
 import express from "express";
-import { getCart, addToCart, updateCartItem, removeCartItem } from "../controllers/cartController.js";
-import { authMiddleware } from "../middlewares/auth.js";
+import { 
+    getCart, 
+    addToCart, 
+    updateCartItem, 
+    removeCartItem,
+    clearCart 
+} from "../controllers/cartController.js";
+import { verifyToken } from "../middlewares/auth.js";
+
 const router = express.Router();
-router.get("/", authMiddleware, getCart);
-router.post("/items", authMiddleware, addToCart);
-router.put("/items/:id", authMiddleware, updateCartItem);
-router.delete("/items/:id", authMiddleware, removeCartItem);
+
+// Todas las rutas del carrito requieren autenticación
+router.get("/", verifyToken, getCart);
+router.post("/items", verifyToken, addToCart);
+router.put("/items/:id", verifyToken, updateCartItem);
+router.delete("/items/:id", verifyToken, removeCartItem);
+router.delete("/", verifyToken, clearCart);
+
 export default router;

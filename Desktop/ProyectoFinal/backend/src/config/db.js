@@ -4,26 +4,31 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'mysql', // Cambia a 'postgres' o 'sqlite' si usás otro motor
-    logging: false,
+const sequelize = new Sequelize({
+  dialect: process.env.DB_DIALECT || 'sqlite',
+  storage: process.env.DB_DIALECT === 'sqlite' ? './database.sqlite' : undefined,
+  host: process.env.DB_DIALECT === 'mysql' ? process.env.DB_HOST : undefined,
+  username: process.env.DB_DIALECT === 'mysql' ? process.env.DB_USER : undefined,
+  password: process.env.DB_DIALECT === 'mysql' ? process.env.DB_PASS : undefined,
+  database: process.env.DB_DIALECT === 'mysql' ? process.env.DB_NAME : undefined,
+  logging: false,
+  define: {
+    freezeTableName: true,
+    underscored: true,
+    timestamps: true
   }
-);
+});
 
 const testConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log('Conexión a la DB exitosa');
+    console.log('✅ Conexión a la DB exitosa');
+    return true;
   } catch (error) {
-    console.error('Error al conectar la DB:', error);
+    console.error('❌ Error al conectar la DB:', error);
+    return false;
   }
 };
 
-testConnection();
-
+export { testConnection };
 export default sequelize;

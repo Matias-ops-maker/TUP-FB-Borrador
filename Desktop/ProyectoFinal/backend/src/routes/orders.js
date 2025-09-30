@@ -1,8 +1,22 @@
 import express from "express";
-import { placeOrder, listOrders, getOrder } from "../controllers/orderController.js";
-import { authMiddleware } from "../middlewares/auth.js";
+import { 
+    placeOrder, 
+    listOrders, 
+    getOrder,
+    updateOrderStatus,
+    getOrderStats 
+} from "../controllers/orderController.js";
+import { verifyToken, verifyAdmin } from "../middlewares/auth.js";
+
 const router = express.Router();
-router.post("/", authMiddleware, placeOrder);
-router.get("/", authMiddleware, listOrders);
-router.get("/:id", authMiddleware, getOrder);
+
+// Rutas de usuario autenticado
+router.post("/", verifyToken, placeOrder);
+router.get("/", verifyToken, listOrders);
+router.get("/:id", verifyToken, getOrder);
+
+// Rutas de administrador
+router.put("/:id/status", verifyToken, verifyAdmin, updateOrderStatus);
+router.get("/admin/stats", verifyToken, verifyAdmin, getOrderStats);
+
 export default router;

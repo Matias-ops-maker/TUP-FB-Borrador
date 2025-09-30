@@ -8,24 +8,33 @@ const User = sequelize.define('User', {
     autoIncrement: true,
     primaryKey: true,
   },
-  username: {
+  nombre: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
+    validate: {
+      isEmail: true,
+    },
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  role: {
-    type: DataTypes.STRING,
+  rol: {
+    type: DataTypes.ENUM('admin', 'user'),
     defaultValue: 'user',
   },
+  creado_en: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+  },
+}, {
+  tableName: 'users',
+  timestamps: false,
 });
 
 export default User;

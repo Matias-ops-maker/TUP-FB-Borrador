@@ -1,8 +1,33 @@
-import { DataTypes } from "sequelize";
+// backend/src/models/Category.js
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/db.js';
 
-export default function defineCategory(sequelize) {
-    return sequelize.define("Category", {
-        nombre: { type: DataTypes.STRING, allowNull: false, unique: true },
-        descripcion: { type: DataTypes.TEXT, allowNull: true }
-    });
-}
+const Category = sequelize.define('Category', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  nombre: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  descripcion: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  parent_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'categories',
+      key: 'id',
+    },
+  },
+}, {
+  tableName: 'categories',
+  timestamps: false,
+});
+
+export default Category;

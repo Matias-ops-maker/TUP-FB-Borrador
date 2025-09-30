@@ -1,47 +1,244 @@
-import { Product, Category } from "../models/index.js";
+import { Product, Category, Brand, Vehicle, Fitment } from "../models/index.js";
 import { Op } from "sequelize";
 
 export async function listProducts(req, res) {
-    const { page = 1, pageSize = 12, q, categoryId, inStock } = req.query;
-    const offset = (page - 1) * pageSize;
+    try {
+        const { 
+            page = 1, 
+            pageSize = 12, 
+            q, 
+            category_id, 
+            brand_id, 
+            inStock, 
+            minPrice, 
+            maxPrice,
+            orderBy = 'creado_en',
+            orderDir = 'DESC'
+        } = req.query;
+        
+        const offset = (page - 1) * pageSize;
 
-    const filtros = {};
-    if (q) filtros.nombre = { [Op.like]: `%${q}%` };
-    if (categoryId) filtros.categoryId = categoryId;
-    if (inStock === "true") filtros.stock = { [Op.gt]: 0 };
+        const filtros = {};
+        if (q) {
+            filtros[Op.or] = [
+                { nombre: { [Op.like]: `%${q}%` } },
+                { descripcion: { [Op.like]: `%${q}%` } },
+                { sku: { [Op.like]: `%${q}%` } }
+            ];
+        }
+        if (category_id) filtros.category_id = category_id;
+        if (brand_id) filtros.brand_id = brand_id;
+        if (inStock === "true") filtros.stock = { [Op.gt]: 0 };
+        if (minPrice) filtros.precio = { ...filtros.precio, [Op.gte]: parseFloat(minPrice) };
+        if (maxPrice) filtros.precio = { ...filtros.precio, [Op.lte]: parseFloat(maxPrice) };
 
-    const { rows, count } = await Product.findAndCountAll({
-        where: filtros,
-        include: Category,
-        offset: parseInt(offset),
-        limit: parseInt(pageSize),
-    });
+        const { rows, count } = await Product.findAndCountAll({
+            where: filtros,
+            include: [
+                { model: Category, attributes: ['id', 'nombre'] },
+                { model: Brand, attributes: ['id', 'nombre'] }
+            ],
+            order: [[orderBy, orderDir]],
+            offset: parseInt(offset),
+            limit: parseInt(pageSize),
+        });
 
-    res.json({ data: rows, pagination: { page: +page, pageSize: +pageSize, total: count } });
+        res.json({ 
+            data: rows, 
+            pagination: { 
+                page: +page, 
+                pageSize: +pageSize, 
+                total: count,
+                totalPages: Math.ceil(count / pageSize)
+            } 
+        });
+    } catch (error) {
+        console.error('Error al listar productos:', error);
+        res.status(500).json({ error: "Error interno del servidor" });
     }
+}
 
-    export async function getProduct(req, res) {
-    const prod = await Product.findByPk(req.params.id, { include: Category });
-    if (!prod) return res.status(404).json({ error: "No encontrado" });
-    res.json(prod);
+export async function getProduct(req, res) {
+    try {
+        const prod = await Product.findByPk(req.params.id, { 
+            include: [
+                { model: Category, attributes: ['id', 'nombre'] },
+                { model: Brand, attributes: ['id', 'nombre'] },
+                {
+                    model: Vehicle,
+                    through: { attributes: [] },
+                    attributes: ['id', 'marca', 'modelo', 'año_desde', 'año_hasta', 'motor']
+                }
+            ]
+        });
+        
+        if (!prod) return res.status(404).json({ error: "Producto no encontrado" });
+        res.json(prod);
+    } catch (error) {
+        console.error('Error al obtener producto:', error);
+        res.status(500).json({ error: "Error interno del servidor" });
     }
+}
 
-    export async function createProduct(req, res) {
-    const { nombre, descripcion, precio, stock, categoryId, imageUrl } = req.body;
-    const prod = await Product.create({ nombre, descripcion, precio, stock, categoryId, imageUrl });
-    res.json(prod);
+export async function createProduct(req, res) {
+    try {
+        const { 
+            sku, 
+            nombre, 
+            descripcion, 
+            precio, 
+            costo, 
+            imagen_url, 
+            stock, 
+            estado = 'activo', 
+            brand_id, 
+            category_id,
+            vehicles = [] // Array de IDs de vehículos compatibles
+        } = req.body;
+
+        // Validación básica
+        if (!sku || !nombre || !precio || !category_id) {
+            return res.status(400).json({ error: "SKU, nombre, precio y categoría son requeridos" });
+        }
+
+        // Verificar si el SKU ya existe
+        const existingSku = await Product.findOne({ where: { sku } });
+        if (existingSku) {
+            return res.status(400).json({ error: "El SKU ya existe" });
+        }
+
+        const prod = await Product.create({ 
+            sku, 
+            nombre, 
+            descripcion, 
+            precio, 
+            costo, 
+            imagen_url, 
+            stock: stock || 0, 
+            estado, 
+            brand_id, 
+            category_id 
+        });
+
+        // Asociar vehículos compatibles si se proporcionan
+        if (vehicles.length > 0) {
+            const fitments = vehicles.map(vehicle_id => ({
+                product_id: prod.id,
+                vehicle_id
+            }));
+            await Fitment.bulkCreate(fitments);
+        }
+
+        // Recargar con relaciones
+        const newProduct = await Product.findByPk(prod.id, {
+            include: [
+                { model: Category, attributes: ['id', 'nombre'] },
+                { model: Brand, attributes: ['id', 'nombre'] }
+            ]
+        });
+
+        res.status(201).json(newProduct);
+    } catch (error) {
+        console.error('Error al crear producto:', error);
+        res.status(500).json({ error: "Error interno del servidor" });
     }
+}
 
-    export async function updateProduct(req, res) {
-    const prod = await Product.findByPk(req.params.id);
-    if (!prod) return res.status(404).json({ error: "No encontrado" });
-    await prod.update(req.body);
-    res.json(prod);
+export async function updateProduct(req, res) {
+    try {
+        const prod = await Product.findByPk(req.params.id);
+        if (!prod) return res.status(404).json({ error: "Producto no encontrado" });
+
+        const { vehicles, ...updateData } = req.body;
+
+        // Verificar SKU único si se está actualizando
+        if (updateData.sku && updateData.sku !== prod.sku) {
+            const existingSku = await Product.findOne({ where: { sku: updateData.sku } });
+            if (existingSku) {
+                return res.status(400).json({ error: "El SKU ya existe" });
+            }
+        }
+
+        await prod.update(updateData);
+
+        // Actualizar compatibilidad con vehículos si se proporciona
+        if (vehicles) {
+            // Eliminar compatibilidades existentes
+            await Fitment.destroy({ where: { product_id: prod.id } });
+            
+            // Crear nuevas compatibilidades
+            if (vehicles.length > 0) {
+                const fitments = vehicles.map(vehicle_id => ({
+                    product_id: prod.id,
+                    vehicle_id
+                }));
+                await Fitment.bulkCreate(fitments);
+            }
+        }
+
+        // Recargar con relaciones
+        const updatedProduct = await Product.findByPk(prod.id, {
+            include: [
+                { model: Category, attributes: ['id', 'nombre'] },
+                { model: Brand, attributes: ['id', 'nombre'] }
+            ]
+        });
+
+        res.json(updatedProduct);
+    } catch (error) {
+        console.error('Error al actualizar producto:', error);
+        res.status(500).json({ error: "Error interno del servidor" });
     }
+}
 
-    export async function deleteProduct(req, res) {
-    const prod = await Product.findByPk(req.params.id);
-    if (!prod) return res.status(404).json({ error: "No encontrado" });
-    await prod.destroy();
-    res.json({ msg: "Eliminado" });
+export async function deleteProduct(req, res) {
+    try {
+        const prod = await Product.findByPk(req.params.id);
+        if (!prod) return res.status(404).json({ error: "Producto no encontrado" });
+
+        // Eliminar compatibilidades con vehículos
+        await Fitment.destroy({ where: { product_id: prod.id } });
+        
+        await prod.destroy();
+        res.json({ msg: "Producto eliminado exitosamente" });
+    } catch (error) {
+        console.error('Error al eliminar producto:', error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
+}
+
+export async function getProductsByVehicle(req, res) {
+    try {
+        const { vehicle_id } = req.params;
+        const { page = 1, pageSize = 12 } = req.query;
+        const offset = (page - 1) * pageSize;
+
+        const products = await Product.findAndCountAll({
+            include: [
+                {
+                    model: Vehicle,
+                    where: { id: vehicle_id },
+                    through: { attributes: [] },
+                    attributes: []
+                },
+                { model: Category, attributes: ['id', 'nombre'] },
+                { model: Brand, attributes: ['id', 'nombre'] }
+            ],
+            offset: parseInt(offset),
+            limit: parseInt(pageSize),
+        });
+
+        res.json({
+            data: products.rows,
+            pagination: {
+                page: +page,
+                pageSize: +pageSize,
+                total: products.count,
+                totalPages: Math.ceil(products.count / pageSize)
+            }
+        });
+    } catch (error) {
+        console.error('Error al obtener productos por vehículo:', error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
 }
