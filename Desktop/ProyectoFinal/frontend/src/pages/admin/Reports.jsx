@@ -4,12 +4,20 @@ import "../../styles/usuario.css";
 
 export default function Reports() {
     const navigate = useNavigate();
-    const API_KEY = "mi_api_key_super_secreta"; // reemplazá por tu API_KEY real
 
     const downloadFile = async (type) => {
         try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Debes iniciar sesión como administrador');
+            return;
+        }
+
         const res = await fetch(`http://localhost:4000/api/reports/sales/${type}`, {
-            headers: { "x-api-key": API_KEY },
+            headers: { 
+                "x-api-key": "mi_api_key_super_secreta",
+                "Authorization": `Bearer ${token}`
+            },
         });
 
         if (!res.ok) {

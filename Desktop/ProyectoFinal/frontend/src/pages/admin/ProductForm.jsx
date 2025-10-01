@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import api from "../../api.js";
 
 export default function Products() {
     const [products, setProducts] = useState([]);
@@ -6,17 +7,15 @@ export default function Products() {
     useEffect(() => {
         const fetchProducts = async () => {
         try {
-            const res = await fetch("http://localhost:4000/api/products", {
-            headers: { "x-api-key": "mi_api_key_super_secreta" },
-            });
-            const json = await res.json();
-            console.log("Backend data:", json);
+            const response = await api.get("/products");
+            console.log("Backend data:", response.data);
 
-            // ⚡ Asegurarse de usar json.data
-            setProducts(Array.isArray(json.data) ? json.data : []);
+            // ⚡ Asegurarse de usar response.data.data
+            setProducts(Array.isArray(response.data.data) ? response.data.data : []);
         } catch (err) {
             console.error(err);
             setProducts([]);
+        }
         }
         };
 

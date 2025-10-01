@@ -33,7 +33,7 @@ export default function HomeDebug() {
           id: producto.id,
           name: producto.nombre,
           brand: producto.Brand?.nombre || 'Sin marca',
-          price: parseFloat(producto.precio) / 100,
+          price: parseFloat(producto.precio), // Los precios ya están en pesos
           stock: producto.stock,
           category: producto.Category?.nombre || 'Sin categoría',
           image: producto.imagen_url || "https://via.placeholder.com/200x150/3B82F6/ffffff?text=Producto"

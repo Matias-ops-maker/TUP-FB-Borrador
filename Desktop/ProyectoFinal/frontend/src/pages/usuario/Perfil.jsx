@@ -47,7 +47,7 @@ export default function Perfil() {
             productos: order.OrderItems ? order.OrderItems.map(item => ({
               nombre: item.Product?.nombre || 'Producto',
               cantidad: item.cantidad,
-              precio: parseFloat(item.precio_unitario) * 100
+              precio: parseFloat(item.precio_unitario) // Los precios ya están en pesos
             })) : []
           }));
           setPedidos(ordersFormatted);
@@ -101,7 +101,7 @@ export default function Perfil() {
     return new Intl.NumberFormat('es-AR', {
       style: 'currency',
       currency: 'ARS'
-    }).format(precio / 100);
+    }).format(precio); // Los precios ya están en pesos
   };
 
   const getEstadoColor = (estado) => {

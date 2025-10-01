@@ -9,6 +9,8 @@ export default function Products() {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterCategory, setFilterCategory] = useState("");
     const [sortBy, setSortBy] = useState("name");
+    const [showForm, setShowForm] = useState(false);
+    const [editingProduct, setEditingProduct] = useState(null);
     const navigate = useNavigate();
 
     // Categorías disponibles
@@ -117,7 +119,7 @@ export default function Products() {
         return new Intl.NumberFormat('es-AR', {
             style: 'currency',
             currency: 'ARS'
-        }).format(price / 100);
+        }).format(price); // Los precios ya están en pesos
     };
 
     return (
@@ -253,35 +255,3 @@ export default function Products() {
         </div>
     );
 }
-
-/*
-======================================================================================================
-// ...existing code...
-MODIFICIONES REALIZADAS PARA USAR API_URL DESDE api.js 
-
-import { API_URL } from '../api';
-import { useEffect, useState } from 'react';
-
-function Products() {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    fetch(`${API_URL}/products`)
-      .then(res => res.json())
-      .then(data => setProducts(data))
-      .catch(err => console.error('Error fetching products:', err));
-  }, []);
-
-  return (
-    <div>
-      <h1>Productos</h1>
-      <ul>
-        {products.map(p => <li key={p.id}>{p.name}</li>)}
-      </ul>
-    </div>
-  );
-}
-
-export default Products;
-// ...existing code...
-*/
