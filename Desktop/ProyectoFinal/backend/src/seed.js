@@ -11,7 +11,7 @@ import {
     Fitment, 
     Cart 
 } from "./models/index.js";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 (async () => {
     try {
@@ -22,7 +22,7 @@ import bcrypt from "bcrypt";
         console.log("✅ Base de datos sincronizada");
 
         // Crear usuarios
-        const passAdmin = await bcrypt.hash("admin123", 10);
+        const passAdmin = await bcryptjs.hash("admin123", 10);
         const admin = await User.create({ 
             nombre: "Administrador", 
             email: "admin@repuestos.com", 
@@ -30,7 +30,7 @@ import bcrypt from "bcrypt";
             rol: "admin"
         });
 
-        const passUser = await bcrypt.hash("user123", 10);
+        const passUser = await bcryptjs.hash("user123", 10);
         const user1 = await User.create({ 
             nombre: "Juan Pérez", 
             email: "juan@gmail.com", 
@@ -58,6 +58,27 @@ import bcrypt from "bcrypt";
         const gates = await Brand.create({ nombre: "Gates" });
         const ngk = await Brand.create({ nombre: "NGK" });
         const mobil = await Brand.create({ nombre: "Mobil 1" });
+        const brembo = await Brand.create({ nombre: "Brembo" });
+        const ferodo = await Brand.create({ nombre: "Ferodo" });
+        const castrol = await Brand.create({ nombre: "Castrol" });
+        const valvoline = await Brand.create({ nombre: "Valvoline" });
+        const shell = await Brand.create({ nombre: "Shell" });
+        const denso = await Brand.create({ nombre: "Denso" });
+        const monroe = await Brand.create({ nombre: "Monroe" });
+        const bilstein = await Brand.create({ nombre: "Bilstein" });
+        const sachs = await Brand.create({ nombre: "Sachs" });
+        const lemforder = await Brand.create({ nombre: "Lemförder" });
+        const trw = await Brand.create({ nombre: "TRW" });
+        const valeo = await Brand.create({ nombre: "Valeo" });
+        const mahle = await Brand.create({ nombre: "Mahle" });
+        const hella = await Brand.create({ nombre: "Hella" });
+        const osram = await Brand.create({ nombre: "Osram" });
+        const bardahl = await Brand.create({ nombre: "Bardahl" });
+        const eibach = await Brand.create({ nombre: "Eibach" });
+        const koni = await Brand.create({ nombre: "Koni" });
+        const pirelli = await Brand.create({ nombre: "Pirelli" });
+        const michelin = await Brand.create({ nombre: "Michelin" });
+        const continental = await Brand.create({ nombre: "Continental" });
 
         console.log("✅ Marcas creadas");
 
@@ -100,6 +121,31 @@ import bcrypt from "bcrypt";
             descripcion: "Sistema de encendido" 
         });
 
+        const suspension = await Category.create({ 
+            nombre: "Suspensión", 
+            descripcion: "Sistema de suspensión y dirección" 
+        });
+
+        const electrica = await Category.create({ 
+            nombre: "Eléctrica", 
+            descripcion: "Sistema eléctrico y electrónico" 
+        });
+
+        const neumaticos = await Category.create({ 
+            nombre: "Neumáticos", 
+            descripcion: "Neumáticos y llantas" 
+        });
+
+        const escape = await Category.create({ 
+            nombre: "Escape", 
+            descripcion: "Sistema de escape" 
+        });
+
+        const climatizacion = await Category.create({ 
+            nombre: "Climatización", 
+            descripcion: "Sistema de aire acondicionado" 
+        });
+
         console.log("✅ Categorías creadas");
 
         // Crear vehículos
@@ -116,15 +162,16 @@ import bcrypt from "bcrypt";
 
         console.log("✅ Vehículos creados");
 
-        // Crear productos
+        // Crear productos (40 productos variados)
         const products = await Product.bulkCreate([
+            // FILTROS (8 productos)
             {
                 sku: "F001",
                 nombre: "Filtro de Aceite W 712/75",
                 descripcion: "Filtro de aceite compatible con motores VW/Audi 1.6-2.0 TDI",
                 precio: 3500.00,
                 costo: 2100.00,
-                imagen_url: "https://example.com/filtro-aceite.jpg",
+                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
                 stock: 25,
                 estado: "activo",
                 brand_id: mann.id,
@@ -136,76 +183,475 @@ import bcrypt from "bcrypt";
                 descripcion: "Filtro de aire para VW Golf, Polo y Audi A3",
                 precio: 2800.00,
                 costo: 1680.00,
+                imagen_url: "https://images.unsplash.com/photo-1632501641765-e568d28b0015?w=200&h=150&fit=crop",
                 stock: 30,
                 estado: "activo",
                 brand_id: mann.id,
                 category_id: filtros.id
             },
             {
+                sku: "F003",
+                nombre: "Filtro Combustible FF5052",
+                descripcion: "Filtro de combustible para motores diesel",
+                precio: 4200.00,
+                costo: 2520.00,
+                imagen_url: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=200&h=150&fit=crop",
+                stock: 22,
+                estado: "activo",
+                brand_id: bosch.id,
+                category_id: filtros.id
+            },
+            {
+                sku: "F004",
+                nombre: "Filtro Cabina LA440",
+                descripcion: "Filtro antipolen para máxima pureza del aire",
+                precio: 3200.00,
+                costo: 1920.00,
+                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
+                stock: 35,
+                estado: "activo",
+                brand_id: mahle.id,
+                category_id: filtros.id
+            },
+            {
+                sku: "F005",
+                nombre: "Filtro Hydraulico HU7003X",
+                descripcion: "Filtro hidráulico para transmisiones automáticas",
+                precio: 4800.00,
+                costo: 2880.00,
+                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
+                stock: 18,
+                estado: "activo",
+                brand_id: mann.id,
+                category_id: filtros.id
+            },
+            {
+                sku: "F006",
+                nombre: "Filtro Gasolina G6302",
+                descripcion: "Filtro de combustible para motores nafteros",
+                precio: 3800.00,
+                costo: 2280.00,
+                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
+                stock: 28,
+                estado: "activo",
+                brand_id: bosch.id,
+                category_id: filtros.id
+            },
+            {
+                sku: "F007",
+                nombre: "Filtro Aire Motor C30005",
+                descripcion: "Filtro de aire de alto rendimiento",
+                precio: 3600.00,
+                costo: 2160.00,
+                imagen_url: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=200&h=150&fit=crop",
+                stock: 32,
+                estado: "activo",
+                brand_id: mahle.id,
+                category_id: filtros.id
+            },
+            {
+                sku: "F008",
+                nombre: "Filtro Aceite OX153D1",
+                descripcion: "Filtro de aceite ecológico biodegradable",
+                precio: 4100.00,
+                costo: 2460.00,
+                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
+                stock: 26,
+                estado: "activo",
+                brand_id: mahle.id,
+                category_id: filtros.id
+            },
+
+            // FRENOS (8 productos)
+            {
                 sku: "B001",
-                nombre: "Pastillas de Freno Delanteras",
+                nombre: "Pastillas de Freno Delanteras Brembo",
                 descripcion: "Pastillas de freno cerámicas para eje delantero",
                 precio: 12000.00,
                 costo: 7200.00,
+                imagen_url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200&h=150&fit=crop",
                 stock: 15,
                 estado: "activo",
-                brand_id: bosch.id,
+                brand_id: brembo.id,
                 category_id: pastillas.id
             },
             {
                 sku: "B002",
-                nombre: "Pastillas de Freno Traseras",
+                nombre: "Pastillas de Freno Traseras Ferodo",
                 descripcion: "Pastillas de freno orgánicas para eje trasero",
                 precio: 8500.00,
                 costo: 5100.00,
+                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
                 stock: 18,
                 estado: "activo",
-                brand_id: bosch.id,
+                brand_id: ferodo.id,
                 category_id: pastillas.id
             },
             {
-                sku: "G001",
-                nombre: "Correa de Distribución",
-                descripcion: "Correa de distribución para motores 1.6-2.0",
-                precio: 15000.00,
-                costo: 9000.00,
+                sku: "B003",
+                nombre: "Disco de Freno Ventilado",
+                descripcion: "Disco de freno ventilado 280mm",
+                precio: 15800.00,
+                costo: 9480.00,
+                imagen_url: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=200&h=150&fit=crop",
+                stock: 25,
+                estado: "activo",
+                brand_id: brembo.id,
+                category_id: frenos.id
+            },
+            {
+                sku: "B004",
+                nombre: "Cilindro Freno Rueda TRW",
+                descripcion: "Cilindro de freno para rueda trasera",
+                precio: 6800.00,
+                costo: 4080.00,
+                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
                 stock: 12,
                 estado: "activo",
-                brand_id: gates.id,
-                category_id: transmision.id
+                brand_id: trw.id,
+                category_id: frenos.id
             },
             {
-                sku: "N001",
-                nombre: "Bujías Iridium",
-                descripcion: "Juego de 4 bujías de iridio NGK",
-                precio: 18000.00,
-                costo: 10800.00,
+                sku: "B005",
+                nombre: "Liquido de Frenos DOT4",
+                descripcion: "Líquido de frenos sintético 500ml",
+                precio: 2400.00,
+                costo: 1440.00,
+                imagen_url: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=200&h=150&fit=crop",
+                stock: 50,
+                estado: "activo",
+                brand_id: bosch.id,
+                category_id: frenos.id
+            },
+            {
+                sku: "B006",
+                nombre: "Sensor ABS Delantero",
+                descripcion: "Sensor de velocidad ABS rueda delantera",
+                precio: 8900.00,
+                costo: 5340.00,
+                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
+                stock: 16,
+                estado: "activo",
+                brand_id: bosch.id,
+                category_id: electrica.id
+            },
+            {
+                sku: "B007",
+                nombre: "Pastillas Freno Ceramicas Premium",
+                descripcion: "Pastillas cerámicas sin ruido alta gama",
+                precio: 18500.00,
+                costo: 11100.00,
+                imagen_url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200&h=150&fit=crop",
                 stock: 20,
                 estado: "activo",
-                brand_id: ngk.id,
-                category_id: encendido.id
+                brand_id: brembo.id,
+                category_id: pastillas.id
             },
             {
-                sku: "M001",
-                nombre: "Aceite Motor 5W-30",
+                sku: "B008",
+                nombre: "Kit Reparacion Calipers",
+                descripcion: "Kit completo para reparación de calipers",
+                precio: 4800.00,
+                costo: 2880.00,
+                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
+                stock: 14,
+                estado: "activo",
+                brand_id: trw.id,
+                category_id: frenos.id
+            },
+
+            // ACEITES Y LUBRICANTES (8 productos)
+            {
+                sku: "L001",
+                nombre: "Aceite Motor 5W-30 Mobil 1",
                 descripcion: "Aceite sintético 5W-30 para motores modernos - 4L",
                 precio: 8900.00,
                 costo: 5340.00,
+                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
                 stock: 40,
                 estado: "activo",
                 brand_id: mobil.id,
                 category_id: lubricantes.id
             },
             {
-                sku: "F003",
-                nombre: "Filtro Combustible",
-                descripcion: "Filtro de combustible para motores diesel",
-                precio: 4200.00,
-                costo: 2520.00,
+                sku: "L002",
+                nombre: "Aceite Motor 10W-40 Castrol",
+                descripcion: "Aceite semisintético multigrad 4L",
+                precio: 6200.00,
+                costo: 3720.00,
+                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
+                stock: 35,
+                estado: "activo",
+                brand_id: castrol.id,
+                category_id: lubricantes.id
+            },
+            {
+                sku: "L003",
+                nombre: "Aceite Transmision ATF",
+                descripcion: "Fluido automático multivehículo 1L",
+                precio: 4800.00,
+                costo: 2880.00,
+                imagen_url: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=200&h=150&fit=crop",
+                stock: 28,
+                estado: "activo",
+                brand_id: mobil.id,
+                category_id: lubricantes.id
+            },
+            {
+                sku: "L004",
+                nombre: "Refrigerante Concentrado",
+                descripcion: "Anticongelante -35°C concentrado 5L",
+                precio: 5600.00,
+                costo: 3360.00,
+                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
                 stock: 22,
                 estado: "activo",
+                brand_id: castrol.id,
+                category_id: lubricantes.id
+            },
+            {
+                sku: "L005",
+                nombre: "Grasa Multiproposito",
+                descripcion: "Grasa litio multiuso 500g",
+                precio: 1800.00,
+                costo: 1080.00,
+                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
+                stock: 60,
+                estado: "activo",
+                brand_id: shell.id,
+                category_id: lubricantes.id
+            },
+            {
+                sku: "L006",
+                nombre: "Aceite Diferencial 90W",
+                descripcion: "Aceite para diferenciales y cajas",
+                precio: 3200.00,
+                costo: 1920.00,
+                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
+                stock: 18,
+                estado: "activo",
+                brand_id: shell.id,
+                category_id: lubricantes.id
+            },
+            {
+                sku: "L007",
+                nombre: "Aceite 0W-20 Hibridos",
+                descripcion: "Aceite especial motores híbridos",
+                precio: 12800.00,
+                costo: 7680.00,
+                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
+                stock: 15,
+                estado: "activo",
+                brand_id: mobil.id,
+                category_id: lubricantes.id
+            },
+            {
+                sku: "L008",
+                nombre: "Aditivo Stop Smoke",
+                descripcion: "Reductor consumo aceite y humo",
+                precio: 2400.00,
+                costo: 1440.00,
+                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
+                stock: 45,
+                estado: "activo",
+                brand_id: bardahl.id,
+                category_id: lubricantes.id
+            },
+
+            // SISTEMA ELÉCTRICO (8 productos)
+            {
+                sku: "E001",
+                nombre: "Batería Bosch S4 60Ah",
+                descripcion: "Batería libre mantenimiento 60Ah 540A",
+                precio: 18600.00,
+                costo: 11160.00,
+                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
+                stock: 25,
+                estado: "activo",
                 brand_id: bosch.id,
-                category_id: filtros.id
+                category_id: electrica.id
+            },
+            {
+                sku: "E002",
+                nombre: "Alternador 120A Bosch",
+                descripcion: "Alternador 14V 120A remanufacturado",
+                precio: 28500.00,
+                costo: 17100.00,
+                imagen_url: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=200&h=150&fit=crop",
+                stock: 8,
+                estado: "activo",
+                brand_id: bosch.id,
+                category_id: electrica.id
+            },
+            {
+                sku: "E003",
+                nombre: "Motor Arranque Valeo",
+                descripcion: "Motor arranque 12V 1.4kW",
+                precio: 24800.00,
+                costo: 14880.00,
+                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
+                stock: 6,
+                estado: "activo",
+                brand_id: valeo.id,
+                category_id: electrica.id
+            },
+            {
+                sku: "E004",
+                nombre: "Bobina Encendido NGK",
+                descripcion: "Bobina encendido individual",
+                precio: 8900.00,
+                costo: 5340.00,
+                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
+                stock: 20,
+                estado: "activo",
+                brand_id: ngk.id,
+                category_id: encendido.id
+            },
+            {
+                sku: "E005",
+                nombre: "Bujias Iridium NGK",
+                descripcion: "Juego 4 bujías iridio larga vida",
+                precio: 18000.00,
+                costo: 10800.00,
+                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
+                stock: 15,
+                estado: "activo",
+                brand_id: ngk.id,
+                category_id: encendido.id
+            },
+            {
+                sku: "E006",
+                nombre: "Regulador Voltaje Bosch",
+                descripcion: "Regulador electrónico 14V",
+                precio: 6800.00,
+                costo: 4080.00,
+                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
+                stock: 12,
+                estado: "activo",
+                brand_id: bosch.id,
+                category_id: electrica.id
+            },
+            {
+                sku: "E007",
+                nombre: "Sensor Oxigeno Lambda",
+                descripcion: "Sonda lambda universal",
+                precio: 9600.00,
+                costo: 5760.00,
+                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
+                stock: 18,
+                estado: "activo",
+                brand_id: bosch.id,
+                category_id: electrica.id
+            },
+            {
+                sku: "E008",
+                nombre: "Cables Bujias NGK",
+                descripcion: "Juego cables alta tensión",
+                precio: 7200.00,
+                costo: 4320.00,
+                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
+                stock: 22,
+                estado: "activo",
+                brand_id: ngk.id,
+                category_id: encendido.id
+            },
+
+            // SUSPENSIÓN Y DIRECCIÓN (8 productos)
+            {
+                sku: "S001",
+                nombre: "Amortiguador Monroe Delantero",
+                descripcion: "Amortiguador hidráulico delantero",
+                precio: 12500.00,
+                costo: 7500.00,
+                imagen_url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200&h=150&fit=crop",
+                stock: 20,
+                estado: "activo",
+                brand_id: monroe.id,
+                category_id: suspension.id
+            },
+            {
+                sku: "S002",
+                nombre: "Resorte Eibach Delantero",
+                descripcion: "Resorte progresivo deportivo",
+                precio: 8900.00,
+                costo: 5340.00,
+                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
+                stock: 15,
+                estado: "activo",
+                brand_id: eibach.id,
+                category_id: suspension.id
+            },
+            {
+                sku: "S003",
+                nombre: "Rotula Suspension TRW",
+                descripcion: "Rótula suspensión delantera inferior",
+                precio: 6800.00,
+                costo: 4080.00,
+                imagen_url: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=200&h=150&fit=crop",
+                stock: 25,
+                estado: "activo",
+                brand_id: trw.id,
+                category_id: suspension.id
+            },
+            {
+                sku: "S004",
+                nombre: "Buje Barra Estabilizadora",
+                descripcion: "Buje goma estabilizadora delantera",
+                precio: 1800.00,
+                costo: 1080.00,
+                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
+                stock: 50,
+                estado: "activo",
+                brand_id: lemforder.id,
+                category_id: suspension.id
+            },
+            {
+                sku: "S005",
+                nombre: "Copa Amortiguador Monroe",
+                descripcion: "Soporte superior amortiguador",
+                precio: 4200.00,
+                costo: 2520.00,
+                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
+                stock: 30,
+                estado: "activo",
+                brand_id: monroe.id,
+                category_id: suspension.id
+            },
+            {
+                sku: "S006",
+                nombre: "Terminal Direccion TRW",
+                descripcion: "Terminal axial dirección",
+                precio: 5600.00,
+                costo: 3360.00,
+                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
+                stock: 22,
+                estado: "activo",
+                brand_id: trw.id,
+                category_id: suspension.id
+            },
+            {
+                sku: "S007",
+                nombre: "Amortiguador Trasero Bilstein",
+                descripcion: "Amortiguador gas trasero",
+                precio: 18500.00,
+                costo: 11100.00,
+                imagen_url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200&h=150&fit=crop",
+                stock: 12,
+                estado: "activo",
+                brand_id: bilstein.id,
+                category_id: suspension.id
+            },
+            {
+                sku: "S008",
+                nombre: "Rodamiento Rueda Delantera",
+                descripcion: "Rodamiento con sensor ABS",
+                precio: 9600.00,
+                costo: 5760.00,
+                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
+                stock: 18,
+                estado: "activo",
+                brand_id: bosch.id,
+                category_id: suspension.id
             }
         ]);
 

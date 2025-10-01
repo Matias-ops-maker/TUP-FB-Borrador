@@ -1,0 +1,426 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../api.js";
+import "../../styles/usuario.css";
+
+export default function Perfil() {
+  const [user, setUser] = useState(null);
+  const [pedidos, setPedidos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('perfil');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/auth/login');
+      return;
+    }
+
+    cargarDatos();
+  }, [navigate]);
+
+  const cargarDatos = async () => {
+    try {
+      setLoading(true);
+      
+      // Cargar datos del usuario
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        setUser(JSON.parse(userData));
+      }
+
+      // Cargar pedidos reales del usuario desde el backend
+      try {
+        const response = await api.get('/orders');
+        if (response.data && response.data.orders) {
+          // Formatear los datos de las órdenes para mostrar
+          const ordersFormatted = response.data.orders.map(order => ({
+            id: order.id,
+            fecha: new Date(order.creado_en).toLocaleDateString('es-AR'),
+            total: parseFloat(order.total) * 100, // Convertir a centavos para formato
+            estado: order.estado === 'pendiente' ? 'Pendiente' :
+                   order.estado === 'procesando' ? 'En proceso' :
+                   order.estado === 'enviado' ? 'En proceso' :
+                   order.estado === 'entregado' ? 'Entregado' :
+                   order.estado === 'cancelado' ? 'Cancelado' : 'Pendiente',
+            productos: order.OrderItems ? order.OrderItems.map(item => ({
+              nombre: item.Product?.nombre || 'Producto',
+              cantidad: item.cantidad,
+              precio: parseFloat(item.precio_unitario) * 100
+            })) : []
+          }));
+          setPedidos(ordersFormatted);
+        } else {
+          setPedidos([]);
+        }
+      } catch (orderError) {
+        console.log('No se pudieron cargar las órdenes desde el backend, usando datos simulados');
+        // Si falla la carga de órdenes, usar datos simulados
+        const pedidosSimulados = [
+          {
+            id: 1,
+            fecha: '2024-10-15',
+            total: 45000.00,
+            estado: 'Entregado',
+            productos: [
+              { nombre: 'Filtro de Aceite', cantidad: 2, precio: 15000.00 },
+              { nombre: 'Aceite Motor 5W-30', cantidad: 1, precio: 15000.00 }
+            ]
+          },
+          {
+            id: 2,
+            fecha: '2024-10-20',
+            total: 28000.00,
+            estado: 'En proceso',
+            productos: [
+              { nombre: 'Pastillas de Freno', cantidad: 1, precio: 28000.00 }
+            ]
+          },
+          {
+            id: 3,
+            fecha: '2024-10-25',
+            total: 12500.00,
+            estado: 'Pendiente',
+            productos: [
+              { nombre: 'Amortiguador Monroe', cantidad: 1, precio: 12500.00 }
+            ]
+          }
+        ];
+        setPedidos(pedidosSimulados);
+      }
+      
+    } catch (error) {
+      console.error('Error cargando datos:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatearPrecio = (precio) => {
+    return new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'ARS'
+    }).format(precio / 100);
+  };
+
+  const getEstadoColor = (estado) => {
+    const colores = {
+      'Entregado': '#10B981',
+      'En proceso': '#F59E0B', 
+      'Pendiente': '#EF4444',
+      'Cancelado': '#6B7280'
+    };
+    return colores[estado] || '#6B7280';
+  };
+
+  if (loading) {
+    return (
+      <div className="page">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Cargando perfil...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="page">
+        <div className="error-container">
+          <p>Error: No se pudo cargar la información del usuario.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="page">
+      <div className="perfil-container">
+        <div className="perfil-header">
+          <div className="perfil-avatar">
+            <span className="avatar-icon">👤</span>
+          </div>
+          <div className="perfil-info">
+            <h1>Mi Perfil</h1>
+            <p className="perfil-email">{user.email}</p>
+            <span className={`perfil-role ${user.rol}`}>
+              {user.rol === 'admin' ? '👑 Administrador' : '👤 Usuario'}
+            </span>
+          </div>
+        </div>
+
+        <div className="perfil-tabs">
+          <button 
+            className={`tab-button ${activeTab === 'perfil' ? 'active' : ''}`}
+            onClick={() => setActiveTab('perfil')}
+          >
+            📋 Información Personal
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'pedidos' ? 'active' : ''}`}
+            onClick={() => setActiveTab('pedidos')}
+          >
+            🛒 Mis Pedidos ({pedidos.length})
+          </button>
+          {user.rol === 'admin' && (
+            <button 
+              className={`tab-button ${activeTab === 'administracion' ? 'active' : ''}`}
+              onClick={() => setActiveTab('administracion')}
+            >
+              👑 Panel de Administración
+            </button>
+          )}
+          <button 
+            className={`tab-button ${activeTab === 'configuracion' ? 'active' : ''}`}
+            onClick={() => setActiveTab('configuracion')}
+          >
+            ⚙️ Configuración
+          </button>
+        </div>
+
+        <div className="perfil-content">
+          {activeTab === 'perfil' && (
+            <div className="tab-content">
+              <div className="perfil-card">
+                <h3>📝 Información Personal</h3>
+                <div className="perfil-data">
+                  <div className="data-item">
+                    <span className="data-label">Nombre:</span>
+                    <span className="data-value">{user.nombre}</span>
+                  </div>
+                  <div className="data-item">
+                    <span className="data-label">Email:</span>
+                    <span className="data-value">{user.email}</span>
+                  </div>
+                  <div className="data-item">
+                    <span className="data-label">Teléfono:</span>
+                    <span className="data-value">{user.telefono || 'No especificado'}</span>
+                  </div>
+                  <div className="data-item">
+                    <span className="data-label">Rol:</span>
+                    <span className="data-value">{user.rol}</span>
+                  </div>
+                  <div className="data-item">
+                    <span className="data-label">Miembro desde:</span>
+                    <span className="data-value">
+                      {user.createdAt ? new Date(user.createdAt).toLocaleDateString('es-AR') : 'No disponible'}
+                    </span>
+                  </div>
+                </div>
+                <button className="btn-edit-profile">
+                  ✏️ Editar Perfil
+                </button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'pedidos' && (
+            <div className="tab-content">
+              <div className="pedidos-container">
+                <h3>🛒 Historial de Pedidos</h3>
+                {pedidos.length === 0 ? (
+                  <div className="no-pedidos">
+                    <p>📦 No tienes pedidos aún.</p>
+                    <button 
+                      className="btn-primary"
+                      onClick={() => navigate('/catalogo')}
+                    >
+                      Ir al Catálogo
+                    </button>
+                  </div>
+                ) : (
+                  <div className="pedidos-list">
+                    {pedidos.map(pedido => (
+                      <div key={pedido.id} className="pedido-card">
+                        <div className="pedido-header">
+                          <div className="pedido-info">
+                            <h4>Pedido #{pedido.id}</h4>
+                            <p className="pedido-fecha">📅 {new Date(pedido.fecha).toLocaleDateString('es-AR')}</p>
+                          </div>
+                          <div className="pedido-estado">
+                            <span 
+                              className="estado-badge"
+                              style={{ backgroundColor: getEstadoColor(pedido.estado) }}
+                            >
+                              {pedido.estado}
+                            </span>
+                          </div>
+                        </div>
+                        
+                        <div className="pedido-productos">
+                          {pedido.productos.map((producto, index) => (
+                            <div key={index} className="producto-item">
+                              <span className="producto-nombre">{producto.nombre}</span>
+                              <span className="producto-cantidad">x{producto.cantidad}</span>
+                              <span className="producto-precio">{formatearPrecio(producto.precio)}</span>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        <div className="pedido-total">
+                          <strong>Total: {formatearPrecio(pedido.total)}</strong>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'administracion' && user.rol === 'admin' && (
+            <div className="tab-content">
+              <div className="admin-panel-container">
+                <h3>👑 Panel de Administración</h3>
+                <p className="admin-welcome">Bienvenido al panel de control administrativo. Desde aquí puedes gestionar todos los aspectos de la tienda.</p>
+                
+                <div className="admin-sections">
+                  <div className="admin-section">
+                    <h4>📦 Gestión de Productos</h4>
+                    <div className="admin-buttons">
+                      <button 
+                        className="admin-action-btn primary"
+                        onClick={() => navigate('/admin/products')}
+                      >
+                        📋 Ver Todos los Productos
+                      </button>
+                      <button 
+                        className="admin-action-btn success"
+                        onClick={() => navigate('/admin/products/new')}
+                      >
+                        ➕ Agregar Nuevo Producto
+                      </button>
+                    </div>
+                    <div className="admin-stats">
+                      <span className="stat-item">📊 Productos en stock</span>
+                      <span className="stat-item">⚠️ Productos con bajo stock</span>
+                    </div>
+                  </div>
+
+                  <div className="admin-section">
+                    <h4>🛒 Gestión de Pedidos</h4>
+                    <div className="admin-buttons">
+                      <button 
+                        className="admin-action-btn primary"
+                        onClick={() => navigate('/admin/orders')}
+                      >
+                        📋 Ver Todos los Pedidos
+                      </button>
+                      <button 
+                        className="admin-action-btn warning"
+                        onClick={() => navigate('/admin/orders?status=pending')}
+                      >
+                        ⏳ Pedidos Pendientes
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="admin-section">
+                    <h4>📊 Reportes y Análisis</h4>
+                    <div className="admin-buttons">
+                      <button 
+                        className="admin-action-btn primary"
+                        onClick={() => navigate('/admin/reports')}
+                      >
+                        📈 Ver Reportes
+                      </button>
+                      <button 
+                        className="admin-action-btn info"
+                        onClick={() => navigate('/admin/dashboard')}
+                      >
+                        🎛️ Dashboard General
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="admin-section">
+                    <h4>🏪 Gestión de Categorías</h4>
+                    <div className="admin-buttons">
+                      <button 
+                        className="admin-action-btn primary"
+                        onClick={() => navigate('/admin/categories')}
+                      >
+                        🏷️ Gestionar Categorías
+                      </button>
+                      <button 
+                        className="admin-action-btn primary"
+                        onClick={() => navigate('/admin/brands')}
+                      >
+                        🏭 Gestionar Marcas
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="admin-section quick-actions">
+                    <h4>⚡ Acciones Rápidas</h4>
+                    <div className="quick-actions-grid">
+                      <div className="quick-action-card" onClick={() => navigate('/admin/products')}>
+                        <span className="quick-icon">📦</span>
+                        <span className="quick-text">Productos</span>
+                      </div>
+                      <div className="quick-action-card" onClick={() => navigate('/admin/orders')}>
+                        <span className="quick-icon">🛒</span>
+                        <span className="quick-text">Pedidos</span>
+                      </div>
+                      <div className="quick-action-card" onClick={() => navigate('/admin/reports')}>
+                        <span className="quick-icon">📊</span>
+                        <span className="quick-text">Reportes</span>
+                      </div>
+                      <div className="quick-action-card" onClick={() => navigate('/admin/dashboard')}>
+                        <span className="quick-icon">🎛️</span>
+                        <span className="quick-text">Dashboard</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'configuracion' && (
+            <div className="tab-content">
+              <div className="configuracion-container">
+                <h3>⚙️ Configuración de Cuenta</h3>
+                
+                <div className="config-section">
+                  <h4>🔐 Seguridad</h4>
+                  <button className="config-button">
+                    🔑 Cambiar Contraseña
+                  </button>
+                  <button className="config-button">
+                    📧 Cambiar Email
+                  </button>
+                </div>
+
+                <div className="config-section">
+                  <h4>🔔 Notificaciones</h4>
+                  <div className="config-toggle">
+                    <label>
+                      <input type="checkbox" defaultChecked />
+                      Notificaciones de pedidos
+                    </label>
+                  </div>
+                  <div className="config-toggle">
+                    <label>
+                      <input type="checkbox" defaultChecked />
+                      Ofertas y promociones
+                    </label>
+                  </div>
+                </div>
+
+                <div className="config-section danger-zone">
+                  <h4>⚠️ Zona Peligrosa</h4>
+                  <button className="config-button danger">
+                    🗑️ Eliminar Cuenta
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

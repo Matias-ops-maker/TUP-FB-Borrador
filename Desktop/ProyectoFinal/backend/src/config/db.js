@@ -16,7 +16,13 @@ const sequelize = new Sequelize({
     freezeTableName: true,
     underscored: true,
     timestamps: true
-  }
+  },
+  dialectOptions: process.env.DB_DIALECT === 'sqlite' ? {
+    // Deshabilitar foreign keys para desarrollo
+    pragma: {
+      foreign_keys: 0
+    }
+  } : {}
 });
 
 const testConnection = async () => {

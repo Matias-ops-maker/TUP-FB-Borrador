@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../../api.js';
 import '../../styles/catalogo.css';
 
 export default function Checkout() {
@@ -103,18 +104,62 @@ export default function Checkout() {
     setCargando(true);
     
     try {
-      // Simular procesamiento del pedido
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Verificar si el usuario está autenticado
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Debes iniciar sesión para realizar una compra');
+        navigate('/auth/login');
+        return;
+      }
+
+      // Preparar items del carrito para enviar al backend
+      const cartItems = carrito.map(item => ({
+        product_id: item.id,
+        cantidad: item.cantidad,
+        precio_unitario: item.price
+      }));
+
+      // Agregar items al carrito del usuario en el backend
+      for (const item of cartItems) {
+        await api.post('/cart/items', {
+          product_id: item.product_id,
+          cantidad: item.cantidad
+        });
+      }
+
+      // Crear la orden
+      const orderData = {
+        shipping_address: `${datosEntrega.direccion}, ${datosEntrega.ciudad}, CP: ${datosEntrega.codigoPostal}`,
+        payment_method: metodoPago,
+        total: calcularTotal()
+      };
+
+      const response = await api.post('/orders', orderData);
       
-      // Limpiar carrito
-      localStorage.removeItem('carrito');
-      setCarrito([]);
-      
-      // Ir al paso de confirmación
-      setPaso(4);
+      if (response.data) {
+        // Limpiar carrito
+        localStorage.removeItem('carrito');
+        setCarrito([]);
+        
+        // Ir al paso de confirmación
+        setPaso(4);
+        
+        console.log('Orden creada exitosamente:', response.data);
+      }
     } catch (error) {
       console.error('Error al procesar el pedido:', error);
-      alert('Error al procesar el pedido. Intenta nuevamente.');
+      
+      let errorMessage = 'Error al procesar el pedido. Intenta nuevamente.';
+      
+      if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      } else if (error.response?.status === 401) {
+        errorMessage = 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.';
+        navigate('/auth/login');
+        return;
+      }
+      
+      alert(errorMessage);
     } finally {
       setCargando(false);
     }

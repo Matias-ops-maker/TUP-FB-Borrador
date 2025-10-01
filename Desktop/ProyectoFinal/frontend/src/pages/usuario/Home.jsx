@@ -1,73 +1,129 @@
 import "../../styles/usuario.css";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import api from "../../api.js";
+import Navbar from "../../components/Navbar.jsx";
 
 export default function Home() {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulamos la carga de datos del backend
-    setProductos([
-      {
-        id: 1,
-        name: "Filtro de Aceite Bosch",
-        brand: "Bosch",
-        price: 25.50,
-        stock: 150,
-        category: "Filtros",
-        image: "https://via.placeholder.com/200x150/3B82F6/ffffff?text=Filtro+Bosch"
-      },
-      {
-        id: 2,
-        name: "Pastillas de Freno Brembo",
-        brand: "Brembo", 
-        price: 85.00,
-        stock: 75,
-        category: "Frenos",
-        image: "https://via.placeholder.com/200x150/EF4444/ffffff?text=Pastillas+Brembo"
-      },
-      {
-        id: 3,
-        name: "Aceite Motor Mobil 1",
-        brand: "Mobil",
-        price: 45.00,
-        stock: 200,
-        category: "Aceites",
-        image: "https://via.placeholder.com/200x150/10B981/ffffff?text=Aceite+Mobil"
-      },
-      {
-        id: 4,
-        name: "Batería Bosch S4",
-        brand: "Bosch",
-        price: 120.00,
-        stock: 50,
-        category: "Eléctrica",
-        image: "https://via.placeholder.com/200x150/F59E0B/ffffff?text=Bateria+Bosch"
-      }
-    ]);
+    const cargarDatos = async () => {
+      try {
+        setLoading(true);
+        console.log('🔄 Iniciando carga de datos...');
+        
+        // Cargar productos desde la API
+        console.log('📦 Cargando productos...');
+        const resProductos = await api.get('/products');
+        console.log('✅ Productos recibidos:', resProductos.data.length);
+        
+        const productosDestacados = resProductos.data.slice(0, 8); // Tomar los primeros 8 como destacados
+        
+        // Formatear productos para el frontend
+        const productosFormateados = productosDestacados.map(producto => ({
+          id: producto.id,
+          name: producto.nombre,
+          brand: producto.Brand?.nombre || 'Sin marca',
+          price: parseFloat(producto.precio) / 100, // Convertir centavos a pesos
+          stock: producto.stock,
+          category: producto.Category?.nombre || 'Sin categoría',
+          image: producto.imagen_url || "https://via.placeholder.com/200x150/3B82F6/ffffff?text=Producto"
+        }));
+        
+        setProductos(productosFormateados);
+        console.log('✅ Productos formateados:', productosFormateados.length);
 
-    setCategorias([
-      { name: "Motor", icon: "🔧", color: "#3B82F6" },
-      { name: "Frenos", icon: "🛑", color: "#EF4444" },
-      { name: "Suspensión", icon: "🏎️", color: "#8B5CF6" },
-      { name: "Luces", icon: "💡", color: "#F59E0B" }
-    ]);
+        // Cargar categorías desde la API
+        console.log('📁 Cargando categorías...');
+        const resCategorias = await api.get('/categories');
+        console.log('✅ Categorías recibidas:', resCategorias.data.length);
+        
+        const categoriasFormatted = resCategorias.data.map(cat => ({
+          name: cat.nombre,
+          icon: getCategoryIcon(cat.nombre),
+          color: getCategoryColor(cat.nombre)
+        }));
+        
+        setCategorias(categoriasFormatted.slice(0, 6)); // Tomar las primeras 6 categorías
+        console.log('✅ Categorías formateadas:', categoriasFormatted.length);
+        
+      } catch (error) {
+        console.error('❌ Error cargando datos:', error);
+        console.error('❌ Error details:', error.response?.data || error.message);
+        
+        // Fallback con datos estáticos si falla la API
+        console.log('🔄 Usando datos de fallback...');
+        setProductos([
+          {
+            id: 1,
+            name: "Filtro de Aceite Bosch",
+            brand: "Bosch",
+            price: 25.50,
+            stock: 150,
+            category: "Filtros",
+            image: "https://via.placeholder.com/200x150/3B82F6/ffffff?text=Filtro+Bosch"
+          },
+          {
+            id: 2,
+            name: "Pastillas de Freno Brembo",
+            brand: "Brembo", 
+            price: 85.00,
+            stock: 75,
+            category: "Frenos",
+            image: "https://via.placeholder.com/200x150/EF4444/ffffff?text=Pastillas+Brembo"
+          }
+        ]);
+        setCategorias([
+          { name: "Motor", icon: "🔧", color: "#3B82F6" },
+          { name: "Frenos", icon: "🛑", color: "#EF4444" }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    cargarDatos();
   }, []);
+
+  const getCategoryIcon = (nombre) => {
+    const iconos = {
+      'Motor': '🔧',
+      'Filtros': '🔍', 
+      'Frenos': '🛑',
+      'Lubricantes': '🛢️',
+      'Eléctrica': '⚡',
+      'Suspensión': '🏎️',
+      'Transmisión': '⚙️',
+      'Encendido': '🔥',
+      'Neumáticos': '🛞',
+      'Escape': '💨'
+    };
+    return iconos[nombre] || '🔧';
+  };
+
+  const getCategoryColor = (nombre) => {
+    const colores = {
+      'Motor': '#3B82F6',
+      'Filtros': '#10B981', 
+      'Frenos': '#EF4444',
+      'Lubricantes': '#F59E0B',
+      'Eléctrica': '#8B5CF6',
+      'Suspensión': '#06B6D4',
+      'Transmisión': '#84CC16',
+      'Encendido': '#F97316',
+      'Neumáticos': '#6B7280',
+      'Escape': '#64748B'
+    };
+    return colores[nombre] || '#3B82F6';
+  };
 
   return (
     <div className="page">
       {/* Navegación */}
-      <nav className="nav-bar">
-        <div className="nav-brand">
-          <h2>🏪 RepuestosAuto</h2>
-        </div>
-        <div className="nav-links">
-          <Link to="/catalogo">Catálogo</Link>
-          <Link to="/auth/login">Iniciar Sesión</Link>
-          <Link to="/auth/register" className="btn-primary">Registrarse</Link>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero */}
       <div className="hero">

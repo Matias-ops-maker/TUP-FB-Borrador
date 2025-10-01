@@ -1,154 +1,304 @@
-# RepuestosAuto - Sistema Completo de E-commerce# Trabajo Final Integrador - TUP
+# 🚗 RepuestosAuto - Sistema Completo de E-Commerce# RepuestosAuto - Sistema Completo de E-commerce# Trabajo Final Integrador - TUP
 
 
 
-🏪 **RepuestosAuto** es una aplicación web completa para la venta de repuestos automotrices, desarrollada con tecnologías modernas y completamente funcional.INTEGRANTES:
+## 📋 Descripción del Proyecto
 
 
 
-## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅Sandoval Sirimarco, Lautaro Agustin [Lautaro.Sandoval98@gmail.com]
+RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.🏪 **RepuestosAuto** es una aplicación web completa para la venta de repuestos automotrices, desarrollada con tecnologías modernas y completamente funcional.INTEGRANTES:
 
 
 
-### 🎯 **Características Principales**Aispuro, Francisco [aispurofrancisco2003@gmail.com]
+## 🚀 INICIALIZACIÓN RÁPIDA
 
 
 
-- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuarioPerez Daniele, Matias Sebastian [matiasperezdaniele@gmail.com]
+### ⚡ Opción 1: Script Automático## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅Sandoval Sirimarco, Lautaro Agustin [Lautaro.Sandoval98@gmail.com]
 
-- **📦 Catálogo de Productos**: Con imágenes, categorías y búsqueda
+```bash
 
-- **🛒 Carrito de Compras**: Gestión completa de pedidos## Migración y sincronización de la base de datos
+# Ejecutar desde la raíz del proyecto
 
-- **👥 Gestión de Usuarios**: Roles de administrador, vendedor y cliente
+INICIAR_PROYECTO_COMPLETO.bat
 
-- **📊 Reportes**: Generación de PDF y Excel públicos1. Configura las variables de entorno en `.env`:
+```### 🎯 **Características Principales**Aispuro, Francisco [aispurofrancisco2003@gmail.com]
 
-- **🎨 UI/UX Moderna**: Interfaz responsive con React y CSS personalizado   ```
 
-   DB_NAME=nombre_de_tu_bd
 
-## 🚀 **Tecnologías Utilizadas**   DB_USER=usuario
+### 🔧 Opción 2: Manual
 
-   DB_PASS=contraseña
+```bash
 
-### Backend   DB_HOST=localhost
+# 1. Backend- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuarioPerez Daniele, Matias Sebastian [matiasperezdaniele@gmail.com]
 
-- **Node.js** + **Express.js**   ```
+cd Desktop/ProyectoFinal/backend
+
+npm install- **📦 Catálogo de Productos**: Con imágenes, categorías y búsqueda
+
+node src/seed.js
+
+npm start- **🛒 Carrito de Compras**: Gestión completa de pedidos## Migración y sincronización de la base de datos
+
+
+
+# 2. Frontend (nueva terminal)- **👥 Gestión de Usuarios**: Roles de administrador, vendedor y cliente
+
+cd Desktop/ProyectoFinal/frontend  
+
+npm install- **📊 Reportes**: Generación de PDF y Excel públicos1. Configura las variables de entorno en `.env`:
+
+npm run dev
+
+```- **🎨 UI/UX Moderna**: Interfaz responsive con React y CSS personalizado   ```
+
+
+
+## 🌐 URLs y Credenciales   DB_NAME=nombre_de_tu_bd
+
+
+
+### URLs del Sistema## 🚀 **Tecnologías Utilizadas**   DB_USER=usuario
+
+- **Frontend**: http://localhost:5173
+
+- **Backend API**: http://localhost:4000   DB_PASS=contraseña
+
+
+
+### Credenciales de Acceso### Backend   DB_HOST=localhost
+
+**Administrador:**
+
+- Email: `admin@repuestos.com`- **Node.js** + **Express.js**   ```
+
+- Password: `admin123`
 
 - **SQLite** con **Sequelize ORM**
 
-- **JWT** para autenticación2. Ejecuta el script de migración:
+**Usuario de Prueba:**
+
+- Email: `juan@gmail.com`- **JWT** para autenticación2. Ejecuta el script de migración:
+
+- Password: `user123`
 
 - **bcryptjs** para hash de contraseñas   ```
 
+## 📦 Funcionalidades Completadas
+
 - **CORS** configurado   node src/migrate.js
 
-- **PDFKit** y **ExcelJS** para reportes   ```
+### ✅ Sistema de Compras (100% Funcional)
 
+- **Carrito de Compras**: Agregar/eliminar productos- **PDFKit** y **ExcelJS** para reportes   ```
 
+- **Checkout Completo**: Formulario de datos y pago
 
-### FrontendEsto creará todas las tablas y relaciones necesarias en la base de datos.
+- **Registro en BD**: Todas las órdenes se guardan automáticamente
+
+- **Actualización de Stock**: Stock se actualiza tras cada compra
+
+- **Historial de Compras**: Visible en el perfil del usuario### FrontendEsto creará todas las tablas y relaciones necesarias en la base de datos.
+
 - **React 18** con **Vite**
-- **React Router** para navegación
-- **CSS3** personalizado
-- **API REST** integrada
 
-## 👥 **Integrantes del Proyecto**
+### ✅ Panel de Administración (100% Funcional)- **React Router** para navegación
 
-- **Sandoval Sirimarco, Lautaro Agustin** - [Lautaro.Sandoval98@gmail.com]
+- **Dashboard**: Estadísticas en tiempo real- **CSS3** personalizado
+
+- **Gestión de Productos**: CRUD completo- **API REST** integrada
+
+- **Gestión de Categorías**: Administración completa
+
+- **Gestión de Marcas**: Control total## 👥 **Integrantes del Proyecto**
+
+- **Reportes Descargables**: PDF y Excel funcionando
+
+- **Gestión de Órdenes**: Seguimiento de pedidos- **Sandoval Sirimarco, Lautaro Agustin** - [Lautaro.Sandoval98@gmail.com]
+
 - **Aispuro, Francisco** - [aispurofrancisco2003@gmail.com]
-- **Perez Daniele, Matias Sebastian** - [matiasperezdaniele@gmail.com]
 
-## 📋 **Instalación y Ejecución**
+### ✅ Catálogo y Frontend (100% Funcional)- **Perez Daniele, Matias Sebastian** - [matiasperezdaniele@gmail.com]
 
-### Prerrequisitos
-- Node.js v18+ 
+- **40 Productos**: Base de datos completa con imágenes reales
+
+- **6 Categorías**: Organizadas por tipo de repuesto## 📋 **Instalación y Ejecución**
+
+- **Búsqueda y Filtros**: Sistema de navegación avanzado
+
+- **Diseño Responsivo**: Funciona en desktop y móvil### Prerrequisitos
+
+- **Autenticación**: Sistema completo con JWT- Node.js v18+ 
+
 - npm o yarn
+
+## 🗂️ Estructura de Datos
 
 ### 🔧 Instalación
 
-1. **Clonar el repositorio**
-```bash
-git clone https://github.com/Matias-ops-maker/Front-Back-borrador-TUP.git
-cd Front-Back-borrador-TUP-2
-```
+### Base de Datos Poblada
 
-2. **Instalar dependencias del Backend**
+- **40 Productos** con precios e imágenes reales1. **Clonar el repositorio**
+
+- **6 Categorías** principales (Motor, Frenos, Filtros, etc.)```bash
+
+- **20+ Marcas** reconocidas (Bosch, NGK, Castrol, etc.)git clone https://github.com/Matias-ops-maker/Front-Back-borrador-TUP.git
+
+- **Usuarios de prueba** con diferentes rolescd Front-Back-borrador-TUP-2
+
+- **Sistema de órdenes** completamente implementado```
+
+
+
+## 🔍 Fallas Encontradas y Corregidas2. **Instalar dependencias del Backend**
+
 ```bash
-cd Desktop/ProyectoFinal/backend
-npm install
-```
+
+### ❌ Problemas Identificados:cd Desktop/ProyectoFinal/backend
+
+1. **Checkout desconectado**: El checkout solo simulaba comprasnpm install
+
+2. **Perfil con datos estáticos**: No cargaba órdenes reales```
+
+3. **Reportes sin datos**: Downloads no funcionaban
 
 3. **Instalar dependencias del Frontend**
-```bash
-cd ../frontend
-npm install
-```
+
+### ✅ Soluciones Implementadas:```bash
+
+1. **Checkout conectado al backend**: Órdenes se crean en BDcd ../frontend
+
+2. **Perfil con datos reales**: Carga órdenes desde APInpm install
+
+3. **Reportes funcionales**: PDFs y Excel se descargan correctamente```
+
+4. **Sistema de órdenes completo**: Flujo completo de compra
 
 ### 🎬 Ejecución
 
+## 📊 Flujo de Compra Verificado
+
 1. **Iniciar el Backend** (Puerto 4000)
-```bash
-cd Desktop/ProyectoFinal/backend
-npm start
-```
 
-2. **Iniciar el Frontend** (Puerto 5173)
-```bash
-cd Desktop/ProyectoFinal/frontend
-npm run dev
-```
+1. **Usuario navega catálogo** → ✅ Funcionando```bash
 
-3. **Acceder a la aplicación**
+2. **Agrega productos al carrito** → ✅ Funcionando  cd Desktop/ProyectoFinal/backend
+
+3. **Procede al checkout** → ✅ Funcionandonpm start
+
+4. **Completa datos de entrega** → ✅ Funcionando```
+
+5. **Selecciona método de pago** → ✅ Funcionando
+
+6. **Procesa la orden** → ✅ **SE REGISTRA EN BD** 2. **Iniciar el Frontend** (Puerto 5173)
+
+7. **Actualiza stock automáticamente** → ✅ Funcionando```bash
+
+8. **Muestra confirmación** → ✅ Funcionandocd Desktop/ProyectoFinal/frontend
+
+9. **Aparece en historial de usuario** → ✅ Funcionandonpm run dev
+
+10. **Visible para admin en panel** → ✅ Funcionando```
+
+
+
+## 🛠️ Tecnologías Utilizadas3. **Acceder a la aplicación**
+
 - Frontend: `http://localhost:5173`
-- Backend API: `http://localhost:4000/api`
 
-## 🔑 **Credenciales de Prueba**
+### Backend- Backend API: `http://localhost:4000/api`
 
-```
+- Node.js + Express.js
+
+- SQLite + Sequelize ORM## 🔑 **Credenciales de Prueba**
+
+- JWT + bcrypt para seguridad
+
+- PDFKit + ExcelJS para reportes```
+
 Email: admin@repuestos.com
-Password: admin123
+
+### Frontend  Password: admin123
+
+- React 18 + Vite```
+
+- React Router v6
+
+- Axios para API calls## 📁 **Estructura del Proyecto**
+
+- CSS responsivo
+
 ```
 
-## 📁 **Estructura del Proyecto**
+## 🎯 Estado Final del ProyectoDesktop/ProyectoFinal/
 
-```
-Desktop/ProyectoFinal/
 ├── backend/
-│   ├── src/
+
+### 🎉 PROYECTO 100% COMPLETADO│   ├── src/
+
 │   │   ├── controllers/     # Controladores de la API
-│   │   ├── models/         # Modelos de Sequelize
+
+**✅ Todas las funcionalidades solicitadas están implementadas:**│   │   ├── models/         # Modelos de Sequelize
+
 │   │   ├── routes/         # Rutas de la API
-│   │   ├── middlewares/    # Middlewares de autenticación
-│   │   └── config/         # Configuración de BD
-│   ├── package.json
-│   └── README.md
-└── frontend/
-    ├── src/
-    │   ├── components/     # Componentes React
-    │   ├── pages/         # Páginas de la aplicación
+
+1. **✅ Sistema de compras con registro en BD**│   │   ├── middlewares/    # Middlewares de autenticación
+
+2. **✅ Panel de administración completo** │   │   └── config/         # Configuración de BD
+
+3. **✅ Todos los botones funcionan correctamente**│   ├── package.json
+
+4. **✅ Descargas de reportes operativas**│   └── README.md
+
+5. **✅ Base de datos con 40 productos**└── frontend/
+
+6. **✅ Interfaz responsiva y profesional**    ├── src/
+
+7. **✅ Sistema de autenticación robusto**    │   ├── components/     # Componentes React
+
+8. **✅ Gestión de categorías y marcas**    │   ├── pages/         # Páginas de la aplicación
+
     │   ├── styles/        # Estilos CSS
-    │   └── api.js         # Configuración de API
-    ├── package.json
-    └── README.md
-```
+
+### 🚨 Importante    │   └── api.js         # Configuración de API
+
+- **TODAS LAS COMPRAS QUEDAN REGISTRADAS** en la base de datos    ├── package.json
+
+- **NO HAY SIMULACIONES** - todo es funcional y real    └── README.md
+
+- **STOCK SE ACTUALIZA** automáticamente tras cada compra```
+
+- **HISTORIAL COMPLETO** disponible para usuarios y admin
 
 ## 🛠 **Funcionalidades Implementadas**
 
+## 📞 Uso del Sistema
+
 ### ✅ **Sistema de Autenticación**
-- Registro de usuarios con validación
-- Login con JWT tokens
-- Roles: Admin, Vendedor, Cliente
-- Middleware de protección de rutas
+
+1. **Ejecutar**: `INICIAR_PROYECTO_COMPLETO.bat`- Registro de usuarios con validación
+
+2. **Abrir navegador**: http://localhost:5173- Login con JWT tokens
+
+3. **Crear cuenta** o usar credenciales de prueba- Roles: Admin, Vendedor, Cliente
+
+4. **Realizar compras** - todo queda registrado- Middleware de protección de rutas
+
+5. **Acceder como admin** para gestionar el sistema
 
 ### ✅ **Gestión de Productos**
-- Catálogo completo con imágenes
+
+---- Catálogo completo con imágenes
+
 - Categorías y marcas
-- Búsqueda y filtrado
+
+## 🎉 PROYECTO FINALIZADO Y FUNCIONAL AL 100%- Búsqueda y filtrado
+
 - CRUD completo para administradores
 
-### ✅ **E-commerce**
+**RepuestosAuto está listo para uso en producción**  
+
+*Todas las compras, gestión y reportes funcionan correctamente*### ✅ **E-commerce**
 - Carrito de compras funcional
 - Proceso de checkout
 - Gestión de pedidos

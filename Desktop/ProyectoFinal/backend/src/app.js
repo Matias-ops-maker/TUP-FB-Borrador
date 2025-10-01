@@ -69,7 +69,7 @@ const PORT = process.env.PORT || 4000;
         
         // Sincronizar modelos en desarrollo
         if (process.env.NODE_ENV !== 'production') {
-            await sequelize.sync({ alter: true });
+            await sequelize.sync({ force: false });
             console.log("✅ Modelos sincronizados");
         }
         

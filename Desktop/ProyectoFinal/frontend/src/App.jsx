@@ -4,14 +4,23 @@ import Sidebar from "./components/Sidebar"
 import Dashboard from "./pages/admin/Dashboard"
 import Orders from "./pages/admin/Orders"
 import Products from "./pages/admin/Products"
+import ProductsNew from "./pages/admin/ProductsNew"
+import ProductFormNew from "./pages/admin/ProductFormNew"
+import Categories from "./pages/admin/Categories"
+import Brands from "./pages/admin/Brands"
 import Reports from "./pages/admin/Reports"
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import TestComponent from "./pages/TestComponent";
 // marketplace
 import Home from "./pages/usuario/Home"
+import SimpleHome from "./pages/usuario/SimpleHome"
+import HomeDebug from "./pages/usuario/HomeDebug"
+import HomeFinal from "./pages/usuario/HomeFinal"
 import Catalogo from "./pages/usuario/Catalogo"
 import Checkout from "./pages/usuario/Checkout"
+import Perfil from "./pages/usuario/Perfil"
 
 export default function App() {
     return (
@@ -22,9 +31,14 @@ export default function App() {
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/forgot" element={<ForgotPassword />} />
                 {/* Rutas marketplace */}
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<HomeFinal />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/debug" element={<HomeDebug />} />
+                <Route path="/test" element={<TestComponent />} />
+                <Route path="/simple" element={<SimpleHome />} />
                 <Route path="/catalogo" element={<Catalogo />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/perfil" element={<Perfil />} />
 
                 {/* Rutas admin con layout */}
                 <Route
@@ -38,8 +52,12 @@ export default function App() {
                                     <Routes>
                                         <Route path="dashboard" element={<Dashboard />} />
                                         <Route path="orders" element={<Orders />} />
-                                        <Route path="products" element={<Products />} />
+                                        <Route path="products" element={<ProductsNew />} />
+                                        <Route path="products/new" element={<ProductFormNew />} />
+                                        <Route path="products/edit/:id" element={<ProductFormNew />} />
                                         <Route path="reports" element={<Reports />} />
+                                        <Route path="categories" element={<Categories />} />
+                                        <Route path="brands" element={<Brands />} />
                                     </Routes>
                                 </main>
                             </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../../api.js';
 import '../../styles/auth.css';
 
 export default function Register() {
@@ -45,27 +46,29 @@ export default function Register() {
     try {
       const { confirmPassword, ...dataToSend } = formData;
       
-      const response = await fetch('http://localhost:4000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': 'mi_api_key_super_secreta'
-        },
-        body: JSON.stringify(dataToSend)
-      });
+      // Mapear name a nombre para que coincida con el backend
+      const requestData = {
+        ...dataToSend,
+        nombre: dataToSend.name
+      };
+      delete requestData.name;
+      
+      const response = await api.post('/auth/register', requestData);
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (response.data) {
         setSuccess('¡Registro exitoso! Redirigiendo al login...');
         setTimeout(() => {
           navigate('/auth/login');
         }, 2000);
       } else {
-        setError(data.message || 'Error al registrarse');
+        setError('Error al registrarse');
       }
-    } catch (error) {
-      setError('Error de conexión. Verifica que el servidor esté ejecutándose.');
+    } catch (err) {
+      if (err.response && err.response.data) {
+        setError(err.response.data.error || err.response.data.message || 'Error al registrarse');
+      } else {
+        setError('Error de conexión. Verifica que el servidor esté ejecutándose.');
+      }
     } finally {
       setLoading(false);
     }

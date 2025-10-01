@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import api from '../../api.js';
 import '../../styles/auth.css';
 
 export default function Login() {
@@ -24,34 +25,25 @@ export default function Login() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:4000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': 'mi_api_key_super_secreta'
-        },
-        body: JSON.stringify(formData)
-      });
+      const response = await api.post('/auth/login', formData);
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (response.data) {
         // Guardar token y datos del usuario
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         
-        // Redirigir según el rol
-        if (data.user.role === 'admin') {
-          navigate('/admin/dashboard');
-        } else {
-          navigate('/');
-        }
+        // Redirigir a la página principal para todos los usuarios
+        navigate('/');
       } else {
-        setError(data.message || 'Error al iniciar sesión');
+        setError('Error al iniciar sesión');
       }
     } catch (err) {
       console.error('Error en login:', err);
-      setError('Error de conexión. Verifica que el servidor esté ejecutándose.');
+      if (err.response && err.response.data) {
+        setError(err.response.data.error || err.response.data.message || 'Error al iniciar sesión');
+      } else {
+        setError('Error de conexión. Verifica que el servidor esté ejecutándose.');
+      }
     } finally {
       setLoading(false);
     }

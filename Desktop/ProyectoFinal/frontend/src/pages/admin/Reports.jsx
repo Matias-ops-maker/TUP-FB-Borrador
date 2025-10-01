@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import "../../styles/usuario.css";
 
 export default function Reports() {
+    const navigate = useNavigate();
     const API_KEY = "mi_api_key_super_secreta"; // reemplazá por tu API_KEY real
 
     const downloadFile = async (type) => {
@@ -30,11 +33,49 @@ export default function Reports() {
     };
 
     return (
-        <div>
-        <h1>Reportes de Ventas</h1>
-        <p>Aquí vas a poder descargar los reportes:</p>
-        <button onClick={() => downloadFile("pdf")}>Descargar PDF</button>
-        <button onClick={() => downloadFile("xlsx")}>Descargar Excel</button>
+        <div className="admin-container">
+            <div className="admin-header">
+                <h1>📊 Reportes de Ventas</h1>
+                <button 
+                    className="btn-secondary"
+                    onClick={() => navigate('/admin/dashboard')}
+                >
+                    ← Volver al Dashboard
+                </button>
+            </div>
+
+            <div className="admin-welcome">
+                <p>Aquí puedes descargar los reportes de ventas en diferentes formatos.</p>
+            </div>
+
+            <div className="admin-sections">
+                <div className="admin-section">
+                    <h4>📄 Reportes Disponibles</h4>
+                    <div className="admin-buttons">
+                        <button 
+                            className="admin-action-btn primary"
+                            onClick={() => downloadFile("pdf")}
+                        >
+                            📄 Descargar PDF
+                        </button>
+                        <button 
+                            className="admin-action-btn success"
+                            onClick={() => downloadFile("xlsx")}
+                        >
+                            📊 Descargar Excel
+                        </button>
+                    </div>
+                </div>
+
+                <div className="admin-section">
+                    <h4>📈 Información de Reportes</h4>
+                    <div className="admin-stats">
+                        <span className="stat-item">📅 Datos actualizados al día de hoy</span>
+                        <span className="stat-item">💾 Formatos disponibles: PDF y Excel</span>
+                        <span className="stat-item">📊 Incluye ventas, productos y estadísticas</span>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

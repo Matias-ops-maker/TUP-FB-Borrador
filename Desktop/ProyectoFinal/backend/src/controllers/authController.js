@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User, Cart } from "../models/index.js";
 
@@ -16,7 +16,7 @@ export async function register(req, res) {
         if (exist) return res.status(400).json({ error: "Email ya registrado" });
         
         // Hash de la contraseña
-        const hash = await bcrypt.hash(password, 10);
+        const hash = await bcryptjs.hash(password, 10);
         
         // Crear usuario
         const user = await User.create({ nombre, email, password: hash, rol });
@@ -53,7 +53,7 @@ export async function login(req, res) {
         if (!user) return res.status(401).json({ error: "Credenciales inválidas" });
         
         // Verificar contraseña
-        const ok = await bcrypt.compare(password, user.password);
+        const ok = await bcryptjs.compare(password, user.password);
         if (!ok) return res.status(401).json({ error: "Credenciales inválidas" });
         
         // Generar token
@@ -149,13 +149,13 @@ export async function changePassword(req, res) {
         }
         
         // Verificar contraseña actual
-        const isValidPassword = await bcrypt.compare(currentPassword, user.password);
+        const isValidPassword = await bcryptjs.compare(currentPassword, user.password);
         if (!isValidPassword) {
             return res.status(400).json({ error: "Contraseña actual incorrecta" });
         }
         
         // Hash de la nueva contraseña
-        const hash = await bcrypt.hash(newPassword, 10);
+        const hash = await bcryptjs.hash(newPassword, 10);
         user.password = hash;
         await user.save();
         

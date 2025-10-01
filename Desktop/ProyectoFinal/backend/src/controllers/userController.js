@@ -1,6 +1,6 @@
 import { User, Order } from "../models/index.js";
 import { Op } from "sequelize";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 export async function listUsers(req, res) {
     try {
@@ -104,7 +104,7 @@ export async function createUser(req, res) {
         }
 
         // Hash de la contraseña
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcryptjs.hash(password, 10);
 
         const user = await User.create({
             nombre,
@@ -228,7 +228,7 @@ export async function resetUserPassword(req, res) {
         }
 
         // Hash de la nueva contraseña
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const hashedPassword = await bcryptjs.hash(newPassword, 10);
         user.password = hashedPassword;
         await user.save();
 
