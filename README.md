@@ -1,207 +1,384 @@
-# 🚗 RepuestosAuto - Sistema Completo de E-Commerce# RepuestosAuto - Sistema Completo de E-commerce# Trabajo Final Integrador - TUP
+# 🚗 RepuestosAuto - Sistema Completo de E-Commerce# 🚗 RepuestosAuto - Sistema Completo de E-Commerce
 
 
 
-## 📋 Descripción del Proyecto
+## 📋 Descripción del Proyecto## 📋 Descripción del Proyecto
 
 
 
-RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.🏪 **RepuestosAuto** es una aplicación web completa para la venta de repuestos automotrices, desarrollada con tecnologías modernas y completamente funcional.INTEGRANTES:
+RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.
 
 
+
+## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅## 🚀 INICIALIZACIÓN RÁPIDA
+
+
+
+### 🎯 **Características Principales**### ⚡ Opción 1: Script Automático
+
+
+
+- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuario```bash
+
+- **🛒 Carrito de Compras**: Funcional con persistencia y sincronización# Ejecutar desde la raíz del proyecto
+
+- **💳 Checkout Completo**: Procesamiento real de pedidos en base de datosINICIAR_PROYECTO_COMPLETO.bat
+
+- **📊 Panel Admin**: CRUD completo de productos, categorías y marcas```
+
+- **📈 Reportes**: Generación automática de PDF y Excel
+
+- **👤 Gestión de Usuarios**: Perfiles con historial de compras real### 🔧 Opción 2: Manual
+
+- **📱 Responsive**: Completamente adaptado a móviles
+
+```bash
 
 ## 🚀 INICIALIZACIÓN RÁPIDA
 
-
-
-### ⚡ Opción 1: Script Automático## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅Sandoval Sirimarco, Lautaro Agustin [Lautaro.Sandoval98@gmail.com]
-
-```bash
-
-# Ejecutar desde la raíz del proyecto
-
-INICIAR_PROYECTO_COMPLETO.bat
-
-```### 🎯 **Características Principales**Aispuro, Francisco [aispurofrancisco2003@gmail.com]
-
-
-
-### 🔧 Opción 2: Manual
-
-```bash
-
 # 1. Backend- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuarioPerez Daniele, Matias Sebastian [matiasperezdaniele@gmail.com]
+
+### ⚡ Opción 1: Script Automático
 
 cd Desktop/ProyectoFinal/backend
 
-npm install- **📦 Catálogo de Productos**: Con imágenes, categorías y búsqueda
+```bash
 
-node src/seed.js
+# Ejecutar desde la raíz del proyectonpm install- **📦 Catálogo de Productos**: Con imágenes, categorías y búsqueda
 
-npm start- **🛒 Carrito de Compras**: Gestión completa de pedidos## Migración y sincronización de la base de datos
+INICIAR_PROYECTO_COMPLETO.bat
 
-
-
-# 2. Frontend (nueva terminal)- **👥 Gestión de Usuarios**: Roles de administrador, vendedor y cliente
-
-cd Desktop/ProyectoFinal/frontend  
-
-npm install- **📊 Reportes**: Generación de PDF y Excel públicos1. Configura las variables de entorno en `.env`:
-
-npm run dev
-
-```- **🎨 UI/UX Moderna**: Interfaz responsive con React y CSS personalizado   ```
+```node src/seed.js
 
 
 
-## 🌐 URLs y Credenciales   DB_NAME=nombre_de_tu_bd
+### 🔧 Opción 2: Manualnpm start- **🛒 Carrito de Compras**: Gestión completa de pedidos## Migración y sincronización de la base de datos
 
 
 
-### URLs del Sistema## 🚀 **Tecnologías Utilizadas**   DB_USER=usuario
-
-- **Frontend**: http://localhost:5173
-
-- **Backend API**: http://localhost:4000   DB_PASS=contraseña
-
-
-
-### Credenciales de Acceso### Backend   DB_HOST=localhost
-
-**Administrador:**
-
-- Email: `admin@repuestos.com`- **Node.js** + **Express.js**   ```
-
-- Password: `admin123`
-
-- **SQLite** con **Sequelize ORM**
-
-**Usuario de Prueba:**
-
-- Email: `juan@gmail.com`- **JWT** para autenticación2. Ejecuta el script de migración:
-
-- Password: `user123`
-
-- **bcryptjs** para hash de contraseñas   ```
-
-## 📦 Funcionalidades Completadas
-
-- **CORS** configurado   node src/migrate.js
-
-### ✅ Sistema de Compras (100% Funcional)
-
-- **Carrito de Compras**: Agregar/eliminar productos- **PDFKit** y **ExcelJS** para reportes   ```
-
-- **Checkout Completo**: Formulario de datos y pago
-
-- **Registro en BD**: Todas las órdenes se guardan automáticamente
-
-- **Actualización de Stock**: Stock se actualiza tras cada compra
-
-- **Historial de Compras**: Visible en el perfil del usuario### FrontendEsto creará todas las tablas y relaciones necesarias en la base de datos.
-
-- **React 18** con **Vite**
-
-### ✅ Panel de Administración (100% Funcional)- **React Router** para navegación
-
-- **Dashboard**: Estadísticas en tiempo real- **CSS3** personalizado
-
-- **Gestión de Productos**: CRUD completo- **API REST** integrada
-
-- **Gestión de Categorías**: Administración completa
-
-- **Gestión de Marcas**: Control total## 👥 **Integrantes del Proyecto**
-
-- **Reportes Descargables**: PDF y Excel funcionando
-
-- **Gestión de Órdenes**: Seguimiento de pedidos- **Sandoval Sirimarco, Lautaro Agustin** - [Lautaro.Sandoval98@gmail.com]
-
-- **Aispuro, Francisco** - [aispurofrancisco2003@gmail.com]
-
-### ✅ Catálogo y Frontend (100% Funcional)- **Perez Daniele, Matias Sebastian** - [matiasperezdaniele@gmail.com]
-
-- **40 Productos**: Base de datos completa con imágenes reales
-
-- **6 Categorías**: Organizadas por tipo de repuesto## 📋 **Instalación y Ejecución**
-
-- **Búsqueda y Filtros**: Sistema de navegación avanzado
-
-- **Diseño Responsivo**: Funciona en desktop y móvil### Prerrequisitos
-
-- **Autenticación**: Sistema completo con JWT- Node.js v18+ 
-
-- npm o yarn
-
-## 🗂️ Estructura de Datos
-
-### 🔧 Instalación
-
-### Base de Datos Poblada
-
-- **40 Productos** con precios e imágenes reales1. **Clonar el repositorio**
-
-- **6 Categorías** principales (Motor, Frenos, Filtros, etc.)```bash
-
-- **20+ Marcas** reconocidas (Bosch, NGK, Castrol, etc.)git clone https://github.com/Matias-ops-maker/Front-Back-borrador-TUP.git
-
-- **Usuarios de prueba** con diferentes rolescd Front-Back-borrador-TUP-2
-
-- **Sistema de órdenes** completamente implementado```
-
-
-
-## 🔍 Fallas Encontradas y Corregidas2. **Instalar dependencias del Backend**
+#### Backend (terminal 1)
 
 ```bash
 
+cd Desktop/ProyectoFinal/backend# 2. Frontend (nueva terminal)- **👥 Gestión de Usuarios**: Roles de administrador, vendedor y cliente
+
+npm install
+
+node src/seed.js  # Carga 40 productos realescd Desktop/ProyectoFinal/frontend  
+
+node src/app.js   # Servidor en puerto 4000
+
+```npm install- **📊 Reportes**: Generación de PDF y Excel públicos1. Configura las variables de entorno en `.env`:
+
+
+
+#### Frontend (terminal 2)npm run dev
+
+```bash
+
+cd Desktop/ProyectoFinal/frontend```- **🎨 UI/UX Moderna**: Interfaz responsive con React y CSS personalizado   ```
+
+npm install
+
+npm run dev       # Servidor en puerto 5173
+
+```
+
+## 🌐 URLs y Credenciales   DB_NAME=nombre_de_tu_bd
+
+## 🌐 URLs y Credenciales
+
+
+
+### URLs del Sistema
+
+- **Frontend**: http://localhost:5173### URLs del Sistema## 🚀 **Tecnologías Utilizadas**   DB_USER=usuario
+
+- **Backend API**: http://localhost:4000
+
+- **Frontend**: http://localhost:5173
+
+### Credenciales de Acceso
+
+- **Backend API**: http://localhost:4000   DB_PASS=contraseña
+
+**Administrador:**
+
+- Email: `admin@repuestos.com`
+
+- Password: `admin123`
+
+### Credenciales de Acceso### Backend   DB_HOST=localhost
+
+**Usuario de Prueba:**
+
+- Email: `juan@gmail.com`**Administrador:**
+
+- Password: `user123`
+
+- Email: `admin@repuestos.com`- **Node.js** + **Express.js**   ```
+
+## 🚀 **Tecnologías Utilizadas**
+
+- Password: `admin123`
+
+### Backend
+
+- **Node.js** + **Express.js**- **SQLite** con **Sequelize ORM**
+
+- **SQLite** con **Sequelize ORM**
+
+- **JWT** para autenticación**Usuario de Prueba:**
+
+- **bcryptjs** para hash de contraseñas
+
+- **PDFKit** y **ExcelJS** para reportes- Email: `juan@gmail.com`- **JWT** para autenticación2. Ejecuta el script de migración:
+
+- **CORS** configurado
+
+- Password: `user123`
+
+### Frontend
+
+- **React 18** con **Vite**- **bcryptjs** para hash de contraseñas   ```
+
+- **React Router** para navegación
+
+- **CSS3** personalizado## 📦 Funcionalidades Completadas
+
+- **API REST** integrada
+
+- **CORS** configurado   node src/migrate.js
+
+## 📦 Funcionalidades Completadas
+
+### ✅ Sistema de Compras (100% Funcional)
+
+### ✅ Sistema de Compras (100% Funcional)
+
+- **Carrito de Compras**: Agregar/eliminar productos- **Carrito de Compras**: Agregar/eliminar productos- **PDFKit** y **ExcelJS** para reportes   ```
+
+- **Checkout Completo**: Formulario de datos y pago
+
+- **Registro en BD**: Todas las órdenes se guardan automáticamente- **Checkout Completo**: Formulario de datos y pago
+
+- **Actualización de Stock**: Stock se actualiza tras cada compra
+
+- **Historial de Compras**: Visible en el perfil del usuario- **Registro en BD**: Todas las órdenes se guardan automáticamente
+
+
+
+### ✅ Panel de Administración (100% Funcional)- **Actualización de Stock**: Stock se actualiza tras cada compra
+
+- **Dashboard**: Estadísticas en tiempo real
+
+- **Gestión de Productos**: CRUD completo- **Historial de Compras**: Visible en el perfil del usuario### FrontendEsto creará todas las tablas y relaciones necesarias en la base de datos.
+
+- **Gestión de Categorías**: Administración completa
+
+- **Gestión de Marcas**: Control total- **React 18** con **Vite**
+
+- **Gestión de Órdenes**: Visualización y cambio de estados
+
+- **Reportes Descargables**: PDF y Excel automáticos### ✅ Panel de Administración (100% Funcional)- **React Router** para navegación
+
+
+
+### ✅ Sistema de Usuarios (100% Funcional)- **Dashboard**: Estadísticas en tiempo real- **CSS3** personalizado
+
+- **Registro/Login**: Con validación completa
+
+- **Perfiles de Usuario**: Datos personales editables- **Gestión de Productos**: CRUD completo- **API REST** integrada
+
+- **Historial Real**: Órdenes conectadas a base de datos
+
+- **Roles y Permisos**: Admin y usuario estándar- **Gestión de Categorías**: Administración completa
+
+
+
+### ✅ Catálogo de Productos (100% Funcional)- **Gestión de Marcas**: Control total## 👥 **Integrantes del Proyecto**
+
+- **40 Productos Reales**: Con imágenes de Unsplash
+
+- **Filtros Avanzados**: Por categoría, marca y precio- **Reportes Descargables**: PDF y Excel funcionando
+
+- **Búsqueda Inteligente**: Por nombre y descripción
+
+- **Paginación**: Navegación optimizada- **Gestión de Órdenes**: Seguimiento de pedidos- **Sandoval Sirimarco, Lautaro Agustin** - [Lautaro.Sandoval98@gmail.com]
+
+
+
+## 📊 Base de Datos- **Aispuro, Francisco** - [aispurofrancisco2003@gmail.com]
+
+
+
+### Estructura Completa### ✅ Catálogo y Frontend (100% Funcional)- **Perez Daniele, Matias Sebastian** - [matiasperezdaniele@gmail.com]
+
+- **Usuarios**: Con autenticación y roles
+
+- **Productos**: 40 items con stock real- **40 Productos**: Base de datos completa con imágenes reales
+
+- **Categorías**: Motor, Frenos, Suspensión, etc.
+
+- **Marcas**: Bosch, NGK, Monroe, etc.- **6 Categorías**: Organizadas por tipo de repuesto## 📋 **Instalación y Ejecución**
+
+- **Órdenes**: Registro completo de compras
+
+- **Items de Orden**: Detalles de cada compra- **Búsqueda y Filtros**: Sistema de navegación avanzado
+
+
+
+### Datos Iniciales- **Diseño Responsivo**: Funciona en desktop y móvil### Prerrequisitos
+
+- ✅ 40 productos con imágenes reales
+
+- ✅ 8 categorías organizadas- **Autenticación**: Sistema completo con JWT- Node.js v18+ 
+
+- ✅ 6 marcas reconocidas
+
+- ✅ Usuario administrador configurado- npm o yarn
+
+
+
+## 🔧 API Endpoints## 🗂️ Estructura de Datos
+
+
+
+### Autenticación### 🔧 Instalación
+
+- `POST /api/auth/register` - Registro de usuarios
+
+- `POST /api/auth/login` - Inicio de sesión### Base de Datos Poblada
+
+
+
+### Productos- **40 Productos** con precios e imágenes reales1. **Clonar el repositorio**
+
+- `GET /api/products` - Listar productos
+
+- `POST /api/products` - Crear producto (admin)- **6 Categorías** principales (Motor, Frenos, Filtros, etc.)```bash
+
+- `PUT /api/products/:id` - Actualizar producto (admin)
+
+- `DELETE /api/products/:id` - Eliminar producto (admin)- **20+ Marcas** reconocidas (Bosch, NGK, Castrol, etc.)git clone https://github.com/Matias-ops-maker/Front-Back-borrador-TUP.git
+
+
+
+### Órdenes- **Usuarios de prueba** con diferentes rolescd Front-Back-borrador-TUP-2
+
+- `POST /api/orders` - Crear nueva orden
+
+- `GET /api/orders` - Listar órdenes del usuario- **Sistema de órdenes** completamente implementado```
+
+- `GET /api/orders/:id` - Detalle de orden
+
+
+
+### Reportes
+
+- `GET /api/reports/sales/pdf` - Descargar reporte PDF## 🔍 Fallas Encontradas y Corregidas2. **Instalar dependencias del Backend**
+
+- `GET /api/reports/sales/xlsx` - Descargar reporte Excel
+
+```bash
+
+## 🛡️ Seguridad Implementada
+
 ### ❌ Problemas Identificados:cd Desktop/ProyectoFinal/backend
 
-1. **Checkout desconectado**: El checkout solo simulaba comprasnpm install
+- **API Key**: `mi_api_key_super_secreta`
 
-2. **Perfil con datos estáticos**: No cargaba órdenes reales```
+- **JWT Tokens**: Para sesiones seguras1. **Checkout desconectado**: El checkout solo simulaba comprasnpm install
+
+- **Hashing de Contraseñas**: bcryptjs
+
+- **Validación de Roles**: Admin vs Usuario2. **Perfil con datos estáticos**: No cargaba órdenes reales```
+
+- **CORS Configurado**: Origen específico
 
 3. **Reportes sin datos**: Downloads no funcionaban
 
+## 🚀 Mejoras Implementadas
+
 3. **Instalar dependencias del Frontend**
 
-### ✅ Soluciones Implementadas:```bash
+### ✅ Correcciones Críticas Realizadas
 
-1. **Checkout conectado al backend**: Órdenes se crean en BDcd ../frontend
+- **Endpoint Checkout**: Corregido de `/cart/add` a `/cart/items`### ✅ Soluciones Implementadas:```bash
 
-2. **Perfil con datos reales**: Carga órdenes desde APInpm install
+- **Registro de Compras**: 100% funcional en base de datos
 
-3. **Reportes funcionales**: PDFs y Excel se descargan correctamente```
+- **Reportes**: Descarga inmediata de PDF y Excel1. **Checkout conectado al backend**: Órdenes se crean en BDcd ../frontend
 
-4. **Sistema de órdenes completo**: Flujo completo de compra
+- **Stock**: Actualización automática tras compras
 
-### 🎬 Ejecución
+- **Perfiles**: Datos reales de órdenes del usuario2. **Perfil con datos reales**: Carga órdenes desde APInpm install
 
-## 📊 Flujo de Compra Verificado
 
-1. **Iniciar el Backend** (Puerto 4000)
 
-1. **Usuario navega catálogo** → ✅ Funcionando```bash
+### ✅ Optimizaciones3. **Reportes funcionales**: PDFs y Excel se descargan correctamente```
 
-2. **Agrega productos al carrito** → ✅ Funcionando  cd Desktop/ProyectoFinal/backend
+- **Puerto Estándar**: Frontend en 5173 (correcto)
 
-3. **Procede al checkout** → ✅ Funcionandonpm start
+- **Conexión Backend**: API completamente estable4. **Sistema de órdenes completo**: Flujo completo de compra
 
-4. **Completa datos de entrega** → ✅ Funcionando```
+- **Manejo de Errores**: Respuestas consistentes
 
-5. **Selecciona método de pago** → ✅ Funcionando
+- **UI/UX**: Interfaz pulida y profesional### 🎬 Ejecución
 
-6. **Procesa la orden** → ✅ **SE REGISTRA EN BD** 2. **Iniciar el Frontend** (Puerto 5173)
+
+
+## 🎯 Testing Completado## 📊 Flujo de Compra Verificado
+
+
+
+### ✅ Flujos Verificados1. **Iniciar el Backend** (Puerto 4000)
+
+1. **Registro de Usuario** → ✅ Funcional
+
+2. **Login/Logout** → ✅ Funcional  1. **Usuario navega catálogo** → ✅ Funcionando```bash
+
+3. **Navegación del Catálogo** → ✅ Funcional
+
+4. **Agregar al Carrito** → ✅ Funcional2. **Agrega productos al carrito** → ✅ Funcionando  cd Desktop/ProyectoFinal/backend
+
+5. **Proceso de Checkout** → ✅ Funcional
+
+6. **Confirmación de Compra** → ✅ Funcional3. **Procede al checkout** → ✅ Funcionandonpm start
+
+7. **Panel de Administración** → ✅ Funcional
+
+8. **Generación de Reportes** → ✅ Funcional4. **Completa datos de entrega** → ✅ Funcionando```
+
+
+
+## 👥 **Integrantes del Proyecto**5. **Selecciona método de pago** → ✅ Funcionando
+
+
+
+- **Sandoval Sirimarco, Lautaro Agustin** - [Lautaro.Sandoval98@gmail.com]6. **Procesa la orden** → ✅ **SE REGISTRA EN BD** 2. **Iniciar el Frontend** (Puerto 5173)
+
+- **Aispuro, Francisco** - [aispurofrancisco2003@gmail.com]
 
 7. **Actualiza stock automáticamente** → ✅ Funcionando```bash
 
+## 📄 Licencia
+
 8. **Muestra confirmación** → ✅ Funcionandocd Desktop/ProyectoFinal/frontend
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para detalles.
 
 9. **Aparece en historial de usuario** → ✅ Funcionandonpm run dev
 
+---
+
 10. **Visible para admin en panel** → ✅ Funcionando```
 
+**🎉 Proyecto Finalizado y Completamente Funcional 🎉**
 
 
+
+*Desarrollado con ❤️ para la materia Tecnicatura Universitaria en Programación*
 ## 🛠️ Tecnologías Utilizadas3. **Acceder a la aplicación**
 
 - Frontend: `http://localhost:5173`
