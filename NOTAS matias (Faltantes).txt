@@ -1,4 +1,4 @@
-# Ya hecho (según estructura):
+s# Ya hecho (según estructura):
 
 + Backend
 - Estructura de carpetas y archivos organizada.

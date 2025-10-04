@@ -1,102 +1,46 @@
-# 🚗 RepuestosAuto - Sistema Completo de E-Commerce# 🚗 RepuestosAuto - Sistema Completo de E-Commerce
+# 🚗 RepuestosAuto - Sistema Completo de E-Commerce
 
+## 📋 Descripción del Proyecto
 
+RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.
 
-## 📋 Descripción del Proyecto## 📋 Descripción del Proyecto
+## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅
 
+### 🎯 **Características Principales**
 
-
-RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.
-
-
-
-## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅## 🚀 INICIALIZACIÓN RÁPIDA
-
-
-
-### 🎯 **Características Principales**### ⚡ Opción 1: Script Automático
-
-
-
-- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuario```bash
-
-- **🛒 Carrito de Compras**: Funcional con persistencia y sincronización# Ejecutar desde la raíz del proyecto
-
-- **💳 Checkout Completo**: Procesamiento real de pedidos en base de datosINICIAR_PROYECTO_COMPLETO.bat
-
-- **📊 Panel Admin**: CRUD completo de productos, categorías y marcas```
-
+- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuario
+- **🛒 Carrito de Compras**: Funcional con persistencia y sincronización
+- **💳 Checkout Completo**: Procesamiento real de pedidos en base de datos
+- **📊 Panel Admin**: CRUD completo de productos, categorías y marcas
 - **📈 Reportes**: Generación automática de PDF y Excel
-
-- **👤 Gestión de Usuarios**: Perfiles con historial de compras real### 🔧 Opción 2: Manual
-
+- **👤 Gestión de Usuarios**: Perfiles con historial de compras real
+- **� Búsqueda Inteligente**: Barra de búsqueda con sugerencias en tiempo real
+- **⚙️ Configuración de Perfil**: Cambio de email y contraseña funcional
 - **📱 Responsive**: Completamente adaptado a móviles
+- **🎨 UI/UX Mejorada**: Mejor legibilidad y contraste en textos
 
-```bash
+## 🆕 **Nuevas Características Implementadas**
+
+### 🔍 Sistema de Búsqueda Mejorado
+- **Sugerencias en tiempo real**: La barra de búsqueda muestra sugerencias mientras escribes
+- **Búsqueda inteligente**: Busca por nombre, marca, categoría y descripción
+- **Ordenamiento por relevancia**: Los resultados se ordenan por relevancia cuando hay una búsqueda activa
+- **Navegación automática**: Al seleccionar una sugerencia o buscar, navega automáticamente al catálogo
+
+### ⚙️ Gestión de Perfil Completa
+- **Cambio de contraseña**: Funcionalidad completa con validaciones de seguridad
+- **Cambio de email**: Actualización de email con confirmación
+- **Validaciones robustas**: Sistema de validaciones frontend y backend
+- **Mensajes informativos**: Feedback visual para todas las operaciones
+- **Persistencia de datos**: Todos los cambios se guardan en la base de datos
+
+### � Mejoras de Usabilidad
+- **Mejor legibilidad**: Colores de texto mejorados para mejor contraste
+- **Textos más oscuros**: Reemplazo de grises claros por colores más legibles
+- **Feedback visual**: Mensajes de éxito y error claros
+- **Formularios mejorados**: Mejor UX en formularios de configuración
 
 ## 🚀 INICIALIZACIÓN RÁPIDA
-
-# 1. Backend- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuarioPerez Daniele, Matias Sebastian [matiasperezdaniele@gmail.com]
-
-### ⚡ Opción 1: Script Automático
-
-cd Desktop/ProyectoFinal/backend
-
-```bash
-
-# Ejecutar desde la raíz del proyectonpm install- **📦 Catálogo de Productos**: Con imágenes, categorías y búsqueda
-
-INICIAR_PROYECTO_COMPLETO.bat
-
-```node src/seed.js
-
-
-
-### 🔧 Opción 2: Manualnpm start- **🛒 Carrito de Compras**: Gestión completa de pedidos## Migración y sincronización de la base de datos
-
-
-
-#### Backend (terminal 1)
-
-```bash
-
-cd Desktop/ProyectoFinal/backend# 2. Frontend (nueva terminal)- **👥 Gestión de Usuarios**: Roles de administrador, vendedor y cliente
-
-npm install
-
-node src/seed.js  # Carga 40 productos realescd Desktop/ProyectoFinal/frontend  
-
-node src/app.js   # Servidor en puerto 4000
-
-```npm install- **📊 Reportes**: Generación de PDF y Excel públicos1. Configura las variables de entorno en `.env`:
-
-
-
-#### Frontend (terminal 2)npm run dev
-
-```bash
-
-cd Desktop/ProyectoFinal/frontend```- **🎨 UI/UX Moderna**: Interfaz responsive con React y CSS personalizado   ```
-
-npm install
-
-npm run dev       # Servidor en puerto 5173
-
-```
-
-## 🌐 URLs y Credenciales   DB_NAME=nombre_de_tu_bd
-
-## 🌐 URLs y Credenciales
-
-
-
-### URLs del Sistema
-
-- **Frontend**: http://localhost:5173### URLs del Sistema## 🚀 **Tecnologías Utilizadas**   DB_USER=usuario
-
-- **Backend API**: http://localhost:4000
-
-- **Frontend**: http://localhost:5173
 
 ### Credenciales de Acceso
 
@@ -574,4 +518,37 @@ Este proyecto está bajo la Licencia MIT.
 
 El sistema RepuestosAuto está listo para uso en desarrollo y puede ser desplegado en producción con las configuraciones apropiadas de variables de entorno.
 
-**Última actualización**: Septiembre 2025 ✨
+## 🔧 **Nuevas Funcionalidades Implementadas (Octubre 2025)**
+
+### 🔍 **Sistema de Búsqueda Avanzado**
+- **Autocompletado inteligente**: Sugerencias en tiempo real mientras escribes
+- **Búsqueda multi-campo**: Busca por nombre, marca, categoría y descripción
+- **Navegación automática**: Al buscar, redirige automáticamente al catálogo filtrado
+- **Ordenamiento por relevancia**: Resultados ordenados por importancia
+
+### ⚙️ **Gestión de Perfil Mejorada**
+- **Cambio de contraseña seguro**: Con validación de contraseña actual
+- **Actualización de email**: Con confirmación y validación duplicados
+- **Interfaz intuitiva**: Formularios expandibles con validación en tiempo real
+- **Persistencia de datos**: Todos los cambios se guardan en la base de datos
+- **Feedback visual**: Mensajes de éxito y error informativos
+
+### 🎨 **Mejoras de UI/UX**
+- **Legibilidad mejorada**: Colores de texto más oscuros para mejor contraste
+- **Textos optimizados**: Eliminación de grises claros problemáticos
+- **Formularios mejorados**: Mejor experiencia de usuario en configuraciones
+- **Responsividad**: Mantiene funcionalidad en todos los dispositivos
+
+### 🔐 **Seguridad y Validaciones**
+- **Validaciones robustas**: Frontend y backend sincronizados
+- **Verificación de email**: Control de duplicados en tiempo real
+- **Contraseñas seguras**: Mínimo 6 caracteres con confirmación
+- **Autenticación persistente**: Tokens JWT actualizados
+
+### 📱 **Compatibilidad y Rendimiento**
+- **Cross-browser**: Funciona en Chrome, Firefox, Safari, Edge
+- **Mobile-first**: Optimizado para dispositivos móviles
+- **Carga rápida**: Sugerencias de búsqueda optimizadas
+- **Manejo de errores**: Gestión robusta de errores de red
+
+**Última actualización**: Octubre 2025 ✨

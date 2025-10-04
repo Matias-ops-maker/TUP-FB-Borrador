@@ -8,6 +8,20 @@ export default function Perfil() {
   const [pedidos, setPedidos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('perfil');
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showChangeEmail, setShowChangeEmail] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [emailForm, setEmailForm] = useState({
+    newEmail: '',
+    confirmEmail: '',
+    currentPassword: ''
+  });
+  const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,7 +68,7 @@ export default function Perfil() {
         } else {
           setPedidos([]);
         }
-      } catch (orderError) {
+      } catch {
         console.log('No se pudieron cargar las órdenes desde el backend, usando datos simulados');
         // Si falla la carga de órdenes, usar datos simulados
         const pedidosSimulados = [
@@ -64,8 +78,8 @@ export default function Perfil() {
             total: 45000.00,
             estado: 'Entregado',
             productos: [
-              { nombre: 'Filtro de Aceite', cantidad: 2, precio: 15000.00 },
-              { nombre: 'Aceite Motor 5W-30', cantidad: 1, precio: 15000.00 }
+              { nombre: 'Filtro de Aceite', cantidad: 2, precio: 8500.00 },
+              { nombre: 'Aceite Motor 5W-30', cantidad: 1, precio: 18000.00 }
             ]
           },
           {
@@ -80,10 +94,10 @@ export default function Perfil() {
           {
             id: 3,
             fecha: '2024-10-25',
-            total: 12500.00,
+            total: 35000.00,
             estado: 'Pendiente',
             productos: [
-              { nombre: 'Amortiguador Monroe', cantidad: 1, precio: 12500.00 }
+              { nombre: 'Amortiguador Monroe', cantidad: 1, precio: 35000.00 }
             ]
           }
         ];
@@ -102,6 +116,79 @@ export default function Perfil() {
       style: 'currency',
       currency: 'ARS'
     }).format(precio); // Los precios ya están en pesos
+  };
+
+  const showMessage = (msg, type = 'success') => {
+    setMessage(msg);
+    setMessageType(type);
+    setTimeout(() => {
+      setMessage('');
+      setMessageType('');
+    }, 5000);
+  };
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      showMessage('Las contraseñas no coinciden', 'error');
+      return;
+    }
+
+    if (passwordForm.newPassword.length < 6) {
+      showMessage('La nueva contraseña debe tener al menos 6 caracteres', 'error');
+      return;
+    }
+
+    try {
+      await api.put('/auth/change-password', {
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword
+      });
+
+      showMessage('Contraseña actualizada exitosamente', 'success');
+      setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+      setShowChangePassword(false);
+    } catch (error) {
+      showMessage(
+        error.response?.data?.error || 'Error al cambiar la contraseña',
+        'error'
+      );
+    }
+  };
+
+  const handleChangeEmail = async (e) => {
+    e.preventDefault();
+    
+    if (emailForm.newEmail !== emailForm.confirmEmail) {
+      showMessage('Los emails no coinciden', 'error');
+      return;
+    }
+
+    if (!emailForm.newEmail.includes('@')) {
+      showMessage('Por favor ingresa un email válido', 'error');
+      return;
+    }
+
+    try {
+      await api.put('/auth/profile', {
+        email: emailForm.newEmail
+      });
+
+      // Actualizar el usuario en localStorage y estado
+      const updatedUser = { ...user, email: emailForm.newEmail };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+
+      showMessage('Email actualizado exitosamente', 'success');
+      setEmailForm({ newEmail: '', confirmEmail: '', currentPassword: '' });
+      setShowChangeEmail(false);
+    } catch (error) {
+      showMessage(
+        error.response?.data?.error || 'Error al cambiar el email',
+        'error'
+      );
+    }
   };
 
   const getEstadoColor = (estado) => {
@@ -384,14 +471,137 @@ export default function Perfil() {
               <div className="configuracion-container">
                 <h3>⚙️ Configuración de Cuenta</h3>
                 
+                {message && (
+                  <div className={`message ${messageType}`}>
+                    {message}
+                  </div>
+                )}
+                
                 <div className="config-section">
                   <h4>🔐 Seguridad</h4>
-                  <button className="config-button">
+                  <button 
+                    className="config-button"
+                    onClick={() => setShowChangePassword(!showChangePassword)}
+                  >
                     🔑 Cambiar Contraseña
                   </button>
-                  <button className="config-button">
+                  
+                  {showChangePassword && (
+                    <div className="config-form">
+                      <form onSubmit={handleChangePassword}>
+                        <div className="form-group">
+                          <label>Contraseña actual:</label>
+                          <input
+                            type="password"
+                            value={passwordForm.currentPassword}
+                            onChange={(e) => setPasswordForm({
+                              ...passwordForm,
+                              currentPassword: e.target.value
+                            })}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Nueva contraseña:</label>
+                          <input
+                            type="password"
+                            value={passwordForm.newPassword}
+                            onChange={(e) => setPasswordForm({
+                              ...passwordForm,
+                              newPassword: e.target.value
+                            })}
+                            required
+                            minLength="6"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Confirmar nueva contraseña:</label>
+                          <input
+                            type="password"
+                            value={passwordForm.confirmPassword}
+                            onChange={(e) => setPasswordForm({
+                              ...passwordForm,
+                              confirmPassword: e.target.value
+                            })}
+                            required
+                          />
+                        </div>
+                        <div className="form-buttons">
+                          <button type="submit" className="save-btn">Guardar</button>
+                          <button 
+                            type="button" 
+                            className="cancel-btn"
+                            onClick={() => {
+                              setShowChangePassword(false);
+                              setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+                            }}
+                          >
+                            Cancelar
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  )}
+                  
+                  <button 
+                    className="config-button"
+                    onClick={() => setShowChangeEmail(!showChangeEmail)}
+                  >
                     📧 Cambiar Email
                   </button>
+                  
+                  {showChangeEmail && (
+                    <div className="config-form">
+                      <form onSubmit={handleChangeEmail}>
+                        <div className="form-group">
+                          <label>Email actual:</label>
+                          <input
+                            type="email"
+                            value={user?.email || ''}
+                            disabled
+                            className="disabled-input"
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Nuevo email:</label>
+                          <input
+                            type="email"
+                            value={emailForm.newEmail}
+                            onChange={(e) => setEmailForm({
+                              ...emailForm,
+                              newEmail: e.target.value
+                            })}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Confirmar nuevo email:</label>
+                          <input
+                            type="email"
+                            value={emailForm.confirmEmail}
+                            onChange={(e) => setEmailForm({
+                              ...emailForm,
+                              confirmEmail: e.target.value
+                            })}
+                            required
+                          />
+                        </div>
+                        <div className="form-buttons">
+                          <button type="submit" className="save-btn">Guardar</button>
+                          <button 
+                            type="button" 
+                            className="cancel-btn"
+                            onClick={() => {
+                              setShowChangeEmail(false);
+                              setEmailForm({ newEmail: '', confirmEmail: '', currentPassword: '' });
+                            }}
+                          >
+                            Cancelar
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  )}
                 </div>
 
                 <div className="config-section">

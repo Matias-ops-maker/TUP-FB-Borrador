@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import '../../styles/catalogo.css';
 
 export default function Catalogo() {
@@ -14,6 +14,22 @@ export default function Catalogo() {
   });
   const [carrito, setCarrito] = useState([]);
   const [ordenar, setOrdenar] = useState('nombre');
+  const location = useLocation();
+
+  // Extraer parámetros de búsqueda de la URL
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('search');
+    const categoryQuery = searchParams.get('categoria');
+    
+    if (searchQuery || categoryQuery) {
+      setFiltros(prev => ({
+        ...prev,
+        busqueda: searchQuery || '',
+        categoria: categoryQuery || ''
+      }));
+    }
+  }, [location]);
 
   // Productos con imágenes representativas
   useEffect(() => {
@@ -23,7 +39,7 @@ export default function Catalogo() {
         id: 1,
         name: "Filtro de Aceite Bosch P7077",
         brand: "Bosch",
-        price: 25.50,
+        price: 8500,
         stock: 150,
         category: "Filtros",
         image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop",
@@ -33,7 +49,7 @@ export default function Catalogo() {
         id: 2,
         name: "Filtro de Aire K&N E-9268",
         brand: "K&N",
-        price: 45.00,
+        price: 15000,
         stock: 80,
         category: "Filtros",
         image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=300&h=200&fit=crop",
@@ -43,7 +59,7 @@ export default function Catalogo() {
         id: 3,
         name: "Filtro de Combustible WIX 33518",
         brand: "WIX",
-        price: 18.75,
+        price: 6500,
         stock: 120,
         category: "Filtros",
         image: "https://images.unsplash.com/photo-1580414771084-d4f8c57a6db6?w=300&h=200&fit=crop",
@@ -55,7 +71,7 @@ export default function Catalogo() {
         id: 4,
         name: "Pastillas de Freno Brembo P50013",
         brand: "Brembo",
-        price: 85.00,
+        price: 28000,
         stock: 75,
         category: "Frenos",
         image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop",
@@ -65,7 +81,7 @@ export default function Catalogo() {
         id: 5,
         name: "Discos de Freno Ferodo DDF1562",
         brand: "Ferodo",
-        price: 120.00,
+        price: 45000,
         stock: 45,
         category: "Frenos",
         image: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=300&h=200&fit=crop",
@@ -75,7 +91,7 @@ export default function Catalogo() {
         id: 6,
         name: "Líquido de Frenos DOT 4 Bosch",
         brand: "Bosch",
-        price: 12.50,
+        price: 5000,
         stock: 200,
         category: "Frenos",
         image: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=300&h=200&fit=crop",
@@ -87,7 +103,7 @@ export default function Catalogo() {
         id: 7,
         name: "Aceite Motor Mobil 1 5W-30",
         brand: "Mobil",
-        price: 45.00,
+        price: 18000,
         stock: 200,
         category: "Aceites",
         image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop",
@@ -97,7 +113,7 @@ export default function Catalogo() {
         id: 8,
         name: "Aceite Transmisión Castrol ATF Dex III",
         brand: "Castrol",
-        price: 28.00,
+        price: 12000,
         stock: 85,
         category: "Aceites",
         image: "https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=300&h=200&fit=crop",
@@ -107,7 +123,7 @@ export default function Catalogo() {
         id: 9,
         name: "Grasa Multiuso Shell Retinax EP2",
         brand: "Shell",
-        price: 15.75,
+        price: 7500,
         stock: 150,
         category: "Aceites",
         image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop",
@@ -119,7 +135,7 @@ export default function Catalogo() {
         id: 10,
         name: "Amortiguador Monroe G7359",
         brand: "Monroe",
-        price: 95.00,
+        price: 35000,
         stock: 60,
         category: "Suspensión",
         image: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=300&h=200&fit=crop",
@@ -129,7 +145,7 @@ export default function Catalogo() {
         id: 11,
         name: "Resorte Espiral Sachs 994054",
         brand: "Sachs",
-        price: 75.50,
+        price: 25000,
         stock: 40,
         category: "Suspensión",
         image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop",
@@ -139,7 +155,7 @@ export default function Catalogo() {
         id: 12,
         name: "Buje Estabilizador TRW JBU550",
         brand: "TRW",
-        price: 22.00,
+        price: 8500,
         stock: 100,
         category: "Suspensión",
         image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=300&h=200&fit=crop",
@@ -151,7 +167,7 @@ export default function Catalogo() {
         id: 13,
         name: "Batería Bosch S4 12V 60Ah",
         brand: "Bosch",
-        price: 120.00,
+        price: 75000,
         stock: 50,
         category: "Eléctrica",
         image: "https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=300&h=200&fit=crop",
@@ -161,7 +177,7 @@ export default function Catalogo() {
         id: 14,
         name: "Bujías NGK Iridium IX",
         brand: "NGK",
-        price: 35.00,
+        price: 12500,
         stock: 180,
         category: "Eléctrica",
         image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop",
@@ -171,7 +187,7 @@ export default function Catalogo() {
         id: 15,
         name: "Alternador Valeo TG12C024",
         brand: "Valeo",
-        price: 285.00,
+        price: 95000,
         stock: 25,
         category: "Eléctrica",
         image: "https://images.unsplash.com/photo-1580414771084-d4f8c57a6db6?w=300&h=200&fit=crop",
@@ -183,7 +199,7 @@ export default function Catalogo() {
         id: 16,
         name: "Kit Distribución Gates K015578XS",
         brand: "Gates",
-        price: 185.00,
+        price: 65000,
         stock: 35,
         category: "Motor",
         image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop",
@@ -193,7 +209,7 @@ export default function Catalogo() {
         id: 17,
         name: "Junta Culata Mahle HS54375",
         brand: "Mahle",
-        price: 65.00,
+        price: 22000,
         stock: 45,
         category: "Motor",
         image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=300&h=200&fit=crop",
@@ -203,7 +219,7 @@ export default function Catalogo() {
         id: 18,
         name: "Bomba de Agua Febi 17086",
         brand: "Febi",
-        price: 55.50,
+        price: 18500,
         stock: 70,
         category: "Motor",
         image: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=300&h=200&fit=crop",
@@ -215,7 +231,7 @@ export default function Catalogo() {
         id: 19,
         name: "Filtro Habitáculo Mann CU2434",
         brand: "Mann",
-        price: 28.50,
+        price: 9500,
         stock: 90,
         category: "Climatización",
         image: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=300&h=200&fit=crop",
@@ -225,7 +241,7 @@ export default function Catalogo() {
         id: 20,
         name: "Compresor A/C Denso 447100-1580",
         brand: "Denso",
-        price: 450.00,
+        price: 185000,
         stock: 15,
         category: "Climatización",
         image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=200&fit=crop",
@@ -289,9 +305,12 @@ export default function Catalogo() {
   // Filtrar y ordenar productos
   const productosFiltrados = productos
     .filter(producto => {
+      const searchTerm = filtros.busqueda.toLowerCase();
       const cumpleBusqueda = !filtros.busqueda || 
-        producto.name.toLowerCase().includes(filtros.busqueda.toLowerCase()) ||
-        producto.brand.toLowerCase().includes(filtros.busqueda.toLowerCase());
+        producto.name.toLowerCase().includes(searchTerm) ||
+        producto.brand.toLowerCase().includes(searchTerm) ||
+        producto.category.toLowerCase().includes(searchTerm) ||
+        (producto.description && producto.description.toLowerCase().includes(searchTerm));
       
       const cumpleCategoria = !filtros.categoria || producto.category === filtros.categoria;
       const cumpleMarca = !filtros.marca || producto.brand === filtros.marca;
@@ -308,6 +327,23 @@ export default function Catalogo() {
           return b.price - a.price;
         case 'stock':
           return b.stock - a.stock;
+        case 'relevancia':
+          // Ordenar por relevancia de búsqueda si hay término de búsqueda
+          if (filtros.busqueda) {
+            const searchTerm = filtros.busqueda.toLowerCase();
+            const aRelevance = (
+              (a.name.toLowerCase().includes(searchTerm) ? 10 : 0) +
+              (a.brand.toLowerCase().includes(searchTerm) ? 5 : 0) +
+              (a.category.toLowerCase().includes(searchTerm) ? 3 : 0)
+            );
+            const bRelevance = (
+              (b.name.toLowerCase().includes(searchTerm) ? 10 : 0) +
+              (b.brand.toLowerCase().includes(searchTerm) ? 5 : 0) +
+              (b.category.toLowerCase().includes(searchTerm) ? 3 : 0)
+            );
+            return bRelevance - aRelevance;
+          }
+          return a.name.localeCompare(b.name);
         default:
           return a.name.localeCompare(b.name);
       }
@@ -441,6 +477,7 @@ export default function Catalogo() {
             <div className="ordenar">
               <label>Ordenar por:</label>
               <select value={ordenar} onChange={(e) => setOrdenar(e.target.value)}>
+                {filtros.busqueda && <option value="relevancia">Relevancia</option>}
                 <option value="nombre">Nombre A-Z</option>
                 <option value="precio-asc">Precio: Menor a Mayor</option>
                 <option value="precio-desc">Precio: Mayor a Menor</option>

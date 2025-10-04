@@ -1,5 +1,5 @@
 import "../../styles/usuario.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../../api.js";
 import Navbar from "../../components/Navbar.jsx";
@@ -9,6 +9,10 @@ export default function HomeFinal() {
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -41,7 +45,7 @@ export default function HomeFinal() {
               id: 1,
               name: "Filtro de Aceite Bosch",
               brand: "Bosch",
-              price: 25.99,
+              price: 8500,
               stock: 15,
               category: "Filtros",
               image: "https://images.unsplash.com/photo-1558618644-fbd4c54cd64d?w=200&h=150&fit=crop"
@@ -50,7 +54,7 @@ export default function HomeFinal() {
               id: 2,
               name: "Pastillas de Freno Brembo",
               brand: "Brembo",
-              price: 89.99,
+              price: 28000,
               stock: 8,
               category: "Frenos", 
               image: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop"
@@ -111,7 +115,7 @@ export default function HomeFinal() {
   const getCategoryColor = (nombre) => {
     const colores = {
       'Motor': '#3B82F6',
-      'Filtros': '#10B981', 
+      'Filtros': '#10B981',
       'Frenos': '#EF4444',
       'Lubricantes': '#F59E0B',
       'Eléctrica': '#8B5CF6',
@@ -123,6 +127,45 @@ export default function HomeFinal() {
       'Climatización': '#14B8A6'
     };
     return colores[nombre] || '#3B82F6';
+  };
+
+  // Función para manejar la búsqueda
+  const handleSearchChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    
+    if (term.length > 2) {
+      // Filtrar productos que coincidan con el término de búsqueda
+      const suggestions = productos.filter(producto => 
+        producto.name.toLowerCase().includes(term.toLowerCase()) ||
+        producto.brand.toLowerCase().includes(term.toLowerCase()) ||
+        producto.category.toLowerCase().includes(term.toLowerCase())
+      ).slice(0, 5); // Limitar a 5 sugerencias
+      
+      setSearchSuggestions(suggestions);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
+  // Función para realizar la búsqueda
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      navigate(`/catalogo?search=${encodeURIComponent(searchTerm)}`);
+    }
+  };
+
+  // Función para seleccionar una sugerencia
+  const selectSuggestion = (producto) => {
+    setSearchTerm(producto.name);
+    setShowSuggestions(false);
+    navigate(`/catalogo?search=${encodeURIComponent(producto.name)}`);
+  };
+
+  // Cerrar sugerencias al hacer clic fuera
+  const handleSearchBlur = () => {
+    setTimeout(() => setShowSuggestions(false), 200);
   };
 
   if (loading) {
@@ -147,12 +190,32 @@ export default function HomeFinal() {
         <h1 className="hero-title">🚗 Encuentra los mejores repuestos automotrices</h1>
         <p className="hero-subtitle">Todo lo que necesitas para tu auto en un solo lugar. Repuestos nuevos y usados de calidad.</p>
         <div className="hero-search-container">
-          <input 
-            type="text" 
-            placeholder="🔍 Buscar repuestos (ej: filtro aceite, pastillas freno...)" 
-            className="hero-search"
-          />
-          <button className="hero-search-btn">Buscar</button>
+          <div className="search-input-container">
+            <input 
+              type="text" 
+              placeholder="🔍 Buscar repuestos (ej: filtro aceite, pastillas freno...)" 
+              className="hero-search"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onBlur={handleSearchBlur}
+              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+            />
+            {showSuggestions && searchSuggestions.length > 0 && (
+              <div className="search-suggestions">
+                {searchSuggestions.map((producto) => (
+                  <div 
+                    key={producto.id} 
+                    className="suggestion-item"
+                    onClick={() => selectSuggestion(producto)}
+                  >
+                    <span className="suggestion-name">{producto.name}</span>
+                    <span className="suggestion-brand">{producto.brand}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <button className="hero-search-btn" onClick={handleSearch}>Buscar</button>
         </div>
       </div>
 
