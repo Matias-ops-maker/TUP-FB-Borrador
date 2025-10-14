@@ -32,8 +32,12 @@ export default function Login() {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         
-        // Redirigir a la página principal para todos los usuarios
-        navigate('/');
+        // Redirigir según el rol del usuario
+        if (response.data.user.rol === 'admin') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/');
+        }
       } else {
         setError('Error al iniciar sesión');
       }

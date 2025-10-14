@@ -10,6 +10,7 @@ export default function Perfil() {
   const [activeTab, setActiveTab] = useState('perfil');
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showChangeEmail, setShowChangeEmail] = useState(false);
+  const [showEditProfile, setShowEditProfile] = useState(false);
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: '',
     newPassword: '',
@@ -19,6 +20,10 @@ export default function Perfil() {
     newEmail: '',
     confirmEmail: '',
     currentPassword: ''
+  });
+  const [editForm, setEditForm] = useState({
+    nombre: '',
+    telefono: ''
   });
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
@@ -41,7 +46,12 @@ export default function Perfil() {
       // Cargar datos del usuario
       const userData = localStorage.getItem('user');
       if (userData) {
-        setUser(JSON.parse(userData));
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+        setEditForm({
+          nombre: parsedUser.nombre || '',
+          telefono: parsedUser.telefono || ''
+        });
       }
 
       // Cargar pedidos reales del usuario desde el backend
@@ -191,6 +201,65 @@ export default function Perfil() {
     }
   };
 
+  const handleEditProfile = async (e) => {
+    e.preventDefault();
+    
+    if (!editForm.nombre.trim()) {
+      showMessage('El nombre es requerido', 'error');
+      return;
+    }
+
+    try {
+      await api.put('/auth/profile', {
+        nombre: editForm.nombre,
+        telefono: editForm.telefono
+      });
+
+      // Actualizar el usuario en localStorage y estado
+      const updatedUser = { ...user, nombre: editForm.nombre, telefono: editForm.telefono };
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+
+      showMessage('Perfil actualizado exitosamente', 'success');
+      setShowEditProfile(false);
+    } catch (error) {
+      showMessage(
+        error.response?.data?.error || 'Error al actualizar el perfil',
+        'error'
+      );
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    const confirmDelete = window.confirm(
+      '¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.'
+    );
+    
+    if (!confirmDelete) return;
+
+    const password = prompt('Por favor, ingresa tu contraseña para confirmar:');
+    if (!password) return;
+
+    try {
+      await api.delete('/auth/account', {
+        data: { password }
+      });
+
+      // Limpiar datos locales
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('carrito');
+
+      showMessage('Cuenta eliminada exitosamente', 'success');
+      setTimeout(() => navigate('/'), 2000);
+    } catch (error) {
+      showMessage(
+        error.response?.data?.error || 'Error al eliminar la cuenta',
+        'error'
+      );
+    }
+  };
+
   const getEstadoColor = (estado) => {
     const colores = {
       'Entregado': '#10B981',
@@ -226,6 +295,27 @@ export default function Perfil() {
     <div className="page">
       <div className="perfil-container">
         <div className="perfil-header">
+          <button 
+            className="btn-volver"
+            onClick={() => navigate('/')}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              left: '20px',
+              background: '#3B82F6',
+              color: 'white',
+              border: 'none',
+              padding: '10px 15px',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px'
+            }}
+          >
+            ← Volver al Inicio
+          </button>
           <div className="perfil-avatar">
             <span className="avatar-icon">👤</span>
           </div>
@@ -296,9 +386,56 @@ export default function Perfil() {
                     </span>
                   </div>
                 </div>
-                <button className="btn-edit-profile">
+                <button 
+                  className="btn-edit-profile"
+                  onClick={() => setShowEditProfile(!showEditProfile)}
+                >
                   ✏️ Editar Perfil
                 </button>
+                
+                {showEditProfile && (
+                  <div className="config-form" style={{ marginTop: '20px' }}>
+                    <form onSubmit={handleEditProfile}>
+                      <div className="form-group">
+                        <label>Nombre:</label>
+                        <input
+                          type="text"
+                          value={editForm.nombre}
+                          onChange={(e) => setEditForm({
+                            ...editForm,
+                            nombre: e.target.value
+                          })}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Teléfono:</label>
+                        <input
+                          type="tel"
+                          value={editForm.telefono}
+                          onChange={(e) => setEditForm({
+                            ...editForm,
+                            telefono: e.target.value
+                          })}
+                          placeholder="Ej: +54 11 1234-5678"
+                        />
+                      </div>
+                      <div className="form-buttons">
+                        <button type="submit" className="save-btn">Guardar</button>
+                        <button 
+                          type="button" 
+                          className="cancel-btn"
+                          onClick={() => {
+                            setShowEditProfile(false);
+                            setEditForm({ nombre: user.nombre || '', telefono: user.telefono || '' });
+                          }}
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -622,9 +759,15 @@ export default function Perfil() {
 
                 <div className="config-section danger-zone">
                   <h4>⚠️ Zona Peligrosa</h4>
-                  <button className="config-button danger">
+                  <button 
+                    className="config-button danger"
+                    onClick={handleDeleteAccount}
+                  >
                     🗑️ Eliminar Cuenta
                   </button>
+                  <p style={{ fontSize: '0.9em', color: '#666', marginTop: '10px' }}>
+                    Esta acción no se puede deshacer. Se eliminarán todos tus datos permanentemente.
+                  </p>
                 </div>
               </div>
             </div>

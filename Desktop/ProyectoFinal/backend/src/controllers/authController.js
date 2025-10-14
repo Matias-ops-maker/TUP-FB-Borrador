@@ -81,7 +81,7 @@ export async function login(req, res) {
 export async function getProfile(req, res) {
     try {
         const user = await User.findByPk(req.user.id, {
-            attributes: ['id', 'nombre', 'email', 'rol', 'creado_en']
+            attributes: ['id', 'nombre', 'email', 'telefono', 'rol', 'creado_en']
         });
         
         if (!user) {
@@ -97,7 +97,7 @@ export async function getProfile(req, res) {
 
 export async function updateProfile(req, res) {
     try {
-        const { nombre, email } = req.body;
+        const { nombre, email, telefono } = req.body;
         const userId = req.user.id;
         
         const user = await User.findByPk(userId);
@@ -116,6 +116,7 @@ export async function updateProfile(req, res) {
         // Actualizar campos
         if (nombre) user.nombre = nombre;
         if (email) user.email = email;
+        if (telefono !== undefined) user.telefono = telefono;
         
         await user.save();
         
@@ -125,6 +126,7 @@ export async function updateProfile(req, res) {
                 id: user.id,
                 nombre: user.nombre,
                 email: user.email,
+                telefono: user.telefono,
                 rol: user.rol
             }
         });
@@ -162,6 +164,36 @@ export async function changePassword(req, res) {
         res.json({ msg: "Contraseña actualizada exitosamente" });
     } catch (error) {
         console.error('Error al cambiar contraseña:', error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
+}
+
+export async function deleteAccount(req, res) {
+    try {
+        const { password } = req.body;
+        const userId = req.user.id;
+        
+        if (!password) {
+            return res.status(400).json({ error: "Contraseña es requerida para eliminar la cuenta" });
+        }
+        
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+        
+        // Verificar contraseña
+        const isValidPassword = await bcryptjs.compare(password, user.password);
+        if (!isValidPassword) {
+            return res.status(400).json({ error: "Contraseña incorrecta" });
+        }
+        
+        // Eliminar usuario (esto también eliminará registros relacionados por foreign keys)
+        await user.destroy();
+        
+        res.json({ msg: "Cuenta eliminada exitosamente" });
+    } catch (error) {
+        console.error('Error al eliminar cuenta:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }

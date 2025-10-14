@@ -2,7 +2,7 @@ import "../../styles/usuario.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../../api.js";
-import Navbar from "../../components/Navbar.jsx";
+import UserNavbar from "../../components/UserNavbar.jsx";
 
 export default function HomeFinal() {
   const [productos, setProductos] = useState([]);
@@ -12,6 +12,7 @@ export default function HomeFinal() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [carrito, setCarrito] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,7 +21,6 @@ export default function HomeFinal() {
         setLoading(true);
         setError(null);
         
-        // Cargar productos
         try {
           const resProductos = await api.get('/products');
           const productosData = resProductos.data.data || resProductos.data || [];
@@ -30,7 +30,7 @@ export default function HomeFinal() {
             id: producto.id,
             name: producto.nombre,
             brand: producto.Brand?.nombre || 'Sin marca',
-            price: parseFloat(producto.precio), // Los precios ya están en pesos
+            price: parseFloat(producto.precio),
             stock: producto.stock,
             category: producto.Category?.nombre || 'Sin categoría',
             image: producto.imagen_url || "https://via.placeholder.com/200x150/3B82F6/ffffff?text=Producto"
@@ -39,7 +39,6 @@ export default function HomeFinal() {
           setProductos(productosFormateados);
         } catch (err) {
           console.error('Error cargando productos:', err);
-          // Fallback products
           setProductos([
             {
               id: 1,
@@ -62,7 +61,6 @@ export default function HomeFinal() {
           ]);
         }
 
-        // Cargar categorías
         try {
           const resCategorias = await api.get('/categories');
           const categoriasData = Array.isArray(resCategorias.data) ? resCategorias.data : [];
@@ -75,7 +73,6 @@ export default function HomeFinal() {
           setCategorias(categoriasFormatted);
         } catch (err) {
           console.error('Error cargando categorías:', err);
-          // Fallback categories
           setCategorias([
             { name: "Filtros", icon: "🔍", color: "#10B981" },
             { name: "Frenos", icon: "🛑", color: "#EF4444" },
@@ -94,6 +91,35 @@ export default function HomeFinal() {
 
     cargarDatos();
   }, []);
+
+  useEffect(() => {
+    const carritoGuardado = localStorage.getItem('carrito');
+    if (carritoGuardado) {
+      setCarrito(JSON.parse(carritoGuardado));
+    }
+  }, []);
+
+  const agregarAlCarrito = (producto) => {
+    const productoExistente = carrito.find(item => item.id === producto.id);
+    let nuevoCarrito;
+
+    if (productoExistente) {
+      nuevoCarrito = carrito.map(item =>
+        item.id === producto.id
+          ? { ...item, cantidad: item.cantidad + 1 }
+          : item
+      );
+    } else {
+      nuevoCarrito = [...carrito, { ...producto, cantidad: 1 }];
+    }
+
+    setCarrito(nuevoCarrito);
+    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+    
+    window.dispatchEvent(new Event('storage'));
+    
+    alert(`${producto.name} agregado al carrito!`);
+  };
 
   const getCategoryIcon = (nombre) => {
     const iconos = {
@@ -129,18 +155,16 @@ export default function HomeFinal() {
     return colores[nombre] || '#3B82F6';
   };
 
-  // Función para manejar la búsqueda
   const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
     
     if (term.length > 2) {
-      // Filtrar productos que coincidan con el término de búsqueda
       const suggestions = productos.filter(producto => 
         producto.name.toLowerCase().includes(term.toLowerCase()) ||
         producto.brand.toLowerCase().includes(term.toLowerCase()) ||
         producto.category.toLowerCase().includes(term.toLowerCase())
-      ).slice(0, 5); // Limitar a 5 sugerencias
+      ).slice(0, 5);
       
       setSearchSuggestions(suggestions);
       setShowSuggestions(true);
@@ -149,21 +173,18 @@ export default function HomeFinal() {
     }
   };
 
-  // Función para realizar la búsqueda
   const handleSearch = () => {
     if (searchTerm.trim()) {
       navigate(`/catalogo?search=${encodeURIComponent(searchTerm)}`);
     }
   };
 
-  // Función para seleccionar una sugerencia
   const selectSuggestion = (producto) => {
     setSearchTerm(producto.name);
     setShowSuggestions(false);
     navigate(`/catalogo?search=${encodeURIComponent(producto.name)}`);
   };
 
-  // Cerrar sugerencias al hacer clic fuera
   const handleSearchBlur = () => {
     setTimeout(() => setShowSuggestions(false), 200);
   };
@@ -183,9 +204,8 @@ export default function HomeFinal() {
 
   return (
     <div className="page">
-      <Navbar />
+      <UserNavbar />
 
-      {/* Hero */}
       <div className="hero">
         <h1 className="hero-title">🚗 Encuentra los mejores repuestos automotrices</h1>
         <p className="hero-subtitle">Todo lo que necesitas para tu auto en un solo lugar. Repuestos nuevos y usados de calidad.</p>
@@ -219,7 +239,6 @@ export default function HomeFinal() {
         </div>
       </div>
 
-      {/* Categorías */}
       <section className="section">
         <h2 className="section-title">🛠️ Categorías populares</h2>
         <div className="grid grid-cols-4 gap-4">
@@ -235,24 +254,38 @@ export default function HomeFinal() {
         </div>
       </section>
 
-      {/* Productos destacados */}
       <section className="section">
         <h2 className="section-title">⭐ Productos destacados</h2>
         <div className="grid grid-cols-4 gap-4">
           {productos.map((producto) => (
             <div key={producto.id} className="product-card">
-              <div className="product-image">
+              <div 
+                className="product-image"
+                onClick={() => navigate(`/producto/${producto.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <img src={producto.image} alt={producto.name} />
                 {producto.stock < 100 && (
                   <span className="stock-badge">¡Últimas unidades!</span>
                 )}
               </div>
               <div className="product-info">
-                <h3 className="product-name">{producto.name}</h3>
+                <h3 
+                  className="product-name"
+                  onClick={() => navigate(`/producto/${producto.id}`)}
+                  style={{ cursor: 'pointer', color: '#3B82F6' }}
+                >
+                  {producto.name}
+                </h3>
                 <p className="product-brand">{producto.brand}</p>
                 <div className="product-footer">
                   <span className="product-price">${producto.price}</span>
-                  <button className="add-cart-btn">🛒 Agregar</button>
+                  <button 
+                    className="add-cart-btn"
+                    onClick={() => agregarAlCarrito(producto)}
+                  >
+                    🛒 Agregar
+                  </button>
                 </div>
                 <p className="product-stock">Stock: {producto.stock} unidades</p>
               </div>
@@ -264,19 +297,22 @@ export default function HomeFinal() {
         </div>
       </section>
 
-      {/* Marcas populares */}
       <section className="section">
         <h2 className="section-title">🏭 Marcas que trabajamos</h2>
         <div className="brands-grid">
           {["Bosch", "Brembo", "Mobil", "Castrol", "NGK", "Monroe", "Sachs", "Mahle"].map((marca) => (
-            <div key={marca} className="brand-card">
+            <Link 
+              key={marca} 
+              to={`/catalogo?marca=${marca}`} 
+              className="brand-card"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
               <div className="brand-logo">{marca}</div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
 
-      {/* Estado del sistema */}
       <div style={{padding: '20px', backgroundColor: error ? '#fee2e2' : '#dcfce7', margin: '20px', borderRadius: '10px', borderLeft: `4px solid ${error ? '#ef4444' : '#10b981'}`}}>
         <h3>🧪 Estado del Sistema</h3>
         {error ? (

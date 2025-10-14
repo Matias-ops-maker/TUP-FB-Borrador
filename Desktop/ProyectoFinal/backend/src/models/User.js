@@ -1,4 +1,3 @@
-// backend/src/models/User.js
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
@@ -19,6 +18,10 @@ const User = sequelize.define('User', {
     validate: {
       isEmail: true,
     },
+  },
+  telefono: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   password: {
     type: DataTypes.STRING,

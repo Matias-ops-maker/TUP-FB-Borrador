@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../styles/catalogo.css';
+import UserNavbar from '../../components/UserNavbar.jsx';
 
 export default function Catalogo() {
   const [productos, setProductos] = useState([]);
@@ -15,18 +16,21 @@ export default function Catalogo() {
   const [carrito, setCarrito] = useState([]);
   const [ordenar, setOrdenar] = useState('nombre');
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Extraer parámetros de búsqueda de la URL
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const searchQuery = searchParams.get('search');
     const categoryQuery = searchParams.get('categoria');
+    const brandQuery = searchParams.get('marca');
     
-    if (searchQuery || categoryQuery) {
+    if (searchQuery || categoryQuery || brandQuery) {
       setFiltros(prev => ({
         ...prev,
         busqueda: searchQuery || '',
-        categoria: categoryQuery || ''
+        categoria: categoryQuery || '',
+        marca: brandQuery || ''
       }));
     }
   }, [location]);
@@ -278,6 +282,9 @@ export default function Catalogo() {
 
     setCarrito(nuevoCarrito);
     localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+    
+    // Disparar evento para actualizar otros componentes
+    window.dispatchEvent(new Event('storage'));
   };
 
   const eliminarDelCarrito = (productoId) => {
@@ -354,31 +361,45 @@ export default function Catalogo() {
 
   return (
     <div className="catalogo-container">
-      {/* Header con navegación */}
-      <header className="catalogo-header">
-        <div className="header-content">
-          <Link to="/" className="logo">🏪 RepuestosAuto</Link>
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Buscar repuestos, marcas, modelos..."
-              value={filtros.busqueda}
-              onChange={(e) => setFiltros({...filtros, busqueda: e.target.value})}
-            />
-            <button>🔍</button>
-          </div>
-          <div className="header-actions">
-            <Link to="/auth/login" className="auth-link">Iniciar Sesión</Link>
-            <div className="carrito-mini">
-              <span className="carrito-icon">🛒</span>
-              <span className="carrito-count">{cantidadItems}</span>
-              <span className="carrito-total">${totalCarrito.toFixed(2)}</span>
-            </div>
-          </div>
+      <UserNavbar />
+      
+      <div className="catalogo-content" style={{ marginTop: '20px' }}>
+        {/* Barra de búsqueda principal */}
+        <div style={{ 
+          background: 'white', 
+          padding: '20px', 
+          marginBottom: '20px', 
+          borderRadius: '10px',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          display: 'flex',
+          gap: '15px',
+          alignItems: 'center'
+        }}>
+          <input
+            type="text"
+            placeholder="🔍 Buscar repuestos, marcas, modelos..."
+            value={filtros.busqueda}
+            onChange={(e) => setFiltros({...filtros, busqueda: e.target.value})}
+            style={{
+              flex: 1,
+              padding: '12px 15px',
+              border: '2px solid #E5E7EB',
+              borderRadius: '8px',
+              fontSize: '16px'
+            }}
+          />
+          <button style={{
+            background: '#3B82F6',
+            color: 'white',
+            border: 'none',
+            padding: '12px 20px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontSize: '16px'
+          }}>
+            🔍 Buscar
+          </button>
         </div>
-      </header>
-
-      <div className="catalogo-content">
         {/* Sidebar con filtros */}
         <aside className="filtros-sidebar">
           <h3>🔍 Filtros</h3>
@@ -489,7 +510,11 @@ export default function Catalogo() {
           <div className="productos-grid">
             {productosFiltrados.map(producto => (
               <div key={producto.id} className="producto-card">
-                <div className="producto-imagen">
+                <div 
+                  className="producto-imagen"
+                  onClick={() => navigate(`/producto/${producto.id}`)}
+                  style={{ cursor: 'pointer' }}
+                >
                   <img src={producto.image} alt={producto.name} />
                   {producto.stock < 50 && (
                     <span className="stock-bajo">¡Pocas unidades!</span>
@@ -497,7 +522,12 @@ export default function Catalogo() {
                 </div>
                 <div className="producto-info">
                   <span className="producto-categoria">{producto.category}</span>
-                  <h3>{producto.name}</h3>
+                  <h3 
+                    onClick={() => navigate(`/producto/${producto.id}`)}
+                    style={{ cursor: 'pointer', color: '#3B82F6' }}
+                  >
+                    {producto.name}
+                  </h3>
                   <p className="producto-marca">🏭 {producto.brand}</p>
                   <p className="producto-descripcion">{producto.description}</p>
                   <div className="producto-footer">

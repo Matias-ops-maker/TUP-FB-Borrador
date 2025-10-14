@@ -5,7 +5,6 @@ dotenv.config();
 import { sequelize } from "./models/index.js";
 import { checkApiKey } from "./middlewares/apiKey.js";
 
-// Routes imports
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
 import categoryRoutes from "./routes/categories.js";
@@ -18,17 +17,14 @@ import reportRoutes from "./routes/reports.js";
 
 const app = express();
 
-// Middleware
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
 }));
 app.use(express.json());
 
-// API Key middleware for all routes
 app.use(checkApiKey);
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
@@ -39,14 +35,12 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/reports", reportRoutes);
 
-// Health check
 app.get("/health", (req, res) => res.json({ 
   ok: true, 
   timestamp: new Date().toISOString(),
   env: process.env.NODE_ENV || 'development'
 }));
 
-// Error handling middleware
 app.use((error, req, res, next) => {
   console.error('Error:', error);
   res.status(500).json({ 
@@ -55,7 +49,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });
 });

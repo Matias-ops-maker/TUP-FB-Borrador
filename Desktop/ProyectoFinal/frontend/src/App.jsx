@@ -13,12 +13,10 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import TestComponent from "./pages/TestComponent";
-// marketplace
-import Home from "./pages/usuario/Home"
-import SimpleHome from "./pages/usuario/SimpleHome"
-import HomeDebug from "./pages/usuario/HomeDebug"
 import HomeFinal from "./pages/usuario/HomeFinal"
 import Catalogo from "./pages/usuario/Catalogo"
+import Carrito from "./pages/usuario/Carrito"
+import ProductoDetalle from "./pages/usuario/ProductoDetalle"
 import Checkout from "./pages/usuario/Checkout"
 import Perfil from "./pages/usuario/Perfil"
 
@@ -26,21 +24,17 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* Rutas auth */}
                 <Route path="/auth/login" element={<Login />} />
                 <Route path="/auth/register" element={<Register />} />
                 <Route path="/auth/forgot" element={<ForgotPassword />} />
-                {/* Rutas marketplace */}
                 <Route path="/" element={<HomeFinal />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/debug" element={<HomeDebug />} />
                 <Route path="/test" element={<TestComponent />} />
-                <Route path="/simple" element={<SimpleHome />} />
                 <Route path="/catalogo" element={<Catalogo />} />
+                <Route path="/producto/:id" element={<ProductoDetalle />} />
+                <Route path="/carrito" element={<Carrito />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/perfil" element={<Perfil />} />
 
-                {/* Rutas admin con layout */}
                 <Route
                     path="/admin/*"
                     element={
