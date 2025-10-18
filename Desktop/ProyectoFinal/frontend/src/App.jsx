@@ -3,7 +3,6 @@ import Navbar from "./components/Navbar"
 import Sidebar from "./components/Sidebar"
 import Dashboard from "./pages/admin/Dashboard"
 import Orders from "./pages/admin/Orders"
-import Products from "./pages/admin/Products"
 import ProductsNew from "./pages/admin/ProductsNew"
 import ProductFormNew from "./pages/admin/ProductFormNew"
 import Categories from "./pages/admin/Categories"
@@ -20,6 +19,29 @@ import ProductoDetalle from "./pages/usuario/ProductoDetalle"
 import Checkout from "./pages/usuario/Checkout"
 import Perfil from "./pages/usuario/Perfil"
 
+function AdminLayout() {
+    return (
+        <div className="h-screen flex flex-col">
+            <Navbar />
+            <div className="flex flex-1">
+                <Sidebar />
+                <main className="flex-1 p-6">
+                    <Routes>
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="orders" element={<Orders />} />
+                        <Route path="products" element={<ProductsNew />} />
+                        <Route path="products/new" element={<ProductFormNew />} />
+                        <Route path="products/edit/:id" element={<ProductFormNew />} />
+                        <Route path="reports" element={<Reports />} />
+                        <Route path="categories" element={<Categories />} />
+                        <Route path="brands" element={<Brands />} />
+                    </Routes>
+                </main>
+            </div>
+        </div>
+    )
+}
+
 export default function App() {
     return (
         <BrowserRouter>
@@ -34,30 +56,7 @@ export default function App() {
                 <Route path="/carrito" element={<Carrito />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/perfil" element={<Perfil />} />
-
-                <Route
-                    path="/admin/*"
-                    element={
-                        <div className="h-screen flex flex-col">
-                            <Navbar />
-                            <div className="flex flex-1">
-                                <Sidebar />
-                                <main className="flex-1 p-6">
-                                    <Routes>
-                                        <Route path="dashboard" element={<Dashboard />} />
-                                        <Route path="orders" element={<Orders />} />
-                                        <Route path="products" element={<ProductsNew />} />
-                                        <Route path="products/new" element={<ProductFormNew />} />
-                                        <Route path="products/edit/:id" element={<ProductFormNew />} />
-                                        <Route path="reports" element={<Reports />} />
-                                        <Route path="categories" element={<Categories />} />
-                                        <Route path="brands" element={<Brands />} />
-                                    </Routes>
-                                </main>
-                            </div>
-                        </div>
-                    }
-                />
+                <Route path="/admin/*" element={<AdminLayout />} />
             </Routes>
         </BrowserRouter>
     )
