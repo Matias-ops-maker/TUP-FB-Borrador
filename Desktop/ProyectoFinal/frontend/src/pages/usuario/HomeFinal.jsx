@@ -192,7 +192,7 @@ export default function HomeFinal() {
   if (loading) {
     return (
       <div className="page">
-        <Navbar />
+        <UserNavbar />
         <div style={{padding: '40px', textAlign: 'center'}}>
           <div className="loading-spinner"></div>
           <h2>🔄 Cargando RepuestosAuto...</h2>

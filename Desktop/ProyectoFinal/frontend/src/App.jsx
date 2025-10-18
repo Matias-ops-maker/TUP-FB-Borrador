@@ -13,6 +13,8 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import TestComponent from "./pages/TestComponent";
 import HomeFinal from "./pages/usuario/HomeFinal"
+import HomeFinalSimple from "./pages/usuario/HomeFinalSimple"
+import HomeFinalBasic from "./pages/usuario/HomeFinalBasic"
 import Catalogo from "./pages/usuario/Catalogo"
 import Carrito from "./pages/usuario/Carrito"
 import ProductoDetalle from "./pages/usuario/ProductoDetalle"
