@@ -12,13 +12,10 @@ export default function Categories() {
     const [formData, setFormData] = useState({
         nombre: '',
         descripcion: ''
-    });
-
-    // Cargar categorías
+    });
     const fetchCategories = async () => {
         try {
-            setLoading(true);
-            // Por ahora usamos datos estáticos hasta que implementemos la API
+            setLoading(true);
             const staticCategories = [
                 { id: 1, nombre: 'Filtros', descripcion: 'Filtros de aceite, aire y combustible', productos: 8 },
                 { id: 2, nombre: 'Frenos', descripcion: 'Pastillas, discos y líquidos de freno', productos: 6 },
@@ -42,11 +39,9 @@ export default function Categories() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (editingCategory) {
-                // Actualizar categoría
+            if (editingCategory) {
                 console.log('Actualizando categoría:', formData);
-            } else {
-                // Crear nueva categoría
+            } else {
                 console.log('Creando categoría:', formData);
             }
             

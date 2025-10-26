@@ -8,9 +8,7 @@ import {
 } from "../controllers/reportController.js";
 import { verifyToken, verifyAdmin } from "../middlewares/auth.js";
 
-const router = express.Router();
-
-// Todas las rutas de reportes requieren permisos de administrador
+const router = express.Router();
 router.get("/sales/pdf", verifyToken, verifyAdmin, salesPdf);
 router.get("/sales/xlsx", verifyToken, verifyAdmin, salesXlsx);
 router.get("/inventory/pdf", verifyToken, verifyAdmin, inventoryPdf);

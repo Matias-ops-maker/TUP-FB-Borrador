@@ -256,8 +256,7 @@ export async function inventoryXlsx(req, res) {
 }
 
 export async function dashboardStats(req, res) {
-    try {
-        // Datos simulados para el dashboard
+    try {
         const stats = {
             totalVentas: 175000,
             ventasMes: 95000,

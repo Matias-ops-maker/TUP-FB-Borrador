@@ -1,5 +1,4 @@
-export function checkApiKey(req, res, next) {
-    // Permitir health check sin API key
+export function checkApiKey(req, res, next) {
     if (req.path === '/health') {
         return next();
     }

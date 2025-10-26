@@ -93,15 +93,11 @@ export async function createProduct(req, res) {
             estado = 'activo', 
             brand_id, 
             category_id,
-            vehicles = [] // Array de IDs de vehículos compatibles
-        } = req.body;
-
-        // Validación básica
+            vehicles = []
+        } = req.body;
         if (!sku || !nombre || !precio || !category_id) {
             return res.status(400).json({ error: "SKU, nombre, precio y categoría son requeridos" });
-        }
-
-        // Verificar si el SKU ya existe
+        }
         const existingSku = await Product.findOne({ where: { sku } });
         if (existingSku) {
             return res.status(400).json({ error: "El SKU ya existe" });
@@ -118,18 +114,14 @@ export async function createProduct(req, res) {
             estado, 
             brand_id, 
             category_id 
-        });
-
-        // Asociar vehículos compatibles si se proporcionan
+        });
         if (vehicles.length > 0) {
             const fitments = vehicles.map(vehicle_id => ({
                 product_id: prod.id,
                 vehicle_id
             }));
             await Fitment.bulkCreate(fitments);
-        }
-
-        // Recargar con relaciones
+        }
         const newProduct = await Product.findByPk(prod.id, {
             include: [
                 { model: Category, attributes: ['id', 'nombre'] },
@@ -149,9 +141,7 @@ export async function updateProduct(req, res) {
         const prod = await Product.findByPk(req.params.id);
         if (!prod) return res.status(404).json({ error: "Producto no encontrado" });
 
-        const { vehicles, ...updateData } = req.body;
-
-        // Verificar SKU único si se está actualizando
+        const { vehicles, ...updateData } = req.body;
         if (updateData.sku && updateData.sku !== prod.sku) {
             const existingSku = await Product.findOne({ where: { sku: updateData.sku } });
             if (existingSku) {
@@ -159,14 +149,9 @@ export async function updateProduct(req, res) {
             }
         }
 
-        await prod.update(updateData);
-
-        // Actualizar compatibilidad con vehículos si se proporciona
-        if (vehicles) {
-            // Eliminar compatibilidades existentes
-            await Fitment.destroy({ where: { product_id: prod.id } });
-            
-            // Crear nuevas compatibilidades
+        await prod.update(updateData);
+        if (vehicles) {
+            await Fitment.destroy({ where: { product_id: prod.id } });
             if (vehicles.length > 0) {
                 const fitments = vehicles.map(vehicle_id => ({
                     product_id: prod.id,
@@ -174,9 +159,7 @@ export async function updateProduct(req, res) {
                 }));
                 await Fitment.bulkCreate(fitments);
             }
-        }
-
-        // Recargar con relaciones
+        }
         const updatedProduct = await Product.findByPk(prod.id, {
             include: [
                 { model: Category, attributes: ['id', 'nombre'] },
@@ -194,9 +177,7 @@ export async function updateProduct(req, res) {
 export async function deleteProduct(req, res) {
     try {
         const prod = await Product.findByPk(req.params.id);
-        if (!prod) return res.status(404).json({ error: "Producto no encontrado" });
-
-        // Eliminar compatibilidades con vehículos
+        if (!prod) return res.status(404).json({ error: "Producto no encontrado" });
         await Fitment.destroy({ where: { product_id: prod.id } });
         
         await prod.destroy();

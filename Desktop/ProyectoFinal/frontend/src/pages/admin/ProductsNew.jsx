@@ -9,9 +9,7 @@ export default function Products() {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterCategory, setFilterCategory] = useState("");
     const [sortBy, setSortBy] = useState("name");
-    const navigate = useNavigate();
-
-    // Categorías disponibles
+    const navigate = useNavigate();
     const categories = [
         { id: 1, name: 'Filtros' },
         { id: 2, name: 'Frenos' },
@@ -19,15 +17,11 @@ export default function Products() {
         { id: 4, name: 'Sistema Eléctrico' },
         { id: 5, name: 'Suspensión' },
         { id: 6, name: 'Transmisión' }
-    ];
-
-    // Cargar productos
+    ];
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const response = await api.get("/products");
-            
-            // Manejar diferentes formatos de respuesta
+            const response = await api.get("/products");
             const productData = response.data.data || response.data || [];
             setProducts(Array.isArray(productData) ? productData : []);
         } catch (error) {
@@ -40,9 +34,7 @@ export default function Products() {
 
     useEffect(() => {
         fetchProducts();
-    }, []);
-
-    // Eliminar producto
+    }, []);
     const deleteProduct = async (id) => {
         if (!confirm("¿Estás seguro de que quieres eliminar este producto?")) {
             return;
@@ -55,35 +47,25 @@ export default function Products() {
             console.error("Error deleting product:", error);
             alert("Error al eliminar el producto");
         }
-    };
-
-    // Obtener nombre de categoría
+    };
     const getCategoryName = (categoryId) => {
         const category = categories.find(cat => cat.id === categoryId);
         return category ? category.name : 'Sin categoría';
-    };
-
-    // Filtrar y ordenar productos
+    };
     const getFilteredProducts = () => {
-        let filtered = [...products];
-
-        // Filtrar por búsqueda
+        let filtered = [...products];
         if (searchTerm) {
             filtered = filtered.filter(product =>
                 (product.nombre || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
                 (product.sku || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
                 (product.Brand?.nombre || '').toLowerCase().includes(searchTerm.toLowerCase())
             );
-        }
-
-        // Filtrar por categoría
+        }
         if (filterCategory) {
             filtered = filtered.filter(product => 
                 product.category_id === parseInt(filterCategory)
             );
-        }
-
-        // Ordenar
+        }
         filtered.sort((a, b) => {
             switch (sortBy) {
                 case 'name':
@@ -132,7 +114,7 @@ export default function Products() {
                 </button>
             </div>
 
-            {/* Controles de filtrado */}
+            {}
             <div className="admin-controls">
                 <div className="search-container">
                     <input
@@ -174,7 +156,7 @@ export default function Products() {
                 </div>
             </div>
 
-            {/* Tabla de productos */}
+            {}
             <div className="table-container">
                 <table className="products-table">
                     <thead>
@@ -268,7 +250,7 @@ export default function Products() {
                 </table>
             </div>
 
-            {/* Estadísticas rápidas */}
+            {}
             <div className="admin-stats-footer">
                 <div className="stat-card">
                     <span className="stat-number">{products.length}</span>

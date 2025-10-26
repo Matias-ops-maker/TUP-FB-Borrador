@@ -13,13 +13,10 @@ export default function Brands() {
         nombre: '',
         descripcion: '',
         pais: ''
-    });
-
-    // Cargar marcas
+    });
     const fetchBrands = async () => {
         try {
-            setLoading(true);
-            // Por ahora usamos datos estáticos hasta que implementemos la API
+            setLoading(true);
             const staticBrands = [
                 { id: 1, nombre: 'Bosch', descripcion: 'Tecnología automotriz alemana', pais: 'Alemania', productos: 15 },
                 { id: 2, nombre: 'NGK', descripcion: 'Especialista en bujías y componentes', pais: 'Japón', productos: 8 },
@@ -43,11 +40,9 @@ export default function Brands() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (editingBrand) {
-                // Actualizar marca
+            if (editingBrand) {
                 console.log('Actualizando marca:', formData);
-            } else {
-                // Crear nueva marca
+            } else {
                 console.log('Creando marca:', formData);
             }
             

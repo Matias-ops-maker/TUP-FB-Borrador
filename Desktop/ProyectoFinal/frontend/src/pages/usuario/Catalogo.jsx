@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import '../../styles/catalogo.css';
+import '../../styles/catalogo-new.css';
 import UserNavbar from '../../components/UserNavbar.jsx';
 
 export default function Catalogo() {
@@ -16,9 +16,11 @@ export default function Catalogo() {
   const [carrito, setCarrito] = useState([]);
   const [ordenar, setOrdenar] = useState('nombre');
   const location = useLocation();
-  const navigate = useNavigate();
-
-  // Extraer parámetros de búsqueda de la URL
+  const navigate = useNavigate();
+  useEffect(() => {
+    const categoriasUnicas = [...new Set(productos.map(p => p.category))];
+    setCategorias(categoriasUnicas);
+  }, [productos]);
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const searchQuery = searchParams.get('search');
@@ -33,12 +35,9 @@ export default function Catalogo() {
         marca: brandQuery || ''
       }));
     }
-  }, [location]);
-
-  // Productos con imágenes representativas
+  }, [location]);
   useEffect(() => {
-    setProductos([
-      // FILTROS
+    setProductos([
       {
         id: 1,
         name: "Filtro de Aceite Bosch P7077",
@@ -68,9 +67,7 @@ export default function Catalogo() {
         category: "Filtros",
         image: "https://images.unsplash.com/photo-1580414771084-d4f8c57a6db6?w=300&h=200&fit=crop",
         description: "Filtro de combustible con alta eficiencia de filtrado"
-      },
-
-      // FRENOS
+      },
       {
         id: 4,
         name: "Pastillas de Freno Brembo P50013",
@@ -100,9 +97,7 @@ export default function Catalogo() {
         category: "Frenos",
         image: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=300&h=200&fit=crop",
         description: "Líquido de frenos sintético DOT 4 de alta calidad"
-      },
-
-      // ACEITES Y LUBRICANTES
+      },
       {
         id: 7,
         name: "Aceite Motor Mobil 1 5W-30",
@@ -132,9 +127,7 @@ export default function Catalogo() {
         category: "Aceites",
         image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop",
         description: "Grasa multiuso de litio para rodamientos"
-      },
-
-      // SUSPENSIÓN
+      },
       {
         id: 10,
         name: "Amortiguador Monroe G7359",
@@ -164,9 +157,7 @@ export default function Catalogo() {
         category: "Suspensión",
         image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=300&h=200&fit=crop",
         description: "Buje de poliuretano para barra estabilizadora"
-      },
-
-      // ELÉCTRICA
+      },
       {
         id: 13,
         name: "Batería Bosch S4 12V 60Ah",
@@ -196,9 +187,7 @@ export default function Catalogo() {
         category: "Eléctrica",
         image: "https://images.unsplash.com/photo-1580414771084-d4f8c57a6db6?w=300&h=200&fit=crop",
         description: "Alternador reconstruido 12V 90A"
-      },
-
-      // MOTOR
+      },
       {
         id: 16,
         name: "Kit Distribución Gates K015578XS",
@@ -228,9 +217,7 @@ export default function Catalogo() {
         category: "Motor",
         image: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=300&h=200&fit=crop",
         description: "Bomba de agua con impulsor de material compuesto"
-      },
-
-      // CLIMATIZACIÓN
+      },
       {
         id: 19,
         name: "Filtro Habitáculo Mann CU2434",
@@ -256,16 +243,12 @@ export default function Catalogo() {
     setCategorias([
       "Filtros", "Frenos", "Aceites", "Suspensión", "Eléctrica", 
       "Motor", "Climatización", "Escape", "Carrocería", "Transmisión"
-    ]);
-
-    // Cargar carrito del localStorage
+    ]);
     const carritoGuardado = localStorage.getItem('carrito');
     if (carritoGuardado) {
       setCarrito(JSON.parse(carritoGuardado));
     }
-  }, []);
-
-  // Funciones del carrito
+  }, []);
   const agregarAlCarrito = (producto) => {
     const productoExistente = carrito.find(item => item.id === producto.id);
     let nuevoCarrito;
@@ -281,9 +264,7 @@ export default function Catalogo() {
     }
 
     setCarrito(nuevoCarrito);
-    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
-    
-    // Disparar evento para actualizar otros componentes
+    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
     window.dispatchEvent(new Event('storage'));
   };
 
@@ -307,9 +288,7 @@ export default function Catalogo() {
 
     setCarrito(nuevoCarrito);
     localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
-  };
-
-  // Filtrar y ordenar productos
+  };
   const productosFiltrados = productos
     .filter(producto => {
       const searchTerm = filtros.busqueda.toLowerCase();
@@ -334,8 +313,7 @@ export default function Catalogo() {
           return b.price - a.price;
         case 'stock':
           return b.stock - a.stock;
-        case 'relevancia':
-          // Ordenar por relevancia de búsqueda si hay término de búsqueda
+        case 'relevancia':
           if (filtros.busqueda) {
             const searchTerm = filtros.busqueda.toLowerCase();
             const aRelevance = (
@@ -363,198 +341,185 @@ export default function Catalogo() {
     <div className="catalogo-container">
       <UserNavbar />
       
-      <div className="catalogo-content" style={{ marginTop: '20px' }}>
-        {/* Barra de búsqueda principal */}
-        <div style={{ 
-          background: 'white', 
-          padding: '20px', 
-          marginBottom: '20px', 
-          borderRadius: '10px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          display: 'flex',
-          gap: '15px',
-          alignItems: 'center'
-        }}>
+      <div className="catalogo-content">
+        {}
+        <div className="search-section">
           <input
             type="text"
             placeholder="🔍 Buscar repuestos, marcas, modelos..."
             value={filtros.busqueda}
             onChange={(e) => setFiltros({...filtros, busqueda: e.target.value})}
-            style={{
-              flex: 1,
-              padding: '12px 15px',
-              border: '2px solid #E5E7EB',
-              borderRadius: '8px',
-              fontSize: '16px'
-            }}
+            className="search-input"
           />
-          <button style={{
-            background: '#3B82F6',
-            color: 'white',
-            border: 'none',
-            padding: '12px 20px',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '16px'
-          }}>
+          <button className="search-button">
             🔍 Buscar
           </button>
         </div>
-        {/* Sidebar con filtros */}
-        <aside className="filtros-sidebar">
-          <h3>🔍 Filtros</h3>
-          
-          <div className="filtro-grupo">
-            <label>Categoría</label>
-            <select 
-              value={filtros.categoria} 
-              onChange={(e) => setFiltros({...filtros, categoria: e.target.value})}
-            >
-              <option value="">Todas las categorías</option>
-              {categorias.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-          </div>
 
-          <div className="filtro-grupo">
-            <label>Marca</label>
-            <select 
-              value={filtros.marca} 
-              onChange={(e) => setFiltros({...filtros, marca: e.target.value})}
-            >
-              <option value="">Todas las marcas</option>
-              {[...new Set(productos.map(p => p.brand))].map(marca => (
-                <option key={marca} value={marca}>{marca}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="filtro-grupo">
-            <label>Precio</label>
-            <div className="precio-inputs">
-              <input
-                type="number"
-                placeholder="Mín"
-                value={filtros.precioMin}
-                onChange={(e) => setFiltros({...filtros, precioMin: e.target.value})}
-              />
-              <input
-                type="number"
-                placeholder="Máx"
-                value={filtros.precioMax}
-                onChange={(e) => setFiltros({...filtros, precioMax: e.target.value})}
-              />
+        <div className="main-layout">
+          {}
+          <aside className="filtros-sidebar">
+            <div className="filtros-header">
+              <h3>🔍 Filtros</h3>
+              <button 
+                className="limpiar-filtros"
+                onClick={() => setFiltros({categoria: '', marca: '', precioMin: '', precioMax: '', busqueda: ''})}
+              >
+                🗑️ Limpiar
+              </button>
             </div>
-          </div>
-
-          <button 
-            className="limpiar-filtros"
-            onClick={() => setFiltros({categoria: '', marca: '', precioMin: '', precioMax: '', busqueda: ''})}
-          >
-            🗑️ Limpiar filtros
-          </button>
-
-          {/* Carrito en sidebar */}
-          {carrito.length > 0 && (
-            <div className="carrito-sidebar">
-              <h4>🛒 Tu Carrito ({cantidadItems})</h4>
-              <div className="carrito-items">
-                {carrito.map(item => (
-                  <div key={item.id} className="carrito-item">
-                    <img src={item.image} alt={item.name} />
-                    <div className="item-info">
-                      <p>{item.name}</p>
-                      <div className="item-controls">
-                        <button onClick={() => modificarCantidad(item.id, item.cantidad - 1)}>-</button>
-                        <span>{item.cantidad}</span>
-                        <button onClick={() => modificarCantidad(item.id, item.cantidad + 1)}>+</button>
-                      </div>
-                      <p className="item-precio">${(item.price * item.cantidad).toFixed(2)}</p>
-                    </div>
-                    <button 
-                      className="eliminar-item"
-                      onClick={() => eliminarDelCarrito(item.id)}
-                    >
-                      🗑️
-                    </button>
-                  </div>
+            
+            <div className="filtro-grupo">
+              <label>Categoría</label>
+              <select 
+                value={filtros.categoria} 
+                onChange={(e) => setFiltros({...filtros, categoria: e.target.value})}
+              >
+                <option value="">Todas las categorías</option>
+                {categorias.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
                 ))}
-              </div>
-              <div className="carrito-total">
-                <strong>Total: ${totalCarrito.toFixed(2)}</strong>
-              </div>
-              <Link to="/checkout" className="btn-checkout">
-                💳 Proceder al Pago
-              </Link>
-            </div>
-          )}
-        </aside>
-
-        {/* Área principal de productos */}
-        <main className="productos-main">
-          <div className="productos-header">
-            <h2>📦 Catálogo de Repuestos ({productosFiltrados.length})</h2>
-            <div className="ordenar">
-              <label>Ordenar por:</label>
-              <select value={ordenar} onChange={(e) => setOrdenar(e.target.value)}>
-                {filtros.busqueda && <option value="relevancia">Relevancia</option>}
-                <option value="nombre">Nombre A-Z</option>
-                <option value="precio-asc">Precio: Menor a Mayor</option>
-                <option value="precio-desc">Precio: Mayor a Menor</option>
-                <option value="stock">Stock Disponible</option>
               </select>
             </div>
-          </div>
 
-          <div className="productos-grid">
-            {productosFiltrados.map(producto => (
-              <div key={producto.id} className="producto-card">
-                <div 
-                  className="producto-imagen"
-                  onClick={() => navigate(`/producto/${producto.id}`)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <img src={producto.image} alt={producto.name} />
-                  {producto.stock < 50 && (
-                    <span className="stock-bajo">¡Pocas unidades!</span>
+            <div className="filtro-grupo">
+              <label>Marca</label>
+              <select 
+                value={filtros.marca} 
+                onChange={(e) => setFiltros({...filtros, marca: e.target.value})}
+              >
+                <option value="">Todas las marcas</option>
+                {[...new Set(productos.map(p => p.brand))].map(marca => (
+                  <option key={marca} value={marca}>{marca}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="filtro-grupo">
+              <label>Precio</label>
+              <div className="precio-inputs">
+                <input
+                  type="number"
+                  placeholder="Mín"
+                  value={filtros.precioMin}
+                  onChange={(e) => setFiltros({...filtros, precioMin: e.target.value})}
+                />
+                <input
+                  type="number"
+                  placeholder="Máx"
+                  value={filtros.precioMax}
+                  onChange={(e) => setFiltros({...filtros, precioMax: e.target.value})}
+                />
+              </div>
+            </div>
+
+            {}
+            {carrito.length > 0 && (
+              <div className="carrito-sidebar">
+                <h4>🛒 Tu Carrito ({cantidadItems})</h4>
+                <div className="carrito-items">
+                  {carrito.slice(0, 3).map(item => (
+                    <div key={item.id} className="carrito-item">
+                      <img src={item.image} alt={item.name} />
+                      <div className="item-info">
+                        <p>{item.name.substring(0, 25)}...</p>
+                        <div className="item-controls">
+                          <button onClick={() => modificarCantidad(item.id, item.cantidad - 1)}>-</button>
+                          <span>{item.cantidad}</span>
+                          <button onClick={() => modificarCantidad(item.id, item.cantidad + 1)}>+</button>
+                        </div>
+                        <p className="item-precio">${(item.price * item.cantidad).toFixed(2)}</p>
+                      </div>
+                    </div>
+                  ))}
+                  {carrito.length > 3 && (
+                    <p className="mas-items">+{carrito.length - 3} productos más</p>
                   )}
                 </div>
-                <div className="producto-info">
-                  <span className="producto-categoria">{producto.category}</span>
-                  <h3 
+                <div className="carrito-total">
+                  <strong>Total: ${totalCarrito.toFixed(2)}</strong>
+                </div>
+                <Link to="/usuario/carrito" className="btn-ver-carrito">
+                  🛒 Ver Carrito Completo
+                </Link>
+              </div>
+            )}
+          </aside>
+
+          {}
+          <main className="productos-main">
+            <div className="productos-header">
+              <div className="header-info">
+                <h2>📦 Catálogo de Repuestos</h2>
+                <span className="productos-count">({productosFiltrados.length} productos)</span>
+              </div>
+              <div className="ordenar">
+                <label>Ordenar por:</label>
+                <select value={ordenar} onChange={(e) => setOrdenar(e.target.value)}>
+                  {filtros.busqueda && <option value="relevancia">Relevancia</option>}
+                  <option value="nombre">Nombre A-Z</option>
+                  <option value="precio-asc">Precio: Menor a Mayor</option>
+                  <option value="precio-desc">Precio: Mayor a Menor</option>
+                  <option value="stock">Stock Disponible</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="productos-grid">
+              {productosFiltrados.map(producto => (
+                <div key={producto.id} className="producto-card">
+                  <div 
+                    className="producto-imagen"
                     onClick={() => navigate(`/producto/${producto.id}`)}
-                    style={{ cursor: 'pointer', color: '#3B82F6' }}
                   >
-                    {producto.name}
-                  </h3>
-                  <p className="producto-marca">🏭 {producto.brand}</p>
-                  <p className="producto-descripcion">{producto.description}</p>
-                  <div className="producto-footer">
-                    <div className="precio-stock">
-                      <span className="precio">${producto.price}</span>
-                      <span className="stock">Stock: {producto.stock}</span>
-                    </div>
-                    <button 
-                      className="btn-agregar"
-                      onClick={() => agregarAlCarrito(producto)}
-                      disabled={producto.stock === 0}
+                    <img src={producto.image} alt={producto.name} />
+                    {producto.stock < 50 && (
+                      <span className="stock-bajo">¡Pocas unidades!</span>
+                    )}
+                  </div>
+                  <div className="producto-info">
+                    <span className="producto-categoria">{producto.category}</span>
+                    <h3 
+                      onClick={() => navigate(`/producto/${producto.id}`)}
+                      className="producto-nombre"
                     >
-                      {producto.stock === 0 ? '❌ Agotado' : '🛒 Agregar'}
-                    </button>
+                      {producto.name}
+                    </h3>
+                    <p className="producto-marca">🏭 {producto.brand}</p>
+                    <p className="producto-descripcion">{producto.description}</p>
+                    <div className="producto-footer">
+                      <div className="precio-stock">
+                        <span className="precio">${producto.price.toLocaleString()}</span>
+                        <span className="stock">Stock: {producto.stock}</span>
+                      </div>
+                      <button 
+                        className="btn-agregar"
+                        onClick={() => agregarAlCarrito(producto)}
+                        disabled={producto.stock === 0}
+                      >
+                        {producto.stock === 0 ? '❌ Agotado' : '🛒 Agregar'}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {productosFiltrados.length === 0 && (
-            <div className="no-productos">
-              <h3>😔 No se encontraron productos</h3>
-              <p>Intenta modificar los filtros de búsqueda</p>
+              ))}
             </div>
-          )}
-        </main>
+
+            {productosFiltrados.length === 0 && (
+              <div className="no-productos">
+                <div className="no-productos-icon">😔</div>
+                <h3>No se encontraron productos</h3>
+                <p>Intenta modificar los filtros de búsqueda</p>
+                <button 
+                  className="reset-filtros"
+                  onClick={() => setFiltros({categoria: '', marca: '', precioMin: '', precioMax: '', busqueda: ''})}
+                >
+                  🔄 Reiniciar filtros
+                </button>
+              </div>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );

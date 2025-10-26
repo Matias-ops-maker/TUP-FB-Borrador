@@ -1,4 +1,3 @@
-// backend/src/models/Order.js
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
@@ -21,8 +20,20 @@ const Order = sequelize.define('Order', {
     allowNull: false,
   },
   estado: {
-    type: DataTypes.ENUM('pendiente', 'procesando', 'enviado', 'entregado', 'cancelado'),
+    type: DataTypes.ENUM('pendiente', 'procesando', 'enviado', 'entregado', 'cancelado', 'pagado'),
     defaultValue: 'pendiente',
+  },
+  payment_id: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  payment_status: {
+    type: DataTypes.ENUM('pending', 'approved', 'rejected', 'cancelled', 'in_process'),
+    defaultValue: 'pending',
+  },
+  payment_method: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   creado_en: {
     type: DataTypes.DATE,

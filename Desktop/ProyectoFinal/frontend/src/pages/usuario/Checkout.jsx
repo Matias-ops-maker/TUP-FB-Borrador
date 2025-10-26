@@ -1,12 +1,19 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { initMercadoPago } from '@mercadopago/sdk-react';
+import UserNavbar from '../../components/UserNavbar.jsx';
+import MercadoPagoCheckout from '../../components/MercadoPagoCheckout.jsx';
 import api from '../../api.js';
-import '../../styles/catalogo.css';
+import '../../styles/payments.css';
+
+initMercadoPago('TEST-c14ba9b2-4fda-4c26-85bc-f6e39c96a2f9', {
+  locale: 'es-AR'
+});
 
 export default function Checkout() {
   const [carrito, setCarrito] = useState([]);
   const [usuario, setUsuario] = useState(null);
-  const [paso, setPaso] = useState(1); // 1: Carrito, 2: Datos, 3: Pago, 4: Confirmación
+  const [paso, setPaso] = useState(1);
   const [datosEntrega, setDatosEntrega] = useState({
     nombre: '',
     apellido: '',
@@ -28,13 +35,12 @@ export default function Checkout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cargar carrito del localStorage
+
     const carritoGuardado = localStorage.getItem('carrito');
     if (carritoGuardado) {
       setCarrito(JSON.parse(carritoGuardado));
     }
 
-    // Verificar si el usuario está logueado
     const usuarioGuardado = localStorage.getItem('usuario');
     if (usuarioGuardado) {
       const user = JSON.parse(usuarioGuardado);
@@ -54,11 +60,11 @@ export default function Checkout() {
 
   const calcularEnvio = () => {
     const subtotal = calcularSubtotal();
-    return subtotal > 100 ? 0 : 15; // Envío gratis por compras superiores a $100
+    return subtotal > 100 ? 0 : 15;
   };
 
   const calcularImpuestos = () => {
-    return calcularSubtotal() * 0.21; // IVA 21%
+    return calcularSubtotal() * 0.21;
   };
 
   const calcularTotal = () => {
@@ -97,14 +103,14 @@ export default function Checkout() {
       const { numeroTarjeta, nombreTarjeta, expiracion, cvv } = datosPago;
       return numeroTarjeta && nombreTarjeta && expiracion && cvv;
     }
-    return true; // Para otros métodos de pago
+    return true;
   };
 
   const procesarPedido = async () => {
     setCargando(true);
     
     try {
-      // Verificar si el usuario está autenticado
+
       const token = localStorage.getItem('token');
       if (!token) {
         alert('Debes iniciar sesión para realizar una compra');
@@ -112,14 +118,12 @@ export default function Checkout() {
         return;
       }
 
-      // Preparar items del carrito para enviar al backend
       const cartItems = carrito.map(item => ({
         product_id: item.id,
         cantidad: item.cantidad,
         precio_unitario: item.price
       }));
 
-      // Agregar items al carrito del usuario en el backend
       for (const item of cartItems) {
         await api.post('/cart/items', {
           product_id: item.product_id,
@@ -127,7 +131,6 @@ export default function Checkout() {
         });
       }
 
-      // Crear la orden
       const orderData = {
         shipping_address: `${datosEntrega.direccion}, ${datosEntrega.ciudad}, CP: ${datosEntrega.codigoPostal}`,
         payment_method: metodoPago,
@@ -137,11 +140,10 @@ export default function Checkout() {
       const response = await api.post('/orders', orderData);
       
       if (response.data) {
-        // Limpiar carrito
+
         localStorage.removeItem('carrito');
         setCarrito([]);
-        
-        // Ir al paso de confirmación
+
         setPaso(4);
         
         console.log('Orden creada exitosamente:', response.data);
@@ -201,7 +203,7 @@ export default function Checkout() {
       </header>
 
       <div className="checkout-content">
-        {/* Paso 1: Revisar Carrito */}
+        {}
         {paso === 1 && (
           <div className="checkout-paso">
             <h2>🛒 Revisar Carrito</h2>
@@ -264,7 +266,7 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Paso 2: Datos de Entrega */}
+        {}
         {paso === 2 && (
           <div className="checkout-paso">
             <h2>📦 Datos de Entrega</h2>
@@ -389,7 +391,7 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Paso 3: Método de Pago */}
+        {}
         {paso === 3 && (
           <div className="checkout-paso">
             <h2>💳 Método de Pago</h2>
@@ -546,7 +548,7 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Paso 4: Confirmación */}
+        {}
         {paso === 4 && (
           <div className="checkout-paso confirmacion">
             <div className="confirmacion-content">

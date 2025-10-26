@@ -1,4 +1,3 @@
-// backend/src/models/Address.js
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 

@@ -8,14 +8,10 @@ import {
 } from "../controllers/orderController.js";
 import { verifyToken, verifyAdmin } from "../middlewares/auth.js";
 
-const router = express.Router();
-
-// Rutas de usuario autenticado
+const router = express.Router();
 router.post("/", verifyToken, placeOrder);
 router.get("/", verifyToken, listOrders);
-router.get("/:id", verifyToken, getOrder);
-
-// Rutas de administrador
+router.get("/:id", verifyToken, getOrder);
 router.put("/:id/status", verifyToken, verifyAdmin, updateOrderStatus);
 router.get("/admin/stats", verifyToken, verifyAdmin, getOrderStats);
 

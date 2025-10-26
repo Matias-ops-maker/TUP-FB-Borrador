@@ -27,12 +27,9 @@ export default function Login() {
     try {
       const response = await api.post('/auth/login', formData);
 
-      if (response.data) {
-        // Guardar token y datos del usuario
+      if (response.data) {
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        
-        // Redirigir según el rol del usuario
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         if (response.data.user.rol === 'admin') {
           navigate('/admin/dashboard');
         } else {

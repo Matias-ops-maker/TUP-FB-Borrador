@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "testEnvironment": "node",
   "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
   "testMatch": [
@@ -11,5 +12,9 @@
   ],
   "coverageDirectory": "coverage",
   "coverageReporters": ["text", "lcov", "html"],
-  "transform": {}
+  "transform": {},
+  "extensionsToTreatAsEsm": [".js"],
+  "globals": {
+    "__dirname": true
+  }
 }

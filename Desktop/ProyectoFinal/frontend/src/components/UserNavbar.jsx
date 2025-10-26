@@ -15,19 +15,13 @@ export default function UserNavbar() {
             } else {
                 setUser(null);
             }
-        };
-
-        // Verificar autenticación inicial
-        checkAuth();
-
-        // Escuchar cambios en el localStorage (cuando se inicia/cierra sesión en otra pestaña)
+        };
+        checkAuth();
         const handleStorageChange = () => {
             checkAuth();
         };
 
-        window.addEventListener('storage', handleStorageChange);
-        
-        // También verificar periódicamente por si el usuario se logea
+        window.addEventListener('storage', handleStorageChange);
         const interval = setInterval(checkAuth, 1000);
 
         return () => {
@@ -36,14 +30,11 @@ export default function UserNavbar() {
         };
     }, []);
 
-    useEffect(() => {
-        // Cargar carrito
+    useEffect(() => {
         const carritoGuardado = localStorage.getItem('carrito');
         if (carritoGuardado) {
             setCarrito(JSON.parse(carritoGuardado));
-        }
-
-        // Escuchar cambios en el carrito
+        }
         const handleCarritoChange = () => {
             const carritoActualizado = localStorage.getItem('carrito');
             if (carritoActualizado) {

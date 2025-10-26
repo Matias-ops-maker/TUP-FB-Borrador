@@ -5,8 +5,7 @@ export async function listCategories(req, res) {
     try {
         const { includeHierarchy = false } = req.query;
         
-        if (includeHierarchy === 'true') {
-            // Obtener categorías con jerarquía
+        if (includeHierarchy === 'true') {
             const categories = await Category.findAll({
                 include: [
                     {
@@ -24,12 +23,11 @@ export async function listCategories(req, res) {
                         as: 'parent'
                     }
                 ],
-                where: { parent_id: null }, // Solo categorías raíz
+                where: { parent_id: null },
                 order: [['nombre', 'ASC']]
             });
             res.json(categories);
-        } else {
-            // Lista simple de categorías
+        } else {
             const categories = await Category.findAll({
                 include: [
                     {
@@ -83,17 +81,13 @@ export async function createCategory(req, res) {
 
         if (!nombre) {
             return res.status(400).json({ error: "El nombre de la categoría es requerido" });
-        }
-
-        // Verificar si la categoría padre existe (si se proporciona)
+        }
         if (parent_id) {
             const parentCategory = await Category.findByPk(parent_id);
             if (!parentCategory) {
                 return res.status(400).json({ error: "La categoría padre no existe" });
             }
-        }
-
-        // Verificar si la categoría ya existe
+        }
         const existingCategory = await Category.findOne({ 
             where: { 
                 nombre,
@@ -104,9 +98,7 @@ export async function createCategory(req, res) {
             return res.status(400).json({ error: "La categoría ya existe" });
         }
 
-        const category = await Category.create({ nombre, descripcion, parent_id });
-
-        // Recargar con relaciones
+        const category = await Category.create({ nombre, descripcion, parent_id });
         const newCategory = await Category.findByPk(category.id, {
             include: [
                 {
@@ -129,9 +121,7 @@ export async function updateCategory(req, res) {
         const category = await Category.findByPk(req.params.id);
         if (!category) return res.status(404).json({ error: "Categoría no encontrada" });
 
-        const { nombre, parent_id } = req.body;
-
-        // Verificar si la categoría padre existe (si se proporciona)
+        const { nombre, parent_id } = req.body;
         if (parent_id && parent_id !== category.parent_id) {
             if (parent_id === category.id) {
                 return res.status(400).json({ error: "Una categoría no puede ser padre de sí misma" });
@@ -141,9 +131,7 @@ export async function updateCategory(req, res) {
             if (!parentCategory) {
                 return res.status(400).json({ error: "La categoría padre no existe" });
             }
-        }
-
-        // Verificar si el nuevo nombre ya existe (si se está cambiando)
+        }
         if (nombre && nombre !== category.nombre) {
             const existingCategory = await Category.findOne({ 
                 where: { 
@@ -157,9 +145,7 @@ export async function updateCategory(req, res) {
             }
         }
 
-        await category.update(req.body);
-
-        // Recargar con relaciones
+        await category.update(req.body);
         const updatedCategory = await Category.findByPk(category.id, {
             include: [
                 {
@@ -180,17 +166,13 @@ export async function updateCategory(req, res) {
 export async function deleteCategory(req, res) {
     try {
         const category = await Category.findByPk(req.params.id);
-        if (!category) return res.status(404).json({ error: "Categoría no encontrada" });
-
-        // Verificar si hay productos asociados
+        if (!category) return res.status(404).json({ error: "Categoría no encontrada" });
         const productCount = await Product.count({ where: { category_id: category.id } });
         if (productCount > 0) {
             return res.status(400).json({ 
                 error: "No se puede eliminar la categoría porque tiene productos asociados" 
             });
-        }
-
-        // Verificar si hay subcategorías
+        }
         const subcategoryCount = await Category.count({ where: { parent_id: category.id } });
         if (subcategoryCount > 0) {
             return res.status(400).json({ 

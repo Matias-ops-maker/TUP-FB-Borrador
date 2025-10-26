@@ -4,24 +4,14 @@ import { User, Cart } from "../models/index.js";
 
 export async function register(req, res) {
     try {
-        const { nombre, email, password, rol = 'user' } = req.body;
-        
-        // Validación básica
+        const { nombre, email, password, rol = 'user' } = req.body;
         if (!nombre || !email || !password) {
             return res.status(400).json({ error: "Todos los campos son requeridos" });
-        }
-        
-        // Verificar si el email ya existe
+        }
         const exist = await User.findOne({ where: { email } });
-        if (exist) return res.status(400).json({ error: "Email ya registrado" });
-        
-        // Hash de la contraseña
-        const hash = await bcryptjs.hash(password, 10);
-        
-        // Crear usuario
-        const user = await User.create({ nombre, email, password: hash, rol });
-        
-        // Crear carrito para el usuario
+        if (exist) return res.status(400).json({ error: "Email ya registrado" });
+        const hash = await bcryptjs.hash(password, 10);
+        const user = await User.create({ nombre, email, password: hash, rol });
         await Cart.create({ user_id: user.id });
         
         res.status(201).json({ 
@@ -41,22 +31,14 @@ export async function register(req, res) {
 
 export async function login(req, res) {
     try {
-        const { email, password } = req.body;
-        
-        // Validación básica
+        const { email, password } = req.body;
         if (!email || !password) {
             return res.status(400).json({ error: "Email y contraseña son requeridos" });
-        }
-        
-        // Buscar usuario
+        }
         const user = await User.findOne({ where: { email } });
-        if (!user) return res.status(401).json({ error: "Credenciales inválidas" });
-        
-        // Verificar contraseña
+        if (!user) return res.status(401).json({ error: "Credenciales inválidas" });
         const ok = await bcryptjs.compare(password, user.password);
-        if (!ok) return res.status(401).json({ error: "Credenciales inválidas" });
-        
-        // Generar token
+        if (!ok) return res.status(401).json({ error: "Credenciales inválidas" });
         const token = jwt.sign(
             { id: user.id, email: user.email, rol: user.rol }, 
             process.env.JWT_SECRET, 
@@ -103,17 +85,13 @@ export async function updateProfile(req, res) {
         const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
-        }
-        
-        // Verificar si el nuevo email ya existe (si se está cambiando)
+        }
         if (email && email !== user.email) {
             const emailExists = await User.findOne({ where: { email } });
             if (emailExists) {
                 return res.status(400).json({ error: "El email ya está en uso" });
             }
-        }
-        
-        // Actualizar campos
+        }
         if (nombre) user.nombre = nombre;
         if (email) user.email = email;
         if (telefono !== undefined) user.telefono = telefono;
@@ -148,15 +126,11 @@ export async function changePassword(req, res) {
         const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
-        }
-        
-        // Verificar contraseña actual
+        }
         const isValidPassword = await bcryptjs.compare(currentPassword, user.password);
         if (!isValidPassword) {
             return res.status(400).json({ error: "Contraseña actual incorrecta" });
-        }
-        
-        // Hash de la nueva contraseña
+        }
         const hash = await bcryptjs.hash(newPassword, 10);
         user.password = hash;
         await user.save();
@@ -180,15 +154,11 @@ export async function deleteAccount(req, res) {
         const user = await User.findByPk(userId);
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrado" });
-        }
-        
-        // Verificar contraseña
+        }
         const isValidPassword = await bcryptjs.compare(password, user.password);
         if (!isValidPassword) {
             return res.status(400).json({ error: "Contraseña incorrecta" });
-        }
-        
-        // Eliminar usuario (esto también eliminará registros relacionados por foreign keys)
+        }
         await user.destroy();
         
         res.json({ msg: "Cuenta eliminada exitosamente" });

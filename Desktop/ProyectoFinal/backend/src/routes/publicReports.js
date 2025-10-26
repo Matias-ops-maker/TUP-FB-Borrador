@@ -6,9 +6,7 @@ import {
     publicInventoryXlsx
 } from "../controllers/publicReportController.js";
 
-const router = express.Router();
-
-// Rutas públicas para reportes (no requieren autenticación)
+const router = express.Router();
 router.get("/sales-summary.pdf", publicSalesPdf);
 router.get("/sales-summary.xlsx", publicSalesXlsx);
 router.get("/inventory-summary.pdf", publicInventoryPdf);

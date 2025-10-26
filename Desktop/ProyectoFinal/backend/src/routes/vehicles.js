@@ -10,15 +10,11 @@ import {
 } from "../controllers/vehicleController.js";
 import { verifyToken, verifyAdmin } from "../middlewares/auth.js";
 
-const router = express.Router();
-
-// Rutas públicas
+const router = express.Router();
 router.get("/", listVehicles);
 router.get("/brands", getVehicleBrands);
 router.get("/brands/:marca/models", getVehicleModelsByBrand);
-router.get("/:id", getVehicle);
-
-// Rutas de administrador
+router.get("/:id", getVehicle);
 router.post("/", verifyToken, verifyAdmin, createVehicle);
 router.put("/:id", verifyToken, verifyAdmin, updateVehicle);
 router.delete("/:id", verifyToken, verifyAdmin, deleteVehicle);

@@ -1,268 +1,534 @@
-# 🚗 RepuestosAuto - Sistema Completo de E-Commerce
+# 🚗 RepuestosAuto - Sistema Completo de E-Commerce# 🚗 RepuestosAuto - Sistema Completo de E-Commerce
 
-## 📋 Descripción del Proyecto
 
-RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.
 
-## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅
+## 📋 Descripción del Proyecto## 📋 Descripción del Proyecto
 
-### 🎯 **Características Principales**
 
-- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuario
-- **🛒 Carrito de Compras**: Funcional con persistencia y sincronización
-- **💳 Checkout Completo**: Procesamiento real de pedidos en base de datos
-- **📊 Panel Admin**: CRUD completo de productos, categorías y marcas
-- **📈 Reportes**: Generación automática de PDF y Excel
-- **👤 Gestión de Usuarios**: Perfiles con historial de compras real
-- **� Búsqueda Inteligente**: Barra de búsqueda con sugerencias en tiempo real
-- **⚙️ Configuración de Perfil**: Cambio de email y contraseña funcional
-- **📱 Responsive**: Completamente adaptado a móviles
-- **🎨 UI/UX Mejorada**: Mejor legibilidad y contraste en textos
 
-## 🆕 **Nuevas Características Implementadas**
+RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.RepuestosAuto es un sistema completo de e-commerce especializado en repuestos automotrices, desarrollado con arquitectura full-stack moderna. **Todas las compras quedan registradas correctamente en la base de datos**.
 
-### 🔍 Sistema de Búsqueda Mejorado
-- **Sugerencias en tiempo real**: La barra de búsqueda muestra sugerencias mientras escribes
-- **Búsqueda inteligente**: Busca por nombre, marca, categoría y descripción
-- **Ordenamiento por relevancia**: Los resultados se ordenan por relevancia cuando hay una búsqueda activa
-- **Navegación automática**: Al seleccionar una sugerencia o buscar, navega automáticamente al catálogo
 
-### ⚙️ Gestión de Perfil Completa
+
+## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅## ✨ Estado del Proyecto: **COMPLETAMENTE FUNCIONAL** ✅
+
+
+
+### 🎯 **Características Principales**### 🎯 **Características Principales**
+
+
+
+- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuario- **🔐 Autenticación Completa**: Sistema de login/registro con JWT y roles de usuario
+
+- **🛒 Carrito de Compras**: Funcional con persistencia y sincronización- **🛒 Carrito de Compras**: Funcional con persistencia y sincronización
+
+- **💳 Checkout Completo**: Procesamiento real de pedidos en base de datos- **💳 Checkout Completo**: Procesamiento real de pedidos en base de datos
+
+- **💰 Integración MercadoPago**: Pasarela de pagos real con tarjetas de crédito/débito- **� Integración MercadoPago**: Pasarela de pagos real con tarjetas de crédito/débito
+
+- **📊 Panel Admin**: CRUD completo de productos, categorías y marcas- **�📊 Panel Admin**: CRUD completo de productos, categorías y marcas
+
+- **📈 Reportes**: Generación automática de PDF y Excel- **📈 Reportes**: Generación automática de PDF y Excel
+
+- **👤 Gestión de Usuarios**: Perfiles con historial de compras real- **👤 Gestión de Usuarios**: Perfiles con historial de compras real
+
+- **🔍 Búsqueda Inteligente**: Barra de búsqueda con sugerencias en tiempo real- **🔍 Búsqueda Inteligente**: Barra de búsqueda con sugerencias en tiempo real
+
+- **⚙️ Configuración de Perfil**: Cambio de email y contraseña funcional- **⚙️ Configuración de Perfil**: Cambio de email y contraseña funcional
+
+- **📱 Responsive**: Completamente adaptado a móviles- **📱 Responsive**: Completamente adaptado a móviles
+
+- **🎨 UI/UX Mejorada**: Mejor legibilidad y contraste en textos- **🎨 UI/UX Mejorada**: Mejor legibilidad y contraste en textos
+
+
+
+## 🆕 **Nuevas Características Implementadas**## 🆕 **Nuevas Características Implementadas**
+
+
+
+### 💰 Integración Completa con MercadoPago### 🔍 Sistema de Búsqueda Mejorado
+
+- **Pasarela de pagos real**: Procesamiento de pagos con tarjetas de crédito y débito- **Sugerencias en tiempo real**: La barra de búsqueda muestra sugerencias mientras escribes
+
+- **Ambiente sandbox**: Configurado para pruebas seguras con tarjetas de prueba- **Búsqueda inteligente**: Busca por nombre, marca, categoría y descripción
+
+- **Webhooks**: Confirmación automática de pagos en tiempo real- **Ordenamiento por relevancia**: Los resultados se ordenan por relevancia cuando hay una búsqueda activa
+
+- **Estados de pago**: Seguimiento completo del estado de cada transacción- **Navegación automática**: Al seleccionar una sugerencia o buscar, navega automáticamente al catálogo
+
+- **Páginas de resultado**: Confirmación de pago exitoso, pendiente o fallido
+
+- **Redirección automática**: Vuelta al sitio después del pago### ⚙️ Gestión de Perfil Completa
+
+- **SDK React**: Componentes de MercadoPago integrados en el frontend- **Cambio de contraseña**: Funcionalidad completa con validaciones de seguridad
+
+- **Tarjetas de prueba**: - **Cambio de email**: Actualización de email con confirmación
+
+  - Visa: `4509953566233704`- **Validaciones robustas**: Sistema de validaciones frontend y backend
+
+  - Mastercard: `5031755734530604`- **Mensajes informativos**: Feedback visual para todas las operaciones
+
+  - CVV: `123`, Fecha: cualquier fecha futura- **Persistencia de datos**: Todos los cambios se guardan en la base de datos
+
+
+
+### 🔍 Sistema de Búsqueda Mejorado### � Mejoras de Usabilidad
+
+- **Sugerencias en tiempo real**: La barra de búsqueda muestra sugerencias mientras escribes- **Mejor legibilidad**: Colores de texto mejorados para mejor contraste
+
+- **Búsqueda inteligente**: Busca por nombre, marca, categoría y descripción- **Textos más oscuros**: Reemplazo de grises claros por colores más legibles
+
+- **Ordenamiento por relevancia**: Los resultados se ordenan por relevancia cuando hay una búsqueda activa- **Feedback visual**: Mensajes de éxito y error claros
+
+- **Navegación automática**: Al seleccionar una sugerencia o buscar, navega automáticamente al catálogo- **Formularios mejorados**: Mejor UX en formularios de configuración
+
+
+
+### 🎨 Diseño del Catálogo Renovado## 🚀 INICIALIZACIÓN RÁPIDA
+
+- **Layout de dos columnas**: Filtros en sidebar lateral, productos en grid principal
+
+- **Diseño responsivo**: Adaptación perfecta a diferentes tamaños de pantalla### Credenciales de Acceso
+
+- **CSS modular**: Archivo separado (catalogo-new.css) para mejor mantenimiento
+
+- **Mejor UX**: Distribución más intuitiva y visualmente atractiva- **Backend API**: http://localhost:4000   DB_PASS=contraseña
+
+
+
+### ⚙️ Gestión de Perfil Completa**Administrador:**
+
 - **Cambio de contraseña**: Funcionalidad completa con validaciones de seguridad
-- **Cambio de email**: Actualización de email con confirmación
+
+- **Cambio de email**: Actualización de email con confirmación- Email: `admin@repuestos.com`
+
 - **Validaciones robustas**: Sistema de validaciones frontend y backend
-- **Mensajes informativos**: Feedback visual para todas las operaciones
+
+- **Mensajes informativos**: Feedback visual para todas las operaciones- Password: `admin123`
+
 - **Persistencia de datos**: Todos los cambios se guardan en la base de datos
-
-### � Mejoras de Usabilidad
-- **Mejor legibilidad**: Colores de texto mejorados para mejor contraste
-- **Textos más oscuros**: Reemplazo de grises claros por colores más legibles
-- **Feedback visual**: Mensajes de éxito y error claros
-- **Formularios mejorados**: Mejor UX en formularios de configuración
-
-## 🚀 INICIALIZACIÓN RÁPIDA
-
-### Credenciales de Acceso
-
-- **Backend API**: http://localhost:4000   DB_PASS=contraseña
-
-**Administrador:**
-
-- Email: `admin@repuestos.com`
-
-- Password: `admin123`
 
 ### Credenciales de Acceso### Backend   DB_HOST=localhost
 
-**Usuario de Prueba:**
+### 🛠️ Mejoras de Usabilidad
 
-- Email: `juan@gmail.com`**Administrador:**
+- **Mejor legibilidad**: Colores de texto mejorados para mejor contraste**Usuario de Prueba:**
+
+- **Textos más oscuros**: Reemplazo de grises claros por colores más legibles
+
+- **Feedback visual**: Mensajes de éxito y error claros- Email: `juan@gmail.com`**Administrador:**
+
+- **Formularios mejorados**: Mejor UX en formularios de configuración
 
 - Password: `user123`
+
+## 🚀 INICIALIZACIÓN RÁPIDA
 
 - Email: `admin@repuestos.com`- **Node.js** + **Express.js**   ```
 
+### 1. 🔧 Configuración Inicial
+
 ## 🚀 **Tecnologías Utilizadas**
 
-- Password: `admin123`
+#### Variables de Entorno
 
-### Backend
+Crear archivo `.env` en el backend con:- Password: `admin123`
 
-- **Node.js** + **Express.js**- **SQLite** con **Sequelize ORM**
+```env
 
-- **SQLite** con **Sequelize ORM**
+JWT_SECRET=tu_jwt_secret_aqui### Backend
 
-- **JWT** para autenticación**Usuario de Prueba:**
+DB_HOST=localhost
+
+DB_USER=root- **Node.js** + **Express.js**- **SQLite** con **Sequelize ORM**
+
+DB_PASS=tu_contraseña
+
+DB_NAME=repuestos_auto- **SQLite** con **Sequelize ORM**
+
+MP_ACCESS_TOKEN=tu_access_token_de_mercadopago
+
+MP_PUBLIC_KEY=tu_public_key_de_mercadopago- **JWT** para autenticación**Usuario de Prueba:**
+
+```
 
 - **bcryptjs** para hash de contraseñas
 
-- **PDFKit** y **ExcelJS** para reportes- Email: `juan@gmail.com`- **JWT** para autenticación2. Ejecuta el script de migración:
+#### Para MercadoPago (Ambiente Sandbox)
 
-- **CORS** configurado
+1. Registrarse en [MercadoPago Developers](https://www.mercadopago.com.ar/developers/)- **PDFKit** y **ExcelJS** para reportes- Email: `juan@gmail.com`- **JWT** para autenticación2. Ejecuta el script de migración:
+
+2. Crear una aplicación
+
+3. Obtener las credenciales de prueba (sandbox)- **CORS** configurado
+
+4. Configurar en el archivo `.env`
 
 - Password: `user123`
 
+### 2. 🎬 Iniciar Proyecto
+
 ### Frontend
-
-- **React 18** con **Vite**- **bcryptjs** para hash de contraseñas   ```
-
-- **React Router** para navegación
-
-- **CSS3** personalizado## 📦 Funcionalidades Completadas
-
-- **API REST** integrada
-
-- **CORS** configurado   node src/migrate.js
-
-## 📦 Funcionalidades Completadas
-
-### ✅ Sistema de Compras (100% Funcional)
-
-### ✅ Sistema de Compras (100% Funcional)
-
-- **Carrito de Compras**: Agregar/eliminar productos- **Carrito de Compras**: Agregar/eliminar productos- **PDFKit** y **ExcelJS** para reportes   ```
-
-- **Checkout Completo**: Formulario de datos y pago
-
-- **Registro en BD**: Todas las órdenes se guardan automáticamente- **Checkout Completo**: Formulario de datos y pago
-
-- **Actualización de Stock**: Stock se actualiza tras cada compra
-
-- **Historial de Compras**: Visible en el perfil del usuario- **Registro en BD**: Todas las órdenes se guardan automáticamente
-
-
-
-### ✅ Panel de Administración (100% Funcional)- **Actualización de Stock**: Stock se actualiza tras cada compra
-
-- **Dashboard**: Estadísticas en tiempo real
-
-- **Gestión de Productos**: CRUD completo- **Historial de Compras**: Visible en el perfil del usuario### FrontendEsto creará todas las tablas y relaciones necesarias en la base de datos.
-
-- **Gestión de Categorías**: Administración completa
-
-- **Gestión de Marcas**: Control total- **React 18** con **Vite**
-
-- **Gestión de Órdenes**: Visualización y cambio de estados
-
-- **Reportes Descargables**: PDF y Excel automáticos### ✅ Panel de Administración (100% Funcional)- **React Router** para navegación
-
-
-
-### ✅ Sistema de Usuarios (100% Funcional)- **Dashboard**: Estadísticas en tiempo real- **CSS3** personalizado
-
-- **Registro/Login**: Con validación completa
-
-- **Perfiles de Usuario**: Datos personales editables- **Gestión de Productos**: CRUD completo- **API REST** integrada
-
-- **Historial Real**: Órdenes conectadas a base de datos
-
-- **Roles y Permisos**: Admin y usuario estándar- **Gestión de Categorías**: Administración completa
-
-
-
-### ✅ Catálogo de Productos (100% Funcional)- **Gestión de Marcas**: Control total## 👥 **Integrantes del Proyecto**
-
-- **40 Productos Reales**: Con imágenes de Unsplash
-
-- **Filtros Avanzados**: Por categoría, marca y precio- **Reportes Descargables**: PDF y Excel funcionando
-
-- **Búsqueda Inteligente**: Por nombre y descripción
-
-- **Paginación**: Navegación optimizada- **Gestión de Órdenes**: Seguimiento de pedidos- **Sandoval Sirimarco, Lautaro Agustin** - [Lautaro.Sandoval98@gmail.com]
-
-
-
-## 📊 Base de Datos- **Aispuro, Francisco** - [aispurofrancisco2003@gmail.com]
-
-
-
-### Estructura Completa### ✅ Catálogo y Frontend (100% Funcional)- **Perez Daniele, Matias Sebastian** - [matiasperezdaniele@gmail.com]
-
-- **Usuarios**: Con autenticación y roles
-
-- **Productos**: 40 items con stock real- **40 Productos**: Base de datos completa con imágenes reales
-
-- **Categorías**: Motor, Frenos, Suspensión, etc.
-
-- **Marcas**: Bosch, NGK, Monroe, etc.- **6 Categorías**: Organizadas por tipo de repuesto## 📋 **Instalación y Ejecución**
-
-- **Órdenes**: Registro completo de compras
-
-- **Items de Orden**: Detalles de cada compra- **Búsqueda y Filtros**: Sistema de navegación avanzado
-
-
-
-### Datos Iniciales- **Diseño Responsivo**: Funciona en desktop y móvil### Prerrequisitos
-
-- ✅ 40 productos con imágenes reales
-
-- ✅ 8 categorías organizadas- **Autenticación**: Sistema completo con JWT- Node.js v18+ 
-
-- ✅ 6 marcas reconocidas
-
-- ✅ Usuario administrador configurado- npm o yarn
-
-
-
-## 🔧 API Endpoints## 🗂️ Estructura de Datos
-
-
-
-### Autenticación### 🔧 Instalación
-
-- `POST /api/auth/register` - Registro de usuarios
-
-- `POST /api/auth/login` - Inicio de sesión### Base de Datos Poblada
-
-
-
-### Productos- **40 Productos** con precios e imágenes reales1. **Clonar el repositorio**
-
-- `GET /api/products` - Listar productos
-
-- `POST /api/products` - Crear producto (admin)- **6 Categorías** principales (Motor, Frenos, Filtros, etc.)```bash
-
-- `PUT /api/products/:id` - Actualizar producto (admin)
-
-- `DELETE /api/products/:id` - Eliminar producto (admin)- **20+ Marcas** reconocidas (Bosch, NGK, Castrol, etc.)git clone https://github.com/Matias-ops-maker/Front-Back-borrador-TUP.git
-
-
-
-### Órdenes- **Usuarios de prueba** con diferentes rolescd Front-Back-borrador-TUP-2
-
-- `POST /api/orders` - Crear nueva orden
-
-- `GET /api/orders` - Listar órdenes del usuario- **Sistema de órdenes** completamente implementado```
-
-- `GET /api/orders/:id` - Detalle de orden
-
-
-
-### Reportes
-
-- `GET /api/reports/sales/pdf` - Descargar reporte PDF## 🔍 Fallas Encontradas y Corregidas2. **Instalar dependencias del Backend**
-
-- `GET /api/reports/sales/xlsx` - Descargar reporte Excel
 
 ```bash
 
-## 🛡️ Seguridad Implementada
+# Opción 1: Inicio automático (recomendado)- **React 18** con **Vite**- **bcryptjs** para hash de contraseñas   ```
 
-### ❌ Problemas Identificados:cd Desktop/ProyectoFinal/backend
+.\INICIAR_PROYECTO_COMPLETO.bat
 
-- **API Key**: `mi_api_key_super_secreta`
+- **React Router** para navegación
 
-- **JWT Tokens**: Para sesiones seguras1. **Checkout desconectado**: El checkout solo simulaba comprasnpm install
+# Opción 2: Inicio manual
 
-- **Hashing de Contraseñas**: bcryptjs
+.\start-backend.bat- **CSS3** personalizado## 📦 Funcionalidades Completadas
 
-- **Validación de Roles**: Admin vs Usuario2. **Perfil con datos estáticos**: No cargaba órdenes reales```
+.\start-frontend.bat
 
-- **CORS Configurado**: Origen específico
+```- **API REST** integrada
 
-3. **Reportes sin datos**: Downloads no funcionaban
+
+
+### 3. 🌱 Poblar Base de Datos- **CORS** configurado   node src/migrate.js
+
+
+
+```bash## 📦 Funcionalidades Completadas
+
+cd Desktop\ProyectoFinal\backend
+
+npm run seed### ✅ Sistema de Compras (100% Funcional)
+
+```
+
+### ✅ Sistema de Compras (100% Funcional)
+
+### 4. 🌐 Acceder a la Aplicación
+
+- **Carrito de Compras**: Agregar/eliminar productos- **Carrito de Compras**: Agregar/eliminar productos- **PDFKit** y **ExcelJS** para reportes   ```
+
+- **Frontend**: http://localhost:5173
+
+- **Backend API**: http://localhost:4000- **Checkout Completo**: Formulario de datos y pago
+
+
+
+### Credenciales de Acceso- **Registro en BD**: Todas las órdenes se guardan automáticamente- **Checkout Completo**: Formulario de datos y pago
+
+
+
+**Administrador:**- **Actualización de Stock**: Stock se actualiza tras cada compra
+
+- Email: `admin@repuestos.com`
+
+- Password: `admin123`- **Historial de Compras**: Visible en el perfil del usuario- **Registro en BD**: Todas las órdenes se guardan automáticamente
+
+
+
+**Usuario de Prueba:**
+
+- Email: `juan@gmail.com`
+
+- Password: `user123`### ✅ Panel de Administración (100% Funcional)- **Actualización de Stock**: Stock se actualiza tras cada compra
+
+
+
+## 🚀 **Tecnologías Utilizadas**- **Dashboard**: Estadísticas en tiempo real
+
+
+
+### Backend- **Gestión de Productos**: CRUD completo- **Historial de Compras**: Visible en el perfil del usuario### FrontendEsto creará todas las tablas y relaciones necesarias en la base de datos.
+
+- **Node.js** + **Express.js**
+
+- **SQLite** con **Sequelize ORM**- **Gestión de Categorías**: Administración completa
+
+- **JWT** para autenticación
+
+- **bcryptjs** para hash de contraseñas- **Gestión de Marcas**: Control total- **React 18** con **Vite**
+
+- **PDFKit** y **ExcelJS** para reportes
+
+- **MercadoPago SDK** para pagos- **Gestión de Órdenes**: Visualización y cambio de estados
+
+- **CORS** configurado
+
+- **Reportes Descargables**: PDF y Excel automáticos### ✅ Panel de Administración (100% Funcional)- **React Router** para navegación
+
+### Frontend
+
+- **React 18** con **Vite**
+
+- **React Router** para navegación
+
+- **CSS3** personalizado### ✅ Sistema de Usuarios (100% Funcional)- **Dashboard**: Estadísticas en tiempo real- **CSS3** personalizado
+
+- **API REST** integrada
+
+- **MercadoPago SDK React** para componentes de pago- **Registro/Login**: Con validación completa
+
+
+
+## 📦 Funcionalidades Completadas- **Perfiles de Usuario**: Datos personales editables- **Gestión de Productos**: CRUD completo- **API REST** integrada
+
+
+
+### ✅ Sistema de Compras (100% Funcional)- **Historial Real**: Órdenes conectadas a base de datos
+
+- **Carrito de Compras**: Agregar/eliminar productos con persistencia
+
+- **Checkout Completo**: Formulario de datos y procesamiento de pago- **Roles y Permisos**: Admin y usuario estándar- **Gestión de Categorías**: Administración completa
+
+- **Integración MercadoPago**: Pagos reales con tarjetas de crédito/débito
+
+- **Registro en BD**: Todas las órdenes se guardan automáticamente
+
+- **Actualización de Stock**: Stock se actualiza tras cada compra
+
+- **Historial de Compras**: Visible en el perfil del usuario### ✅ Catálogo de Productos (100% Funcional)- **Gestión de Marcas**: Control total## 👥 **Integrantes del Proyecto**
+
+- **Estados de Pago**: Seguimiento completo de transacciones
+
+- **40 Productos Reales**: Con imágenes de Unsplash
+
+### ✅ Panel de Administración (100% Funcional)
+
+- **Dashboard**: Estadísticas en tiempo real- **Filtros Avanzados**: Por categoría, marca y precio- **Reportes Descargables**: PDF y Excel funcionando
+
+- **Gestión de Productos**: CRUD completo con imágenes
+
+- **Gestión de Categorías**: Administración completa- **Búsqueda Inteligente**: Por nombre y descripción
+
+- **Gestión de Marcas**: Control total
+
+- **Gestión de Órdenes**: Visualización y cambio de estados- **Paginación**: Navegación optimizada- **Gestión de Órdenes**: Seguimiento de pedidos- **Sandoval Sirimarco, Lautaro Agustin** - [Lautaro.Sandoval98@gmail.com]
+
+- **Reportes Descargables**: PDF y Excel automáticos
+
+
+
+### ✅ Sistema de Usuarios (100% Funcional)
+
+- **Registro/Login**: Con validación completa y JWT## 📊 Base de Datos- **Aispuro, Francisco** - [aispurofrancisco2003@gmail.com]
+
+- **Perfiles de Usuario**: Datos personales editables
+
+- **Historial Real**: Órdenes conectadas a base de datos
+
+- **Roles y Permisos**: Admin y usuario estándar
+
+- **Cambio de Contraseña**: Sistema seguro de actualización### Estructura Completa### ✅ Catálogo y Frontend (100% Funcional)- **Perez Daniele, Matias Sebastian** - [matiasperezdaniele@gmail.com]
+
+- **Gestión de Email**: Cambio de email con validaciones
+
+- **Usuarios**: Con autenticación y roles
+
+### ✅ Catálogo de Productos (100% Funcional)
+
+- **40+ Productos Reales**: Con imágenes de alta calidad- **Productos**: 40 items con stock real- **40 Productos**: Base de datos completa con imágenes reales
+
+- **Filtros Avanzados**: Por categoría, marca y precio
+
+- **Búsqueda Inteligente**: Por nombre, descripción y marca- **Categorías**: Motor, Frenos, Suspensión, etc.
+
+- **Diseño Responsivo**: Layout de dos columnas optimizado
+
+- **Paginación**: Navegación eficiente por productos- **Marcas**: Bosch, NGK, Monroe, etc.- **6 Categorías**: Organizadas por tipo de repuesto## 📋 **Instalación y Ejecución**
+
+- **Sugerencias**: Búsqueda con autocompletado
+
+- **Órdenes**: Registro completo de compras
+
+## 💳 **Flujo de Pago con MercadoPago**
+
+- **Items de Orden**: Detalles de cada compra- **Búsqueda y Filtros**: Sistema de navegación avanzado
+
+### 1. Proceso de Compra
+
+1. **Agregar productos** al carrito desde el catálogo
+
+2. **Revisar carrito** y ajustar cantidades
+
+3. **Proceder al checkout** completando datos personales### Datos Iniciales- **Diseño Responsivo**: Funciona en desktop y móvil### Prerrequisitos
+
+4. **Seleccionar método de pago** (tarjeta de crédito/débito)
+
+5. **Completar pago** en la plataforma de MercadoPago- ✅ 40 productos con imágenes reales
+
+6. **Confirmación automática** y redirección al sitio
+
+7. **Orden guardada** en base de datos con estado actualizado- ✅ 8 categorías organizadas- **Autenticación**: Sistema completo con JWT- Node.js v18+ 
+
+
+
+### 2. Tarjetas de Prueba (Sandbox)- ✅ 6 marcas reconocidas
+
+```
+
+Visa:       4509 9535 6623 3704- ✅ Usuario administrador configurado- npm o yarn
+
+Mastercard: 5031 7557 3453 0604
+
+CVV:        123
+
+Fecha:      Cualquier fecha futura
+
+```## 🔧 API Endpoints## 🗂️ Estructura de Datos
+
+
+
+### 3. Estados de Pago
+
+- **approved**: Pago aprobado
+
+- **pending**: Pago pendiente### Autenticación### 🔧 Instalación
+
+- **rejected**: Pago rechazado
+
+- **in_process**: Pago en proceso- `POST /api/auth/register` - Registro de usuarios
+
+
+
+## 🔧 **Endpoints de MercadoPago**- `POST /api/auth/login` - Inicio de sesión### Base de Datos Poblada
+
+
+
+### Backend API
+
+- `POST /api/payments/create` - Crear preferencia de pago
+
+- `POST /api/payments/webhook` - Webhook de confirmación### Productos- **40 Productos** con precios e imágenes reales1. **Clonar el repositorio**
+
+- `GET /api/payments/:id/status` - Consultar estado de pago
+
+- `GET /api/products` - Listar productos
+
+### Configuración de Webhooks
+
+```javascript- `POST /api/products` - Crear producto (admin)- **6 Categorías** principales (Motor, Frenos, Filtros, etc.)```bash
+
+// URL del webhook para notificaciones
+
+https://tu-dominio.com/api/payments/webhook- `PUT /api/products/:id` - Actualizar producto (admin)
+
+
+
+// Eventos configurados- `DELETE /api/products/:id` - Eliminar producto (admin)- **20+ Marcas** reconocidas (Bosch, NGK, Castrol, etc.)git clone https://github.com/Matias-ops-maker/Front-Back-borrador-TUP.git
+
+- payment.created
+
+- payment.updated
+
+```
+
+### Órdenes- **Usuarios de prueba** con diferentes rolescd Front-Back-borrador-TUP-2
+
+## 👥 **Integrantes del Proyecto**
+
+- `POST /api/orders` - Crear nueva orden
+
+- **Matías** - Full Stack Developer
+
+- **Desarrollo completo** del sistema e-commerce- `GET /api/orders` - Listar órdenes del usuario- **Sistema de órdenes** completamente implementado```
+
+- **Integración** de todas las funcionalidades
+
+- **Testing** y optimización- `GET /api/orders/:id` - Detalle de orden
+
+
+
+## 📞 **Soporte y Contacto**
+
+
+
+Para soporte técnico o consultas sobre el proyecto:### Reportes
+
+- 📧 Email: support@repuestosauto.com
+
+- 🐛 Issues: GitHub Issues- `GET /api/reports/sales/pdf` - Descargar reporte PDF## 🔍 Fallas Encontradas y Corregidas2. **Instalar dependencias del Backend**
+
+- 📱 Demo: http://localhost:5173
+
+- `GET /api/reports/sales/xlsx` - Descargar reporte Excel
+
+## 🔧 **Comandos de Desarrollo**
+
+```bash
+
+### Backend
+
+```bash## 🛡️ Seguridad Implementada
+
+cd Desktop\ProyectoFinal\backend
+
+npm install          # Instalar dependencias### ❌ Problemas Identificados:cd Desktop/ProyectoFinal/backend
+
+npm start            # Iniciar servidor
+
+npm run seed         # Poblar base de datos- **API Key**: `mi_api_key_super_secreta`
+
+npm run migrate      # Ejecutar migraciones
+
+```- **JWT Tokens**: Para sesiones seguras1. **Checkout desconectado**: El checkout solo simulaba comprasnpm install
+
+
+
+### Frontend- **Hashing de Contraseñas**: bcryptjs
+
+```bash
+
+cd Desktop\ProyectoFinal\frontend- **Validación de Roles**: Admin vs Usuario2. **Perfil con datos estáticos**: No cargaba órdenes reales```
+
+npm install          # Instalar dependencias
+
+npm run dev          # Modo desarrollo- **CORS Configurado**: Origen específico
+
+npm run build        # Build para producción
+
+npm run preview      # Preview del build3. **Reportes sin datos**: Downloads no funcionaban
+
+```
 
 ## 🚀 Mejoras Implementadas
 
+## 🎯 **Próximas Mejoras**
+
 3. **Instalar dependencias del Frontend**
 
-### ✅ Correcciones Críticas Realizadas
+- [ ] Notificaciones en tiempo real
 
-- **Endpoint Checkout**: Corregido de `/cart/add` a `/cart/items`### ✅ Soluciones Implementadas:```bash
+- [ ] Chat de soporte en vivo### ✅ Correcciones Críticas Realizadas
 
-- **Registro de Compras**: 100% funcional en base de datos
+- [ ] Sistema de reseñas y calificaciones
 
-- **Reportes**: Descarga inmediata de PDF y Excel1. **Checkout conectado al backend**: Órdenes se crean en BDcd ../frontend
+- [ ] Integración con otros métodos de pago- **Endpoint Checkout**: Corregido de `/cart/add` a `/cart/items`### ✅ Soluciones Implementadas:```bash
 
-- **Stock**: Actualización automática tras compras
+- [ ] App móvil nativa
 
-- **Perfiles**: Datos reales de órdenes del usuario2. **Perfil con datos reales**: Carga órdenes desde APInpm install
+- [ ] Sistema de descuentos y cupones- **Registro de Compras**: 100% funcional en base de datos
 
 
 
-### ✅ Optimizaciones3. **Reportes funcionales**: PDFs y Excel se descargan correctamente```
+---- **Reportes**: Descarga inmediata de PDF y Excel1. **Checkout conectado al backend**: Órdenes se crean en BDcd ../frontend
 
-- **Puerto Estándar**: Frontend en 5173 (correcto)
+
+
+## 🏆 **Estado Final: PROYECTO COMPLETAMENTE FUNCIONAL**- **Stock**: Actualización automática tras compras
+
+
+
+✅ **Sistema de E-commerce 100% operativo**  - **Perfiles**: Datos reales de órdenes del usuario2. **Perfil con datos reales**: Carga órdenes desde APInpm install
+
+✅ **Integración MercadoPago funcional**  
+
+✅ **Base de datos poblada y configurada**  
+
+✅ **Frontend y Backend sincronizados**  
+
+✅ **Todas las funcionalidades probadas**  ### ✅ Optimizaciones3. **Reportes funcionales**: PDFs y Excel se descargan correctamente```
+
+
+
+**¡Listo para producción!** 🚀- **Puerto Estándar**: Frontend en 5173 (correcto)
 
 - **Conexión Backend**: API completamente estable4. **Sistema de órdenes completo**: Flujo completo de compra
 

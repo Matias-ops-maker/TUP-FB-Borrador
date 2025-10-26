@@ -1,4 +1,3 @@
-// backend/src/config/db.js
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
@@ -17,8 +16,7 @@ const sequelize = new Sequelize({
     underscored: true,
     timestamps: true
   },
-  dialectOptions: process.env.DB_DIALECT === 'sqlite' ? {
-    // Deshabilitar foreign keys para desarrollo
+  dialectOptions: process.env.DB_DIALECT === 'sqlite' ? {
     pragma: {
       foreign_keys: 0
     }

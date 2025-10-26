@@ -1,718 +1,628 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
-import { 
-    sequelize, 
-    User, 
-    Category, 
-    Brand, 
-    Product, 
-    Vehicle, 
-    Fitment, 
-    Cart 
-} from "./models/index.js";
-import bcryptjs from "bcryptjs";
+import {
+  sequelize,
+  User,
+  Category,
+  Brand,
+  Product,
+  Vehicle,
+  Fitment,
+  Cart
+} from './models/index.js';
+import bcryptjs from 'bcryptjs';
 
 (async () => {
-    try {
-        console.log("🌱 Iniciando seed de la base de datos...");
-        
-        // Sincronizar la DB (force: true borra todo antes)
-        await sequelize.sync({ force: true });
-        console.log("✅ Base de datos sincronizada");
+  try {
+    console.log('🌱 Iniciando seed de la base de datos...');
 
-        // Crear usuarios
-        const passAdmin = await bcryptjs.hash("admin123", 10);
-        const admin = await User.create({ 
-            nombre: "Administrador", 
-            email: "admin@repuestos.com", 
-            password: passAdmin, 
-            rol: "admin"
-        });
+    await sequelize.sync({ force: true });
+    console.log('✅ Base de datos sincronizada');
 
-        const passUser = await bcryptjs.hash("user123", 10);
-        const user1 = await User.create({ 
-            nombre: "Juan Pérez", 
-            email: "juan@gmail.com", 
-            password: passUser,
-            rol: "user"
-        });
+    const passAdmin = await bcryptjs.hash('admin123', 10);
+    await User.create({
+      nombre: 'Administrador',
+      email: 'admin@repuestos.com',
+      password: passAdmin,
+      rol: 'admin'
+    });
 
-        const user2 = await User.create({ 
-            nombre: "María García", 
-            email: "maria@gmail.com", 
-            password: passUser,
-            rol: "user"
-        });
+    const passUser = await bcryptjs.hash('user123', 10);
+    const user1 = await User.create({
+      nombre: 'Juan Pérez',
+      email: 'juan@gmail.com',
+      password: passUser,
+      rol: 'user'
+    });
 
-        console.log("✅ Usuarios creados");
+    const user2 = await User.create({
+      nombre: 'María García',
+      email: 'maria@gmail.com',
+      password: passUser,
+      rol: 'user'
+    });
 
-        // Crear carritos
-        await Cart.create({ user_id: admin.id });
-        await Cart.create({ user_id: user1.id });
-        await Cart.create({ user_id: user2.id });
+    console.log('✅ Usuarios creados');
 
-        // Crear marcas
-        const bosch = await Brand.create({ nombre: "Bosch" });
-        const mann = await Brand.create({ nombre: "Mann Filter" });
-        const gates = await Brand.create({ nombre: "Gates" });
-        const ngk = await Brand.create({ nombre: "NGK" });
-        const mobil = await Brand.create({ nombre: "Mobil 1" });
-        const brembo = await Brand.create({ nombre: "Brembo" });
-        const ferodo = await Brand.create({ nombre: "Ferodo" });
-        const castrol = await Brand.create({ nombre: "Castrol" });
-        const valvoline = await Brand.create({ nombre: "Valvoline" });
-        const shell = await Brand.create({ nombre: "Shell" });
-        const denso = await Brand.create({ nombre: "Denso" });
-        const monroe = await Brand.create({ nombre: "Monroe" });
-        const bilstein = await Brand.create({ nombre: "Bilstein" });
-        const sachs = await Brand.create({ nombre: "Sachs" });
-        const lemforder = await Brand.create({ nombre: "Lemförder" });
-        const trw = await Brand.create({ nombre: "TRW" });
-        const valeo = await Brand.create({ nombre: "Valeo" });
-        const mahle = await Brand.create({ nombre: "Mahle" });
-        const hella = await Brand.create({ nombre: "Hella" });
-        const osram = await Brand.create({ nombre: "Osram" });
-        const bardahl = await Brand.create({ nombre: "Bardahl" });
-        const eibach = await Brand.create({ nombre: "Eibach" });
-        const koni = await Brand.create({ nombre: "Koni" });
-        const pirelli = await Brand.create({ nombre: "Pirelli" });
-        const michelin = await Brand.create({ nombre: "Michelin" });
-        const continental = await Brand.create({ nombre: "Continental" });
+    await Cart.create({ user_id: user1.id });
+    await Cart.create({ user_id: user2.id });
 
-        console.log("✅ Marcas creadas");
+    const motor = await Category.create({ nombre: 'Motor' });
+    const filtros = await Category.create({ nombre: 'Filtros' });
+    const frenos = await Category.create({ nombre: 'Frenos' });
+    const pastillas = await Category.create({ nombre: 'Pastillas de freno' });
+    const aceites = await Category.create({ nombre: 'Aceites y lubricantes' });
+    const encendido = await Category.create({ nombre: 'Sistema de encendido' });
+    await Category.create({ nombre: 'Suspensión' });
+    const transmision = await Category.create({ nombre: 'Transmisión' });
 
-        // Crear categorías con jerarquía
-        const motor = await Category.create({ 
-            nombre: "Motor", 
-            descripcion: "Componentes del motor" 
-        });
-        
-        const filtros = await Category.create({ 
-            nombre: "Filtros", 
-            descripcion: "Filtros de motor y habitáculo",
-            parent_id: motor.id 
-        });
-        
-        const lubricantes = await Category.create({ 
-            nombre: "Lubricantes", 
-            descripcion: "Aceites y grasas",
-            parent_id: motor.id 
-        });
+    console.log('✅ Categorías creadas');
 
-        const frenos = await Category.create({ 
-            nombre: "Frenos", 
-            descripcion: "Sistema de frenado" 
-        });
-        
-        const pastillas = await Category.create({ 
-            nombre: "Pastillas", 
-            descripcion: "Pastillas de freno",
-            parent_id: frenos.id 
-        });
+    const bosch = await Brand.create({ nombre: 'Bosch' });
+    const mann = await Brand.create({ nombre: 'Mann Filter' });
+    const castrol = await Brand.create({ nombre: 'Castrol' });
+    const ngk = await Brand.create({ nombre: 'NGK' });
+    const brembo = await Brand.create({ nombre: 'Brembo' });
+    const ferodo = await Brand.create({ nombre: 'Ferodo' });
+    const mahle = await Brand.create({ nombre: 'Mahle' });
+    await Brand.create({ nombre: 'Monroe' });
+    const gates = await Brand.create({ nombre: 'Gates' });
+    const liquiMoly = await Brand.create({ nombre: 'Liqui Moly' });
 
-        const transmision = await Category.create({ 
-            nombre: "Transmisión", 
-            descripcion: "Sistema de transmisión" 
-        });
+    console.log('✅ Marcas creadas');
 
-        const encendido = await Category.create({ 
-            nombre: "Encendido", 
-            descripcion: "Sistema de encendido" 
-        });
+    const vehicles = await Vehicle.bulkCreate([
+      { marca: 'Volkswagen', modelo: 'Golf', año_desde: 2010, año_hasta: 2020, motor: '1.6 TDI' },
+      { marca: 'Volkswagen', modelo: 'Polo', año_desde: 2015, año_hasta: null, motor: '1.0 TSI' },
+      { marca: 'Ford', modelo: 'Focus', año_desde: 2012, año_hasta: 2018, motor: '2.0 TDCi' },
+      { marca: 'Ford', modelo: 'Fiesta', año_desde: 2013, año_hasta: null, motor: '1.6 Ti-VCT' },
+      { marca: 'Chevrolet', modelo: 'Cruze', año_desde: 2011, año_hasta: 2019, motor: '1.8 LT' },
+      { marca: 'Toyota', modelo: 'Corolla', año_desde: 2014, año_hasta: null, motor: '1.8 Hybrid' },
+      { marca: 'Honda', modelo: 'Civic', año_desde: 2016, año_hasta: null, motor: '1.5 VTEC' },
+      { marca: 'Nissan', modelo: 'Sentra', año_desde: 2013, año_hasta: 2020, motor: '1.6 16V' }
+    ]);
 
-        const suspension = await Category.create({ 
-            nombre: "Suspensión", 
-            descripcion: "Sistema de suspensión y dirección" 
-        });
+    console.log('✅ Vehículos creados');
 
-        const electrica = await Category.create({ 
-            nombre: "Eléctrica", 
-            descripcion: "Sistema eléctrico y electrónico" 
-        });
+    const products = await Product.bulkCreate([
 
-        const neumaticos = await Category.create({ 
-            nombre: "Neumáticos", 
-            descripcion: "Neumáticos y llantas" 
-        });
+      {
+        sku: 'F001',
+        nombre: 'Filtro de Aceite W 712/75',
+        descripcion: 'Filtro de aceite compatible con motores VW/Audi 1.6-2.0 TDI',
+        precio: 3500.00,
+        costo: 2100.00,
+        imagen_url: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop',
+        stock: 25,
+        estado: 'activo',
+        brand_id: mann.id,
+        category_id: filtros.id
+      },
+      {
+        sku: 'F002',
+        nombre: 'Filtro de Aire C 25 114',
+        descripcion: 'Filtro de aire para VW Golf, Polo y Audi A3',
+        precio: 2800.00,
+        costo: 1680.00,
+        imagen_url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300&h=200&fit=crop',
+        stock: 30,
+        estado: 'activo',
+        brand_id: mann.id,
+        category_id: filtros.id
+      },
+      {
+        sku: 'F003',
+        nombre: 'Filtro Combustible FF5052',
+        descripcion: 'Filtro de combustible para motores diesel',
+        precio: 4200.00,
+        costo: 2520.00,
+        imagen_url: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=300&h=200&fit=crop',
+        stock: 22,
+        estado: 'activo',
+        brand_id: bosch.id,
+        category_id: filtros.id
+      },
+      {
+        sku: 'F004',
+        nombre: 'Filtro Cabina LA440',
+        descripcion: 'Filtro antipolen para máxima pureza del aire',
+        precio: 3200.00,
+        costo: 1920.00,
+        imagen_url: 'https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=300&h=200&fit=crop',
+        stock: 35,
+        estado: 'activo',
+        brand_id: mahle.id,
+        category_id: filtros.id
+      },
+      {
+        sku: 'F005',
+        nombre: 'Filtro Hydraulico HU7003X',
+        descripcion: 'Filtro hidráulico para transmisiones automáticas',
+        precio: 4800.00,
+        costo: 2880.00,
+        imagen_url: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=300&h=200&fit=crop',
+        stock: 18,
+        estado: 'activo',
+        brand_id: mann.id,
+        category_id: filtros.id
+      },
+      {
+        sku: 'F006',
+        nombre: 'Filtro Gasolina G6302',
+        descripcion: 'Filtro de combustible para motores nafteros',
+        precio: 3800.00,
+        costo: 2280.00,
+        imagen_url: 'https://images.unsplash.com/photo-1632501641765-e568d28b0015?w=300&h=200&fit=crop',
+        stock: 28,
+        estado: 'activo',
+        brand_id: bosch.id,
+        category_id: filtros.id
+      },
+      {
+        sku: 'F007',
+        nombre: 'Filtro Aire Motor C30005',
+        descripcion: 'Filtro de aire de alto rendimiento',
+        precio: 3600.00,
+        costo: 2160.00,
+        imagen_url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop',
+        stock: 32,
+        estado: 'activo',
+        brand_id: mahle.id,
+        category_id: filtros.id
+      },
+      {
+        sku: 'F008',
+        nombre: 'Filtro Aceite OX153D1',
+        descripcion: 'Filtro de aceite ecológico biodegradable',
+        precio: 4100.00,
+        costo: 2460.00,
+        imagen_url: 'https://images.unsplash.com/photo-1590736969955-71cc94901144?w=300&h=200&fit=crop',
+        stock: 26,
+        estado: 'activo',
+        brand_id: mahle.id,
+        category_id: filtros.id
+      },
 
-        const escape = await Category.create({ 
-            nombre: "Escape", 
-            descripcion: "Sistema de escape" 
-        });
+      {
+        sku: 'B001',
+        nombre: 'Pastillas de Freno Delanteras Brembo',
+        descripcion: 'Pastillas de freno cerámicas para eje delantero',
+        precio: 12000.00,
+        costo: 7200.00,
+        imagen_url: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=300&h=200&fit=crop',
+        stock: 15,
+        estado: 'activo',
+        brand_id: brembo.id,
+        category_id: pastillas.id
+      },
+      {
+        sku: 'B002',
+        nombre: 'Pastillas de Freno Traseras Ferodo',
+        descripcion: 'Pastillas de freno orgánicas para eje trasero',
+        precio: 8500.00,
+        costo: 5100.00,
+        imagen_url: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=300&h=200&fit=crop',
+        stock: 18,
+        estado: 'activo',
+        brand_id: ferodo.id,
+        category_id: pastillas.id
+      },
+      {
+        sku: 'B003',
+        nombre: 'Disco de Freno Ventilado',
+        descripcion: 'Disco de freno ventilado 280mm',
+        precio: 15800.00,
+        costo: 9480.00,
+        imagen_url: 'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=300&h=200&fit=crop',
+        stock: 25,
+        estado: 'activo',
+        brand_id: brembo.id,
+        category_id: frenos.id
+      },
+      {
+        sku: 'B004',
+        nombre: 'Cilindro Freno Rueda TRW',
+        descripcion: 'Cilindro de freno para rueda trasera',
+        precio: 6800.00,
+        costo: 4080.00,
+        imagen_url: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=200&fit=crop',
+        stock: 20,
+        estado: 'activo',
+        brand_id: ferodo.id,
+        category_id: frenos.id
+      },
+      {
+        sku: 'B005',
+        nombre: 'Zapatas de Freno Traseras',
+        descripcion: 'Zapatas de freno para freno de tambor',
+        precio: 7200.00,
+        costo: 4320.00,
+        imagen_url: 'https://images.unsplash.com/photo-1591768575295-79c1314c5373?w=300&h=200&fit=crop',
+        stock: 16,
+        estado: 'activo',
+        brand_id: ferodo.id,
+        category_id: frenos.id
+      },
+      {
+        sku: 'B006',
+        nombre: 'Líquido de Frenos DOT 4',
+        descripcion: 'Líquido de frenos de alta performance',
+        precio: 2800.00,
+        costo: 1680.00,
+        imagen_url: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=300&h=200&fit=crop',
+        stock: 40,
+        estado: 'activo',
+        brand_id: castrol.id,
+        category_id: frenos.id
+      },
+      {
+        sku: 'B007',
+        nombre: 'Pastillas Cerámicas Premium',
+        descripcion: 'Pastillas de freno cerámicas de alta gama',
+        precio: 18500.00,
+        costo: 11100.00,
+        imagen_url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=300&h=200&fit=crop',
+        stock: 12,
+        estado: 'activo',
+        brand_id: brembo.id,
+        category_id: pastillas.id
+      },
+      {
+        sku: 'B008',
+        nombre: 'Disco Freno Trasero Sólido',
+        descripcion: 'Disco de freno trasero para vehículos compactos',
+        precio: 9500.00,
+        costo: 5700.00,
+        imagen_url: 'https://images.unsplash.com/photo-1473789810014-375ed569d0ed?w=300&h=200&fit=crop',
+        stock: 22,
+        estado: 'activo',
+        brand_id: brembo.id,
+        category_id: frenos.id
+      },
 
-        const climatizacion = await Category.create({ 
-            nombre: "Climatización", 
-            descripcion: "Sistema de aire acondicionado" 
-        });
+      {
+        sku: 'A001',
+        nombre: 'Aceite Motor 5W-30 Sintético',
+        descripcion: 'Aceite de motor totalmente sintético',
+        precio: 8500.00,
+        costo: 5100.00,
+        imagen_url: 'https://images.unsplash.com/photo-1541746972996-4e0b0f93e586?w=300&h=200&fit=crop',
+        stock: 50,
+        estado: 'activo',
+        brand_id: castrol.id,
+        category_id: aceites.id
+      },
+      {
+        sku: 'A002',
+        nombre: 'Aceite Motor 10W-40 Semisintético',
+        descripcion: 'Aceite semisintético para uso general',
+        precio: 5800.00,
+        costo: 3480.00,
+        imagen_url: 'https://images.unsplash.com/photo-1504113888839-1c8eb50233a5?w=300&h=200&fit=crop',
+        stock: 45,
+        estado: 'activo',
+        brand_id: castrol.id,
+        category_id: aceites.id
+      },
+      {
+        sku: 'A003',
+        nombre: 'Aceite Transmisión ATF Dextron VI',
+        descripcion: 'Fluido para transmisiones automáticas',
+        precio: 12500.00,
+        costo: 7500.00,
+        imagen_url: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=300&h=200&fit=crop',
+        stock: 25,
+        estado: 'activo',
+        brand_id: liquiMoly.id,
+        category_id: aceites.id
+      },
+      {
+        sku: 'A004',
+        nombre: 'Grasa Multiuso Litio',
+        descripcion: 'Grasa multiuso para rodamientos y chasís',
+        precio: 3200.00,
+        costo: 1920.00,
+        imagen_url: 'https://images.unsplash.com/photo-1607008829203-c3908f85d0c5?w=300&h=200&fit=crop',
+        stock: 35,
+        estado: 'activo',
+        brand_id: liquiMoly.id,
+        category_id: aceites.id
+      },
+      {
+        sku: 'A005',
+        nombre: 'Aceite Motor Diesel 15W-40',
+        descripcion: 'Aceite específico para motores diesel',
+        precio: 7200.00,
+        costo: 4320.00,
+        imagen_url: 'https://images.unsplash.com/photo-1593113598332-cd8648bd0029?w=300&h=200&fit=crop',
+        stock: 30,
+        estado: 'activo',
+        brand_id: castrol.id,
+        category_id: aceites.id
+      },
+      {
+        sku: 'A006',
+        nombre: 'Aditivo Limpiador Motor',
+        descripcion: 'Aditivo para limpieza interna del motor',
+        precio: 4500.00,
+        costo: 2700.00,
+        imagen_url: 'https://images.unsplash.com/photo-1590834882991-39551da7e75c?w=300&h=200&fit=crop',
+        stock: 28,
+        estado: 'activo',
+        brand_id: liquiMoly.id,
+        category_id: aceites.id
+      },
+      {
+        sku: 'A007',
+        nombre: 'Refrigerante Anticongelante',
+        descripcion: 'Líquido refrigerante concentrado G12++',
+        precio: 3800.00,
+        costo: 2280.00,
+        imagen_url: 'https://images.unsplash.com/photo-1626544342344-1f4e4db312a3?w=300&h=200&fit=crop',
+        stock: 42,
+        estado: 'activo',
+        brand_id: liquiMoly.id,
+        category_id: aceites.id
+      },
+      {
+        sku: 'A008',
+        nombre: 'Aceite Caja Manual 75W-90',
+        descripcion: 'Aceite para cajas manuales y diferenciales',
+        precio: 9800.00,
+        costo: 5880.00,
+        imagen_url: 'https://images.unsplash.com/photo-1541746972996-4e0b0f93e586?w=300&h=200&fit=crop',
+        stock: 20,
+        estado: 'activo',
+        brand_id: castrol.id,
+        category_id: aceites.id
+      },
 
-        console.log("✅ Categorías creadas");
+      {
+        sku: 'E001',
+        nombre: 'Bujías Iridium NGK ILKAR7B11',
+        descripcion: 'Bujías de iridio para máximo rendimiento',
+        precio: 8500.00,
+        costo: 5100.00,
+        imagen_url: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=200&fit=crop',
+        stock: 24,
+        estado: 'activo',
+        brand_id: ngk.id,
+        category_id: encendido.id
+      },
+      {
+        sku: 'E002',
+        nombre: 'Cables de Bujía 8mm',
+        descripcion: 'Juego de cables de alta tensión',
+        precio: 12000.00,
+        costo: 7200.00,
+        imagen_url: 'https://images.unsplash.com/photo-1605832307487-4ad0b46e2b72?w=300&h=200&fit=crop',
+        stock: 18,
+        estado: 'activo',
+        brand_id: ngk.id,
+        category_id: encendido.id
+      },
+      {
+        sku: 'E003',
+        nombre: 'Bobina de Encendido Individual',
+        descripcion: 'Bobina de encendido para motores modernos',
+        precio: 15800.00,
+        costo: 9480.00,
+        imagen_url: 'https://images.unsplash.com/photo-1574006707451-b7bd1a6b6ba2?w=300&h=200&fit=crop',
+        stock: 15,
+        estado: 'activo',
+        brand_id: bosch.id,
+        category_id: encendido.id
+      },
+      {
+        sku: 'E004',
+        nombre: 'Distribuidor Completo',
+        descripcion: 'Distribuidor con tapa y rotor incluido',
+        precio: 28500.00,
+        costo: 17100.00,
+        imagen_url: 'https://images.unsplash.com/photo-1527430253228-e93688616381?w=300&h=200&fit=crop',
+        stock: 8,
+        estado: 'activo',
+        brand_id: bosch.id,
+        category_id: encendido.id
+      },
+      {
+        sku: 'E005',
+        nombre: 'Sensor de Posición Cigüeñal',
+        descripcion: 'Sensor CKP para sistema de inyección',
+        precio: 8900.00,
+        costo: 5340.00,
+        imagen_url: 'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=300&h=200&fit=crop',
+        stock: 12,
+        estado: 'activo',
+        brand_id: bosch.id,
+        category_id: encendido.id
+      },
+      {
+        sku: 'E006',
+        nombre: 'Modulo de Encendido Electrónico',
+        descripcion: 'Módulo de control de encendido',
+        precio: 24000.00,
+        costo: 14400.00,
+        imagen_url: 'https://images.unsplash.com/photo-1504113888839-1c8eb50233a5?w=300&h=200&fit=crop',
+        stock: 6,
+        estado: 'activo',
+        brand_id: bosch.id,
+        category_id: encendido.id
+      },
+      {
+        sku: 'E007',
+        nombre: 'Bujías Convencionales BP6ES',
+        descripcion: 'Bujías estándar para motores carburados',
+        precio: 2800.00,
+        costo: 1680.00,
+        imagen_url: 'https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=300&h=200&fit=crop',
+        stock: 50,
+        estado: 'activo',
+        brand_id: ngk.id,
+        category_id: encendido.id
+      },
+      {
+        sku: 'E008',
+        nombre: 'Condensador de Encendido',
+        descripcion: 'Condensador para sistemas clásicos',
+        precio: 1500.00,
+        costo: 900.00,
+        imagen_url: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=200&fit=crop',
+        stock: 30,
+        estado: 'activo',
+        brand_id: bosch.id,
+        category_id: encendido.id
+      },
 
-        // Crear vehículos
-        const vehicles = await Vehicle.bulkCreate([
-            { marca: "Volkswagen", modelo: "Golf", año_desde: 2010, año_hasta: 2020, motor: "1.6 TDI" },
-            { marca: "Volkswagen", modelo: "Polo", año_desde: 2015, año_hasta: null, motor: "1.0 TSI" },
-            { marca: "Ford", modelo: "Focus", año_desde: 2012, año_hasta: 2018, motor: "2.0 TDCi" },
-            { marca: "Ford", modelo: "Fiesta", año_desde: 2013, año_hasta: null, motor: "1.6 Ti-VCT" },
-            { marca: "Chevrolet", modelo: "Cruze", año_desde: 2011, año_hasta: 2019, motor: "1.8 LT" },
-            { marca: "Toyota", modelo: "Corolla", año_desde: 2014, año_hasta: null, motor: "1.8 Hybrid" },
-            { marca: "Honda", modelo: "Civic", año_desde: 2016, año_hasta: null, motor: "1.5 VTEC" },
-            { marca: "Nissan", modelo: "Sentra", año_desde: 2013, año_hasta: 2020, motor: "1.6 16V" }
-        ]);
+      {
+        sku: 'T001',
+        nombre: 'Correa de Distribución Gates',
+        descripcion: 'Correa de distribución reforzada',
+        precio: 8500.00,
+        costo: 5100.00,
+        imagen_url: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=300&h=200&fit=crop',
+        stock: 20,
+        estado: 'activo',
+        brand_id: gates.id,
+        category_id: transmision.id
+      },
+      {
+        sku: 'T002',
+        nombre: 'Kit Distribución Completo',
+        descripcion: 'Kit con correa, tensores y bomba de agua',
+        precio: 28000.00,
+        costo: 16800.00,
+        imagen_url: 'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=300&h=200&fit=crop',
+        stock: 10,
+        estado: 'activo',
+        brand_id: gates.id,
+        category_id: transmision.id
+      },
+      {
+        sku: 'T003',
+        nombre: 'Embrague Kit 3 Piezas',
+        descripcion: 'Kit de embrague disco, plato y collarin',
+        precio: 45000.00,
+        costo: 27000.00,
+        imagen_url: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=300&h=200&fit=crop',
+        stock: 8,
+        estado: 'activo',
+        brand_id: mahle.id,
+        category_id: transmision.id
+      },
+      {
+        sku: 'T004',
+        nombre: 'Correa Alternador Poly-V',
+        descripcion: 'Correa de accesorios multicanal',
+        precio: 4200.00,
+        costo: 2520.00,
+        imagen_url: 'https://images.unsplash.com/photo-1590736969955-71cc94901144?w=300&h=200&fit=crop',
+        stock: 25,
+        estado: 'activo',
+        brand_id: gates.id,
+        category_id: transmision.id
+      },
+      {
+        sku: 'T005',
+        nombre: 'Tensor de Correa Automático',
+        descripcion: 'Tensor automático para correa de accesorios',
+        precio: 12500.00,
+        costo: 7500.00,
+        imagen_url: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=200&fit=crop',
+        stock: 15,
+        estado: 'activo',
+        brand_id: gates.id,
+        category_id: transmision.id
+      },
+      {
+        sku: 'T006',
+        nombre: 'Rodamiento Embrague',
+        descripcion: 'Collarín de embrague de liberación',
+        precio: 8900.00,
+        costo: 5340.00,
+        imagen_url: 'https://images.unsplash.com/photo-1632501641765-e568d28b0015?w=300&h=200&fit=crop',
+        stock: 18,
+        estado: 'activo',
+        brand_id: mahle.id,
+        category_id: transmision.id
+      },
+      {
+        sku: 'T007',
+        nombre: 'Bomba de Agua Completa',
+        descripcion: 'Bomba de agua con junta incluida',
+        precio: 15600.00,
+        costo: 9360.00,
+        imagen_url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=200&fit=crop',
+        stock: 12,
+        estado: 'activo',
+        brand_id: gates.id,
+        category_id: motor.id
+      },
+      {
+        sku: 'T008',
+        nombre: 'Cadena de Distribución',
+        descripcion: 'Cadena de distribución para motores TSI',
+        precio: 18500.00,
+        costo: 11100.00,
+        imagen_url: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300&h=200&fit=crop',
+        stock: 8,
+        estado: 'activo',
+        brand_id: mahle.id,
+        category_id: transmision.id
+      }
+    ]);
 
-        console.log("✅ Vehículos creados");
+    console.log('✅ Productos creados');
 
-        // Crear productos (40 productos variados)
-        const products = await Product.bulkCreate([
-            // FILTROS (8 productos)
-            {
-                sku: "F001",
-                nombre: "Filtro de Aceite W 712/75",
-                descripcion: "Filtro de aceite compatible con motores VW/Audi 1.6-2.0 TDI",
-                precio: 3500.00,
-                costo: 2100.00,
-                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
-                stock: 25,
-                estado: "activo",
-                brand_id: mann.id,
-                category_id: filtros.id
-            },
-            {
-                sku: "F002",
-                nombre: "Filtro de Aire C 25 114",
-                descripcion: "Filtro de aire para VW Golf, Polo y Audi A3",
-                precio: 2800.00,
-                costo: 1680.00,
-                imagen_url: "https://images.unsplash.com/photo-1632501641765-e568d28b0015?w=200&h=150&fit=crop",
-                stock: 30,
-                estado: "activo",
-                brand_id: mann.id,
-                category_id: filtros.id
-            },
-            {
-                sku: "F003",
-                nombre: "Filtro Combustible FF5052",
-                descripcion: "Filtro de combustible para motores diesel",
-                precio: 4200.00,
-                costo: 2520.00,
-                imagen_url: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=200&h=150&fit=crop",
-                stock: 22,
-                estado: "activo",
-                brand_id: bosch.id,
-                category_id: filtros.id
-            },
-            {
-                sku: "F004",
-                nombre: "Filtro Cabina LA440",
-                descripcion: "Filtro antipolen para máxima pureza del aire",
-                precio: 3200.00,
-                costo: 1920.00,
-                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
-                stock: 35,
-                estado: "activo",
-                brand_id: mahle.id,
-                category_id: filtros.id
-            },
-            {
-                sku: "F005",
-                nombre: "Filtro Hydraulico HU7003X",
-                descripcion: "Filtro hidráulico para transmisiones automáticas",
-                precio: 4800.00,
-                costo: 2880.00,
-                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
-                stock: 18,
-                estado: "activo",
-                brand_id: mann.id,
-                category_id: filtros.id
-            },
-            {
-                sku: "F006",
-                nombre: "Filtro Gasolina G6302",
-                descripcion: "Filtro de combustible para motores nafteros",
-                precio: 3800.00,
-                costo: 2280.00,
-                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
-                stock: 28,
-                estado: "activo",
-                brand_id: bosch.id,
-                category_id: filtros.id
-            },
-            {
-                sku: "F007",
-                nombre: "Filtro Aire Motor C30005",
-                descripcion: "Filtro de aire de alto rendimiento",
-                precio: 3600.00,
-                costo: 2160.00,
-                imagen_url: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=200&h=150&fit=crop",
-                stock: 32,
-                estado: "activo",
-                brand_id: mahle.id,
-                category_id: filtros.id
-            },
-            {
-                sku: "F008",
-                nombre: "Filtro Aceite OX153D1",
-                descripcion: "Filtro de aceite ecológico biodegradable",
-                precio: 4100.00,
-                costo: 2460.00,
-                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
-                stock: 26,
-                estado: "activo",
-                brand_id: mahle.id,
-                category_id: filtros.id
-            },
+    const fitments = [
 
-            // FRENOS (8 productos)
-            {
-                sku: "B001",
-                nombre: "Pastillas de Freno Delanteras Brembo",
-                descripcion: "Pastillas de freno cerámicas para eje delantero",
-                precio: 12000.00,
-                costo: 7200.00,
-                imagen_url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200&h=150&fit=crop",
-                stock: 15,
-                estado: "activo",
-                brand_id: brembo.id,
-                category_id: pastillas.id
-            },
-            {
-                sku: "B002",
-                nombre: "Pastillas de Freno Traseras Ferodo",
-                descripcion: "Pastillas de freno orgánicas para eje trasero",
-                precio: 8500.00,
-                costo: 5100.00,
-                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
-                stock: 18,
-                estado: "activo",
-                brand_id: ferodo.id,
-                category_id: pastillas.id
-            },
-            {
-                sku: "B003",
-                nombre: "Disco de Freno Ventilado",
-                descripcion: "Disco de freno ventilado 280mm",
-                precio: 15800.00,
-                costo: 9480.00,
-                imagen_url: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=200&h=150&fit=crop",
-                stock: 25,
-                estado: "activo",
-                brand_id: brembo.id,
-                category_id: frenos.id
-            },
-            {
-                sku: "B004",
-                nombre: "Cilindro Freno Rueda TRW",
-                descripcion: "Cilindro de freno para rueda trasera",
-                precio: 6800.00,
-                costo: 4080.00,
-                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
-                stock: 12,
-                estado: "activo",
-                brand_id: trw.id,
-                category_id: frenos.id
-            },
-            {
-                sku: "B005",
-                nombre: "Liquido de Frenos DOT4",
-                descripcion: "Líquido de frenos sintético 500ml",
-                precio: 2400.00,
-                costo: 1440.00,
-                imagen_url: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=200&h=150&fit=crop",
-                stock: 50,
-                estado: "activo",
-                brand_id: bosch.id,
-                category_id: frenos.id
-            },
-            {
-                sku: "B006",
-                nombre: "Sensor ABS Delantero",
-                descripcion: "Sensor de velocidad ABS rueda delantera",
-                precio: 8900.00,
-                costo: 5340.00,
-                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
-                stock: 16,
-                estado: "activo",
-                brand_id: bosch.id,
-                category_id: electrica.id
-            },
-            {
-                sku: "B007",
-                nombre: "Pastillas Freno Ceramicas Premium",
-                descripcion: "Pastillas cerámicas sin ruido alta gama",
-                precio: 18500.00,
-                costo: 11100.00,
-                imagen_url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200&h=150&fit=crop",
-                stock: 20,
-                estado: "activo",
-                brand_id: brembo.id,
-                category_id: pastillas.id
-            },
-            {
-                sku: "B008",
-                nombre: "Kit Reparacion Calipers",
-                descripcion: "Kit completo para reparación de calipers",
-                precio: 4800.00,
-                costo: 2880.00,
-                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
-                stock: 14,
-                estado: "activo",
-                brand_id: trw.id,
-                category_id: frenos.id
-            },
+      { product_id: products[0].id, vehicle_id: vehicles[0].id },
+      { product_id: products[0].id, vehicle_id: vehicles[1].id },
 
-            // ACEITES Y LUBRICANTES (8 productos)
-            {
-                sku: "L001",
-                nombre: "Aceite Motor 5W-30 Mobil 1",
-                descripcion: "Aceite sintético 5W-30 para motores modernos - 4L",
-                precio: 8900.00,
-                costo: 5340.00,
-                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
-                stock: 40,
-                estado: "activo",
-                brand_id: mobil.id,
-                category_id: lubricantes.id
-            },
-            {
-                sku: "L002",
-                nombre: "Aceite Motor 10W-40 Castrol",
-                descripcion: "Aceite semisintético multigrad 4L",
-                precio: 6200.00,
-                costo: 3720.00,
-                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
-                stock: 35,
-                estado: "activo",
-                brand_id: castrol.id,
-                category_id: lubricantes.id
-            },
-            {
-                sku: "L003",
-                nombre: "Aceite Transmision ATF",
-                descripcion: "Fluido automático multivehículo 1L",
-                precio: 4800.00,
-                costo: 2880.00,
-                imagen_url: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=200&h=150&fit=crop",
-                stock: 28,
-                estado: "activo",
-                brand_id: mobil.id,
-                category_id: lubricantes.id
-            },
-            {
-                sku: "L004",
-                nombre: "Refrigerante Concentrado",
-                descripcion: "Anticongelante -35°C concentrado 5L",
-                precio: 5600.00,
-                costo: 3360.00,
-                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
-                stock: 22,
-                estado: "activo",
-                brand_id: castrol.id,
-                category_id: lubricantes.id
-            },
-            {
-                sku: "L005",
-                nombre: "Grasa Multiproposito",
-                descripcion: "Grasa litio multiuso 500g",
-                precio: 1800.00,
-                costo: 1080.00,
-                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
-                stock: 60,
-                estado: "activo",
-                brand_id: shell.id,
-                category_id: lubricantes.id
-            },
-            {
-                sku: "L006",
-                nombre: "Aceite Diferencial 90W",
-                descripcion: "Aceite para diferenciales y cajas",
-                precio: 3200.00,
-                costo: 1920.00,
-                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
-                stock: 18,
-                estado: "activo",
-                brand_id: shell.id,
-                category_id: lubricantes.id
-            },
-            {
-                sku: "L007",
-                nombre: "Aceite 0W-20 Hibridos",
-                descripcion: "Aceite especial motores híbridos",
-                precio: 12800.00,
-                costo: 7680.00,
-                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
-                stock: 15,
-                estado: "activo",
-                brand_id: mobil.id,
-                category_id: lubricantes.id
-            },
-            {
-                sku: "L008",
-                nombre: "Aditivo Stop Smoke",
-                descripcion: "Reductor consumo aceite y humo",
-                precio: 2400.00,
-                costo: 1440.00,
-                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
-                stock: 45,
-                estado: "activo",
-                brand_id: bardahl.id,
-                category_id: lubricantes.id
-            },
+      { product_id: products[1].id, vehicle_id: vehicles[0].id },
+      { product_id: products[1].id, vehicle_id: vehicles[1].id },
 
-            // SISTEMA ELÉCTRICO (8 productos)
-            {
-                sku: "E001",
-                nombre: "Batería Bosch S4 60Ah",
-                descripcion: "Batería libre mantenimiento 60Ah 540A",
-                precio: 18600.00,
-                costo: 11160.00,
-                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
-                stock: 25,
-                estado: "activo",
-                brand_id: bosch.id,
-                category_id: electrica.id
-            },
-            {
-                sku: "E002",
-                nombre: "Alternador 120A Bosch",
-                descripcion: "Alternador 14V 120A remanufacturado",
-                precio: 28500.00,
-                costo: 17100.00,
-                imagen_url: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=200&h=150&fit=crop",
-                stock: 8,
-                estado: "activo",
-                brand_id: bosch.id,
-                category_id: electrica.id
-            },
-            {
-                sku: "E003",
-                nombre: "Motor Arranque Valeo",
-                descripcion: "Motor arranque 12V 1.4kW",
-                precio: 24800.00,
-                costo: 14880.00,
-                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
-                stock: 6,
-                estado: "activo",
-                brand_id: valeo.id,
-                category_id: electrica.id
-            },
-            {
-                sku: "E004",
-                nombre: "Bobina Encendido NGK",
-                descripcion: "Bobina encendido individual",
-                precio: 8900.00,
-                costo: 5340.00,
-                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
-                stock: 20,
-                estado: "activo",
-                brand_id: ngk.id,
-                category_id: encendido.id
-            },
-            {
-                sku: "E005",
-                nombre: "Bujias Iridium NGK",
-                descripcion: "Juego 4 bujías iridio larga vida",
-                precio: 18000.00,
-                costo: 10800.00,
-                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
-                stock: 15,
-                estado: "activo",
-                brand_id: ngk.id,
-                category_id: encendido.id
-            },
-            {
-                sku: "E006",
-                nombre: "Regulador Voltaje Bosch",
-                descripcion: "Regulador electrónico 14V",
-                precio: 6800.00,
-                costo: 4080.00,
-                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
-                stock: 12,
-                estado: "activo",
-                brand_id: bosch.id,
-                category_id: electrica.id
-            },
-            {
-                sku: "E007",
-                nombre: "Sensor Oxigeno Lambda",
-                descripcion: "Sonda lambda universal",
-                precio: 9600.00,
-                costo: 5760.00,
-                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
-                stock: 18,
-                estado: "activo",
-                brand_id: bosch.id,
-                category_id: electrica.id
-            },
-            {
-                sku: "E008",
-                nombre: "Cables Bujias NGK",
-                descripcion: "Juego cables alta tensión",
-                precio: 7200.00,
-                costo: 4320.00,
-                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
-                stock: 22,
-                estado: "activo",
-                brand_id: ngk.id,
-                category_id: encendido.id
-            },
+      { product_id: products[8].id, vehicle_id: vehicles[0].id },
+      { product_id: products[8].id, vehicle_id: vehicles[2].id },
+      { product_id: products[8].id, vehicle_id: vehicles[4].id },
 
-            // SUSPENSIÓN Y DIRECCIÓN (8 productos)
-            {
-                sku: "S001",
-                nombre: "Amortiguador Monroe Delantero",
-                descripcion: "Amortiguador hidráulico delantero",
-                precio: 12500.00,
-                costo: 7500.00,
-                imagen_url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200&h=150&fit=crop",
-                stock: 20,
-                estado: "activo",
-                brand_id: monroe.id,
-                category_id: suspension.id
-            },
-            {
-                sku: "S002",
-                nombre: "Resorte Eibach Delantero",
-                descripcion: "Resorte progresivo deportivo",
-                precio: 8900.00,
-                costo: 5340.00,
-                imagen_url: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop",
-                stock: 15,
-                estado: "activo",
-                brand_id: eibach.id,
-                category_id: suspension.id
-            },
-            {
-                sku: "S003",
-                nombre: "Rotula Suspension TRW",
-                descripcion: "Rótula suspensión delantera inferior",
-                precio: 6800.00,
-                costo: 4080.00,
-                imagen_url: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=200&h=150&fit=crop",
-                stock: 25,
-                estado: "activo",
-                brand_id: trw.id,
-                category_id: suspension.id
-            },
-            {
-                sku: "S004",
-                nombre: "Buje Barra Estabilizadora",
-                descripcion: "Buje goma estabilizadora delantera",
-                precio: 1800.00,
-                costo: 1080.00,
-                imagen_url: "https://images.unsplash.com/photo-1590736969955-71cc94901144?w=200&h=150&fit=crop",
-                stock: 50,
-                estado: "activo",
-                brand_id: lemforder.id,
-                category_id: suspension.id
-            },
-            {
-                sku: "S005",
-                nombre: "Copa Amortiguador Monroe",
-                descripcion: "Soporte superior amortiguador",
-                precio: 4200.00,
-                costo: 2520.00,
-                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
-                stock: 30,
-                estado: "activo",
-                brand_id: monroe.id,
-                category_id: suspension.id
-            },
-            {
-                sku: "S006",
-                nombre: "Terminal Direccion TRW",
-                descripcion: "Terminal axial dirección",
-                precio: 5600.00,
-                costo: 3360.00,
-                imagen_url: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=200&h=150&fit=crop",
-                stock: 22,
-                estado: "activo",
-                brand_id: trw.id,
-                category_id: suspension.id
-            },
-            {
-                sku: "S007",
-                nombre: "Amortiguador Trasero Bilstein",
-                descripcion: "Amortiguador gas trasero",
-                precio: 18500.00,
-                costo: 11100.00,
-                imagen_url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200&h=150&fit=crop",
-                stock: 12,
-                estado: "activo",
-                brand_id: bilstein.id,
-                category_id: suspension.id
-            },
-            {
-                sku: "S008",
-                nombre: "Rodamiento Rueda Delantera",
-                descripcion: "Rodamiento con sensor ABS",
-                precio: 9600.00,
-                costo: 5760.00,
-                imagen_url: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=200&h=150&fit=crop",
-                stock: 18,
-                estado: "activo",
-                brand_id: bosch.id,
-                category_id: suspension.id
-            }
-        ]);
+      { product_id: products[9].id, vehicle_id: vehicles[0].id },
+      { product_id: products[9].id, vehicle_id: vehicles[2].id },
 
-        console.log("✅ Productos creados");
+      { product_id: products[32].id, vehicle_id: vehicles[0].id },
+      { product_id: products[32].id, vehicle_id: vehicles[1].id },
+      { product_id: products[32].id, vehicle_id: vehicles[2].id },
 
-        // Crear compatibilidades producto-vehículo (Fitments)
-        const fitments = [
-            // Filtro de aceite compatible con Golf y Polo VW
-            { product_id: products[0].id, vehicle_id: vehicles[0].id },
-            { product_id: products[0].id, vehicle_id: vehicles[1].id },
-            
-            // Filtro de aire compatible con Golf y Polo VW
-            { product_id: products[1].id, vehicle_id: vehicles[0].id },
-            { product_id: products[1].id, vehicle_id: vehicles[1].id },
-            
-            // Pastillas delanteras compatibles con varios modelos
-            { product_id: products[2].id, vehicle_id: vehicles[0].id },
-            { product_id: products[2].id, vehicle_id: vehicles[2].id },
-            { product_id: products[2].id, vehicle_id: vehicles[4].id },
-            
-            // Pastillas traseras
-            { product_id: products[3].id, vehicle_id: vehicles[0].id },
-            { product_id: products[3].id, vehicle_id: vehicles[2].id },
-            
-            // Correa de distribución
-            { product_id: products[4].id, vehicle_id: vehicles[0].id },
-            { product_id: products[4].id, vehicle_id: vehicles[1].id },
-            { product_id: products[4].id, vehicle_id: vehicles[2].id },
-            
-            // Bujías para motores a nafta
-            { product_id: products[5].id, vehicle_id: vehicles[1].id },
-            { product_id: products[5].id, vehicle_id: vehicles[3].id },
-            { product_id: products[5].id, vehicle_id: vehicles[4].id },
-            { product_id: products[5].id, vehicle_id: vehicles[5].id },
-            { product_id: products[5].id, vehicle_id: vehicles[6].id },
-            
-            // Aceite compatible con todos
-            { product_id: products[6].id, vehicle_id: vehicles[0].id },
-            { product_id: products[6].id, vehicle_id: vehicles[1].id },
-            { product_id: products[6].id, vehicle_id: vehicles[2].id },
-            { product_id: products[6].id, vehicle_id: vehicles[3].id },
-            { product_id: products[6].id, vehicle_id: vehicles[4].id },
-            { product_id: products[6].id, vehicle_id: vehicles[5].id },
-            
-            // Filtro combustible para diesel
-            { product_id: products[7].id, vehicle_id: vehicles[0].id },
-            { product_id: products[7].id, vehicle_id: vehicles[2].id }
-        ];
+      { product_id: products[24].id, vehicle_id: vehicles[1].id },
+      { product_id: products[24].id, vehicle_id: vehicles[3].id },
+      { product_id: products[24].id, vehicle_id: vehicles[4].id },
+      { product_id: products[24].id, vehicle_id: vehicles[5].id },
+      { product_id: products[24].id, vehicle_id: vehicles[6].id },
 
-        await Fitment.bulkCreate(fitments);
+      { product_id: products[16].id, vehicle_id: vehicles[0].id },
+      { product_id: products[16].id, vehicle_id: vehicles[1].id },
+      { product_id: products[16].id, vehicle_id: vehicles[2].id },
+      { product_id: products[16].id, vehicle_id: vehicles[3].id },
+      { product_id: products[16].id, vehicle_id: vehicles[4].id },
+      { product_id: products[16].id, vehicle_id: vehicles[5].id },
 
-        console.log("✅ Compatibilidades creadas");
+      { product_id: products[2].id, vehicle_id: vehicles[0].id },
+      { product_id: products[2].id, vehicle_id: vehicles[2].id }
+    ];
 
-        console.log("🎉 Seed completado exitosamente!");
-        console.log("👤 Admin: admin@repuestos.com / admin123");
-        console.log("👤 Usuario: juan@gmail.com / user123");
-        console.log("👤 Usuario: maria@gmail.com / user123");
-        
-        process.exit(0);
-    } catch (err) {
-        console.error("❌ Error en seed:", err);
-        process.exit(1);
-    }
+    await Fitment.bulkCreate(fitments);
+
+    console.log('✅ Compatibilidades creadas');
+
+    console.log('🎉 Seed completado exitosamente!');
+    console.log('👤 Admin: admin@repuestos.com / admin123');
+    console.log('👤 Usuario: juan@gmail.com / user123');
+    console.log('👤 Usuario: maria@gmail.com / user123');
+
+    process.exit(0);
+  } catch (err) {
+    console.error('❌ Error en seed:', err);
+    process.exit(1);
+  }
 })();

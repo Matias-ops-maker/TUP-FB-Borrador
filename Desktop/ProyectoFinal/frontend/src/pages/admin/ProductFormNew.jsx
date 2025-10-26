@@ -5,14 +5,15 @@ import "../../styles/usuario.css";
 
 export default function ProductFormNew() {
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    price: '',
+    sku: '',
+    nombre: '',
+    descripcion: '',
+    precio: '',
     stock: '',
-    categoryId: '',
-    brandId: '',
-    image: '',
-    featured: false
+    category_id: '',
+    brand_id: '',
+    imagen_url: '',
+    estado: 'activo'
   });
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
@@ -30,30 +31,29 @@ export default function ProductFormNew() {
   }, [id]);
 
   const loadInitialData = async () => {
-    try {
-      // Cargar categorías
-      const categoriesData = [
-        { id: 1, name: 'Filtros' },
-        { id: 2, name: 'Frenos' },
-        { id: 3, name: 'Aceites' },
-        { id: 4, name: 'Sistema Eléctrico' },
-        { id: 5, name: 'Suspensión' },
-        { id: 6, name: 'Transmisión' }
-      ];
-      setCategories(categoriesData);
-
-      // Cargar marcas
-      const brandsData = [
-        { id: 1, name: 'Bosch' },
-        { id: 2, name: 'NGK' },
-        { id: 3, name: 'Mann Filter' },
-        { id: 4, name: 'Castrol' },
-        { id: 5, name: 'Monroe' },
-        { id: 6, name: 'Brembo' }
-      ];
-      setBrands(brandsData);
+    try {
+      const categoriesResponse = await api.get('/categories');
+      setCategories(categoriesResponse.data || []);
+      const brandsResponse = await api.get('/brands');
+      setBrands(brandsResponse.data || []);
     } catch (error) {
-      console.error('Error cargando datos iniciales:', error);
+      console.error('Error cargando datos iniciales:', error);
+      setCategories([
+        { id: 1, nombre: 'Filtros' },
+        { id: 2, nombre: 'Frenos' },
+        { id: 3, nombre: 'Aceites' },
+        { id: 4, nombre: 'Sistema Eléctrico' },
+        { id: 5, nombre: 'Suspensión' },
+        { id: 6, nombre: 'Transmisión' }
+      ]);
+      setBrands([
+        { id: 1, nombre: 'Bosch' },
+        { id: 2, nombre: 'NGK' },
+        { id: 3, nombre: 'Mann Filter' },
+        { id: 4, nombre: 'Castrol' },
+        { id: 5, nombre: 'Monroe' },
+        { id: 6, nombre: 'Brembo' }
+      ]);
     }
   };
 
@@ -64,14 +64,15 @@ export default function ProductFormNew() {
       const product = response.data;
       
       setFormData({
-        name: product.name || '',
-        description: product.description || '',
-        price: product.price || '',
+        sku: product.sku || '',
+        nombre: product.nombre || '',
+        descripcion: product.descripcion || '',
+        precio: product.precio || '',
         stock: product.stock || '',
-        categoryId: product.categoryId || '',
-        brandId: product.brandId || '',
-        image: product.image || '',
-        featured: product.featured || false
+        category_id: product.category_id || '',
+        brand_id: product.brand_id || '',
+        imagen_url: product.imagen_url || '',
+        estado: product.estado || 'activo'
       });
     } catch (error) {
       console.error('Error cargando producto:', error);
@@ -97,10 +98,11 @@ export default function ProductFormNew() {
     try {
       const productData = {
         ...formData,
-        price: parseFloat(formData.price),
+        sku: formData.sku || `SKU-${Date.now()}`,
+        precio: parseFloat(formData.precio),
         stock: parseInt(formData.stock),
-        categoryId: parseInt(formData.categoryId),
-        brandId: parseInt(formData.brandId)
+        category_id: parseInt(formData.category_id),
+        brand_id: parseInt(formData.brand_id)
       };
 
       if (isEdit) {
@@ -151,12 +153,25 @@ export default function ProductFormNew() {
 
           <div className="form-grid">
             <div className="form-group">
-              <label htmlFor="name">Nombre del Producto *</label>
+              <label htmlFor="sku">SKU *</label>
               <input
                 type="text"
-                id="name"
-                name="name"
-                value={formData.name}
+                id="sku"
+                name="sku"
+                value={formData.sku}
+                onChange={handleInputChange}
+                required
+                placeholder="Ej: FIL-001-MANN"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="nombre">Nombre del Producto *</label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                value={formData.nombre}
                 onChange={handleInputChange}
                 required
                 placeholder="Ej: Filtro de aceite Mann Filter"
@@ -164,12 +179,12 @@ export default function ProductFormNew() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="price">Precio (ARS) *</label>
+              <label htmlFor="precio">Precio (ARS) *</label>
               <input
                 type="number"
-                id="price"
-                name="price"
-                value={formData.price}
+                id="precio"
+                name="precio"
+                value={formData.precio}
                 onChange={handleInputChange}
                 required
                 min="0"
@@ -193,48 +208,48 @@ export default function ProductFormNew() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="categoryId">Categoría *</label>
+              <label htmlFor="category_id">Categoría *</label>
               <select
-                id="categoryId"
-                name="categoryId"
-                value={formData.categoryId}
+                id="category_id"
+                name="category_id"
+                value={formData.category_id}
                 onChange={handleInputChange}
                 required
               >
                 <option value="">Seleccionar categoría</option>
                 {categories.map(cat => (
                   <option key={cat.id} value={cat.id}>
-                    {cat.name}
+                    {cat.nombre}
                   </option>
                 ))}
               </select>
             </div>
 
             <div className="form-group">
-              <label htmlFor="brandId">Marca *</label>
+              <label htmlFor="brand_id">Marca *</label>
               <select
-                id="brandId"
-                name="brandId"
-                value={formData.brandId}
+                id="brand_id"
+                name="brand_id"
+                value={formData.brand_id}
                 onChange={handleInputChange}
                 required
               >
                 <option value="">Seleccionar marca</option>
                 {brands.map(brand => (
                   <option key={brand.id} value={brand.id}>
-                    {brand.name}
+                    {brand.nombre}
                   </option>
                 ))}
               </select>
             </div>
 
             <div className="form-group">
-              <label htmlFor="image">URL de Imagen</label>
+              <label htmlFor="imagen_url">URL de Imagen</label>
               <input
                 type="url"
-                id="image"
-                name="image"
-                value={formData.image}
+                id="imagen_url"
+                name="imagen_url"
+                value={formData.imagen_url}
                 onChange={handleInputChange}
                 placeholder="https://ejemplo.com/imagen.jpg"
               />
@@ -242,11 +257,11 @@ export default function ProductFormNew() {
           </div>
 
           <div className="form-group full-width">
-            <label htmlFor="description">Descripción</label>
+            <label htmlFor="descripcion">Descripción</label>
             <textarea
-              id="description"
-              name="description"
-              value={formData.description}
+              id="descripcion"
+              name="descripcion"
+              value={formData.descripcion}
               onChange={handleInputChange}
               rows="4"
               placeholder="Descripción detallada del producto..."
@@ -257,12 +272,15 @@ export default function ProductFormNew() {
             <label className="checkbox-label">
               <input
                 type="checkbox"
-                name="featured"
-                checked={formData.featured}
-                onChange={handleInputChange}
+                name="estado"
+                checked={formData.estado === 'activo'}
+                onChange={(e) => setFormData(prev => ({
+                  ...prev,
+                  estado: e.target.checked ? 'activo' : 'inactivo'
+                }))}
               />
               <span className="checkmark"></span>
-              Producto destacado
+              Producto activado
             </label>
           </div>
 
@@ -284,11 +302,11 @@ export default function ProductFormNew() {
           </div>
         </form>
 
-        {formData.image && (
+        {formData.imagen_url && (
           <div className="image-preview">
             <h3>Vista previa de imagen</h3>
             <img 
-              src={formData.image} 
+              src={formData.imagen_url} 
               alt="Vista previa"
               onError={(e) => {
                 e.target.style.display = 'none';

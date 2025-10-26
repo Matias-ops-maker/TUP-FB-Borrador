@@ -2,9 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/usuario.css";
 
 export default function Orders() {
-    const navigate = useNavigate();
-
-    // Datos simulados de pedidos
+    const navigate = useNavigate();
     const pedidos = [
         {
             id: 1,

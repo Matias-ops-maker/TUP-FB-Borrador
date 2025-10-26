@@ -15,13 +15,9 @@ import bcrypt from "bcrypt";
 
 (async () => {
     try {
-        console.log("🌱 Iniciando seed de la base de datos...");
-        
-        // Sincronizar la DB (force: true borra todo antes)
+        console.log("🌱 Iniciando seed de la base de datos...");
         await sequelize.sync({ force: true });
-        console.log("✅ Base de datos sincronizada");
-
-        // Crear usuarios
+        console.log("✅ Base de datos sincronizada");
         const passAdmin = await bcrypt.hash("admin123", 10);
         const admin = await User.create({ 
             nombre: "Administrador", 
@@ -45,14 +41,10 @@ import bcrypt from "bcrypt";
             rol: "user"
         });
 
-        console.log("✅ Usuarios creados");
-
-        // Crear carritos
+        console.log("✅ Usuarios creados");
         await Cart.create({ user_id: admin.id });
         await Cart.create({ user_id: user1.id });
-        await Cart.create({ user_id: user2.id });
-
-        // Crear marcas
+        await Cart.create({ user_id: user2.id });
         const bosch = await Brand.create({ nombre: "Bosch" });
         const mann = await Brand.create({ nombre: "Mann Filter" });
         const gates = await Brand.create({ nombre: "Gates" });
@@ -80,9 +72,7 @@ import bcrypt from "bcrypt";
         const michelin = await Brand.create({ nombre: "Michelin" });
         const continental = await Brand.create({ nombre: "Continental" });
 
-        console.log("✅ Marcas creadas");
-
-        // Crear categorías con jerarquía
+        console.log("✅ Marcas creadas");
         const motor = await Category.create({ 
             nombre: "Motor", 
             descripcion: "Componentes del motor" 
@@ -146,9 +136,7 @@ import bcrypt from "bcrypt";
             descripcion: "Sistema de aire acondicionado" 
         });
 
-        console.log("✅ Categorías creadas");
-
-        // Crear vehículos
+        console.log("✅ Categorías creadas");
         const vehicles = await Vehicle.bulkCreate([
             { marca: "Volkswagen", modelo: "Golf", año_desde: 2010, año_hasta: 2020, motor: "1.6 TDI" },
             { marca: "Volkswagen", modelo: "Polo", año_desde: 2015, año_hasta: null, motor: "1.0 TSI" },
@@ -160,9 +148,7 @@ import bcrypt from "bcrypt";
             { marca: "Nissan", modelo: "Sentra", año_desde: 2013, año_hasta: 2020, motor: "1.6 16V" }
         ]);
 
-        console.log("✅ Vehículos creados");
-
-        // Crear productos
+        console.log("✅ Vehículos creados");
         const products = await Product.bulkCreate([
             {
                 sku: "F001",
@@ -255,48 +241,31 @@ import bcrypt from "bcrypt";
             }
         ]);
 
-        console.log("✅ Productos creados");
-
-        // Crear compatibilidades producto-vehículo (Fitments)
-        const fitments = [
-            // Filtro de aceite compatible con Golf y Polo VW
+        console.log("✅ Productos creados");
+        const fitments = [
             { product_id: products[0].id, vehicle_id: vehicles[0].id },
-            { product_id: products[0].id, vehicle_id: vehicles[1].id },
-            
-            // Filtro de aire compatible con Golf y Polo VW
+            { product_id: products[0].id, vehicle_id: vehicles[1].id },
             { product_id: products[1].id, vehicle_id: vehicles[0].id },
-            { product_id: products[1].id, vehicle_id: vehicles[1].id },
-            
-            // Pastillas delanteras compatibles con varios modelos
+            { product_id: products[1].id, vehicle_id: vehicles[1].id },
             { product_id: products[2].id, vehicle_id: vehicles[0].id },
             { product_id: products[2].id, vehicle_id: vehicles[2].id },
-            { product_id: products[2].id, vehicle_id: vehicles[4].id },
-            
-            // Pastillas traseras
+            { product_id: products[2].id, vehicle_id: vehicles[4].id },
             { product_id: products[3].id, vehicle_id: vehicles[0].id },
-            { product_id: products[3].id, vehicle_id: vehicles[2].id },
-            
-            // Correa de distribución
+            { product_id: products[3].id, vehicle_id: vehicles[2].id },
             { product_id: products[4].id, vehicle_id: vehicles[0].id },
             { product_id: products[4].id, vehicle_id: vehicles[1].id },
-            { product_id: products[4].id, vehicle_id: vehicles[2].id },
-            
-            // Bujías para motores a nafta
+            { product_id: products[4].id, vehicle_id: vehicles[2].id },
             { product_id: products[5].id, vehicle_id: vehicles[1].id },
             { product_id: products[5].id, vehicle_id: vehicles[3].id },
             { product_id: products[5].id, vehicle_id: vehicles[4].id },
             { product_id: products[5].id, vehicle_id: vehicles[5].id },
-            { product_id: products[5].id, vehicle_id: vehicles[6].id },
-            
-            // Aceite compatible con todos
+            { product_id: products[5].id, vehicle_id: vehicles[6].id },
             { product_id: products[6].id, vehicle_id: vehicles[0].id },
             { product_id: products[6].id, vehicle_id: vehicles[1].id },
             { product_id: products[6].id, vehicle_id: vehicles[2].id },
             { product_id: products[6].id, vehicle_id: vehicles[3].id },
             { product_id: products[6].id, vehicle_id: vehicles[4].id },
-            { product_id: products[6].id, vehicle_id: vehicles[5].id },
-            
-            // Filtro combustible para diesel
+            { product_id: products[6].id, vehicle_id: vehicles[5].id },
             { product_id: products[7].id, vehicle_id: vehicles[0].id },
             { product_id: products[7].id, vehicle_id: vehicles[2].id }
         ];

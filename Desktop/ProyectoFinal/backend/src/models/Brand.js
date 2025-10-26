@@ -1,4 +1,3 @@
-// backend/src/models/Brand.js
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 

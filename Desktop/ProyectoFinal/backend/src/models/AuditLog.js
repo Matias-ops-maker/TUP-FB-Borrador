@@ -1,4 +1,3 @@
-// backend/src/models/AuditLog.js
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 

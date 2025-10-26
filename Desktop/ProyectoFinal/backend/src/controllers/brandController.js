@@ -56,9 +56,7 @@ export async function createBrand(req, res) {
 
         if (!nombre) {
             return res.status(400).json({ error: "El nombre de la marca es requerido" });
-        }
-
-        // Verificar si la marca ya existe
+        }
         const existingBrand = await Brand.findOne({ where: { nombre } });
         if (existingBrand) {
             return res.status(400).json({ error: "La marca ya existe" });
@@ -77,9 +75,7 @@ export async function updateBrand(req, res) {
         const brand = await Brand.findByPk(req.params.id);
         if (!brand) return res.status(404).json({ error: "Marca no encontrada" });
 
-        const { nombre } = req.body;
-
-        // Verificar si el nuevo nombre ya existe (si se está cambiando)
+        const { nombre } = req.body;
         if (nombre && nombre !== brand.nombre) {
             const existingBrand = await Brand.findOne({ where: { nombre } });
             if (existingBrand) {
@@ -98,9 +94,7 @@ export async function updateBrand(req, res) {
 export async function deleteBrand(req, res) {
     try {
         const brand = await Brand.findByPk(req.params.id);
-        if (!brand) return res.status(404).json({ error: "Marca no encontrada" });
-
-        // Verificar si hay productos asociados
+        if (!brand) return res.status(404).json({ error: "Marca no encontrada" });
         const productCount = await Product.count({ where: { brand_id: brand.id } });
         if (productCount > 0) {
             return res.status(400).json({ 

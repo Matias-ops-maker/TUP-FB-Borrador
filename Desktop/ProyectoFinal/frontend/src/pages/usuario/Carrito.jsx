@@ -7,8 +7,7 @@ export default function Carrito() {
   const [carrito, setCarrito] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Cargar carrito del localStorage
+  useEffect(() => {
     const carritoGuardado = localStorage.getItem('carrito');
     if (carritoGuardado) {
       setCarrito(JSON.parse(carritoGuardado));
@@ -28,18 +27,14 @@ export default function Carrito() {
     );
 
     setCarrito(nuevoCarrito);
-    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
-    
-    // Disparar evento para actualizar otros componentes
+    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
     window.dispatchEvent(new Event('storage'));
   };
 
   const eliminarDelCarrito = (productoId) => {
     const nuevoCarrito = carrito.filter(item => item.id !== productoId);
     setCarrito(nuevoCarrito);
-    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
-    
-    // Disparar evento para actualizar otros componentes
+    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
     window.dispatchEvent(new Event('storage'));
   };
 
@@ -47,24 +42,22 @@ export default function Carrito() {
     const confirmar = window.confirm('¿Estás seguro de que quieres vaciar todo el carrito?');
     if (confirmar) {
       setCarrito([]);
-      localStorage.removeItem('carrito');
-      
-      // Disparar evento para actualizar otros componentes
+      localStorage.removeItem('carrito');
       window.dispatchEvent(new Event('storage'));
     }
   };
 
   const calcularSubtotal = () => {
-    return carrito.reduce((total, item) => total + (item.price * item.cantidad), 0);
+    return carrito.reduce((total, item) => total + (item.precio * item.cantidad), 0);
   };
 
   const calcularEnvio = () => {
     const subtotal = calcularSubtotal();
-    return subtotal > 100000 ? 0 : 5000; // Envío gratis por compras superiores a $100,000
+    return subtotal > 100000 ? 0 : 5000;
   };
 
   const calcularImpuestos = () => {
-    return calcularSubtotal() * 0.21; // IVA 21%
+    return calcularSubtotal() * 0.21;
   };
 
   const calcularTotal = () => {
@@ -140,15 +133,15 @@ export default function Carrito() {
                 {carrito.map(item => (
                   <div key={item.id} className="carrito-item-detalle">
                     <div className="item-imagen">
-                      <img src={item.image} alt={item.name} />
+                      <img src={item.imagen_url || item.image} alt={item.nombre || item.name} />
                     </div>
                     
                     <div className="item-info-detalle">
-                      <h4>{item.name}</h4>
-                      <p className="item-marca">🏭 {item.brand}</p>
-                      <p className="item-categoria">🏷️ {item.category}</p>
+                      <h4>{item.nombre || item.name}</h4>
+                      <p className="item-marca">🏭 {item.brand || item.Brand?.nombre}</p>
+                      <p className="item-categoria">🏷️ {item.category || item.Category?.nombre}</p>
                       <p className="item-precio-unitario">
-                        Precio unitario: {formatearPrecio(item.price)}
+                        Precio unitario: {formatearPrecio(item.precio || item.price)}
                       </p>
                     </div>
                     
@@ -169,7 +162,7 @@ export default function Carrito() {
                     </div>
                     
                     <div className="item-precio-total">
-                      <strong>{formatearPrecio(item.price * item.cantidad)}</strong>
+                      <strong>{formatearPrecio((item.precio || item.price) * item.cantidad)}</strong>
                     </div>
                     
                     <button 
@@ -234,7 +227,7 @@ export default function Carrito() {
                 </div>
                 
                 <Link 
-                  to="/checkout" 
+                  to="/checkout-mercadopago" 
                   className="btn-checkout-principal"
                   style={{
                     background: '#10B981',
@@ -249,7 +242,7 @@ export default function Carrito() {
                     fontWeight: 'bold'
                   }}
                 >
-                  💳 Proceder al Checkout
+                  💳 Proceder al Checkout con MercadoPago
                 </Link>
                 
                 <Link 

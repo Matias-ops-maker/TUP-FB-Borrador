@@ -28,9 +28,7 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess('');
-
-    // Validaciones
+    setSuccess('');
     if (formData.password !== formData.confirmPassword) {
       setError('Las contraseñas no coinciden');
       setLoading(false);
@@ -44,9 +42,7 @@ export default function Register() {
     }
 
     try {
-      const { confirmPassword, ...dataToSend } = formData;
-      
-      // Mapear name a nombre para que coincida con el backend
+      const { confirmPassword, ...dataToSend } = formData;
       const requestData = {
         ...dataToSend,
         nombre: dataToSend.name

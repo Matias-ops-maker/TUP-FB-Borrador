@@ -11,16 +11,12 @@ export default function ProductoDetalle() {
   const [carrito, setCarrito] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Cargar carrito
+  useEffect(() => {
     const carritoGuardado = localStorage.getItem('carrito');
     if (carritoGuardado) {
       setCarrito(JSON.parse(carritoGuardado));
-    }
-    
-    // Simular carga de producto (aquí irían los datos reales desde la API)
-    const productos = [
-      // FILTROS
+    }
+    const productos = [
       {
         id: 1,
         name: "Filtro de Aceite Bosch P7077",
@@ -54,8 +50,7 @@ export default function ProductoDetalle() {
           "Flujo de aire superior al filtro original"
         ],
         garantia: "Garantía de por vida"
-      }
-      // Agregar más productos aquí...
+      }
     ];
 
     const productoEncontrado = productos.find(p => p.id === parseInt(id));
@@ -80,9 +75,7 @@ export default function ProductoDetalle() {
     }
 
     setCarrito(nuevoCarrito);
-    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
-    
-    // Disparar evento para actualizar otros componentes
+    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
     window.dispatchEvent(new Event('storage'));
     
     alert(`${cantidad} ${producto.name} agregado(s) al carrito!`);

@@ -22,7 +22,5 @@ export async function verifyAdmin(req, res, next) {
         return res.status(403).json({ error: "Acceso denegado. Se requieren permisos de administrador." });
     }
     next();
-}
-
-// Alias para compatibilidad
+}
 export const authMiddleware = verifyToken;

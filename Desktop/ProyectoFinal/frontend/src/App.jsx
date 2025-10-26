@@ -13,21 +13,23 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import TestComponent from "./pages/TestComponent";
 import HomeFinal from "./pages/usuario/HomeFinal"
-import HomeFinalSimple from "./pages/usuario/HomeFinalSimple"
-import HomeFinalBasic from "./pages/usuario/HomeFinalBasic"
 import Catalogo from "./pages/usuario/Catalogo"
 import Carrito from "./pages/usuario/Carrito"
 import ProductoDetalle from "./pages/usuario/ProductoDetalle"
 import Checkout from "./pages/usuario/Checkout"
+import CheckoutNew from "./pages/CheckoutNew"
+import PaymentSuccess from "./pages/PaymentSuccess"
+import PaymentFailure from "./pages/PaymentFailure"
+import PaymentPending from "./pages/PaymentPending"
 import Perfil from "./pages/usuario/Perfil"
 
 function AdminLayout() {
     return (
-        <div className="h-screen flex flex-col">
+        <div className="admin-layout">
             <Navbar />
-            <div className="flex flex-1">
+            <div className="admin-content">
                 <Sidebar />
-                <main className="flex-1 p-6">
+                <main className="admin-main">
                     <Routes>
                         <Route path="dashboard" element={<Dashboard />} />
                         <Route path="orders" element={<Orders />} />
@@ -54,9 +56,15 @@ export default function App() {
                 <Route path="/" element={<HomeFinal />} />
                 <Route path="/test" element={<TestComponent />} />
                 <Route path="/catalogo" element={<Catalogo />} />
+                <Route path="/usuario/catalogo" element={<Catalogo />} />
                 <Route path="/producto/:id" element={<ProductoDetalle />} />
                 <Route path="/carrito" element={<Carrito />} />
-                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/usuario/carrito" element={<Carrito />} />
+                <Route path="/checkout" element={<CheckoutNew />} />
+                <Route path="/checkout-old" element={<Checkout />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/payment-failure" element={<PaymentFailure />} />
+                <Route path="/payment-pending" element={<PaymentPending />} />
                 <Route path="/perfil" element={<Perfil />} />
                 <Route path="/admin/*" element={<AdminLayout />} />
             </Routes>

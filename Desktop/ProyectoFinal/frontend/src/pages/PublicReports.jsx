@@ -37,7 +37,7 @@ export default function PublicReports() {
 
   return (
     <div className="page">
-      {/* Navegación */}
+      {}
       <nav className="nav-bar">
         <div className="nav-brand">
           <Link to="/">🏪 RepuestosAuto</Link>
@@ -73,7 +73,7 @@ export default function PublicReports() {
           marginTop: '2rem'
         }}>
           
-          {/* Reporte de Ventas */}
+          {}
           <div className="report-card" style={{
             border: '1px solid #ddd',
             borderRadius: '8px',
@@ -117,7 +117,7 @@ export default function PublicReports() {
             </div>
           </div>
 
-          {/* Reporte de Inventario */}
+          {}
           <div className="report-card" style={{
             border: '1px solid #ddd',
             borderRadius: '8px',
@@ -163,7 +163,7 @@ export default function PublicReports() {
 
         </div>
 
-        {/* Información adicional */}
+        {}
         <div style={{ 
           marginTop: '3rem', 
           padding: '1.5rem', 

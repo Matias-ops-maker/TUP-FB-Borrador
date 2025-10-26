@@ -109,9 +109,7 @@ export async function updateVehicle(req, res) {
 export async function deleteVehicle(req, res) {
     try {
         const vehicle = await Vehicle.findByPk(req.params.id);
-        if (!vehicle) return res.status(404).json({ error: "Vehículo no encontrado" });
-
-        // Eliminar compatibilidades con productos
+        if (!vehicle) return res.status(404).json({ error: "Vehículo no encontrado" });
         await Fitment.destroy({ where: { vehicle_id: vehicle.id } });
         
         await vehicle.destroy();

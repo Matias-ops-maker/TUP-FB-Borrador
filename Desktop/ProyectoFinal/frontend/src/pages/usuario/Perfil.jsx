@@ -41,9 +41,7 @@ export default function Perfil() {
 
   const cargarDatos = async () => {
     try {
-      setLoading(true);
-      
-      // Cargar datos del usuario
+      setLoading(true);
       const userData = localStorage.getItem('user');
       if (userData) {
         const parsedUser = JSON.parse(userData);
@@ -52,17 +50,14 @@ export default function Perfil() {
           nombre: parsedUser.nombre || '',
           telefono: parsedUser.telefono || ''
         });
-      }
-
-      // Cargar pedidos reales del usuario desde el backend
+      }
       try {
         const response = await api.get('/orders');
-        if (response.data && response.data.orders) {
-          // Formatear los datos de las órdenes para mostrar
+        if (response.data && response.data.orders) {
           const ordersFormatted = response.data.orders.map(order => ({
             id: order.id,
             fecha: new Date(order.creado_en).toLocaleDateString('es-AR'),
-            total: parseFloat(order.total) * 100, // Convertir a centavos para formato
+            total: parseFloat(order.total) * 100,
             estado: order.estado === 'pendiente' ? 'Pendiente' :
                    order.estado === 'procesando' ? 'En proceso' :
                    order.estado === 'enviado' ? 'En proceso' :
@@ -71,7 +66,7 @@ export default function Perfil() {
             productos: order.OrderItems ? order.OrderItems.map(item => ({
               nombre: item.Product?.nombre || 'Producto',
               cantidad: item.cantidad,
-              precio: parseFloat(item.precio_unitario) // Los precios ya están en pesos
+              precio: parseFloat(item.precio_unitario)
             })) : []
           }));
           setPedidos(ordersFormatted);
@@ -79,8 +74,7 @@ export default function Perfil() {
           setPedidos([]);
         }
       } catch {
-        console.log('No se pudieron cargar las órdenes desde el backend, usando datos simulados');
-        // Si falla la carga de órdenes, usar datos simulados
+        console.log('No se pudieron cargar las órdenes desde el backend, usando datos simulados');
         const pedidosSimulados = [
           {
             id: 1,
@@ -125,7 +119,7 @@ export default function Perfil() {
     return new Intl.NumberFormat('es-AR', {
       style: 'currency',
       currency: 'ARS'
-    }).format(precio); // Los precios ya están en pesos
+    }).format(precio);
   };
 
   const showMessage = (msg, type = 'success') => {
@@ -183,9 +177,7 @@ export default function Perfil() {
     try {
       await api.put('/auth/profile', {
         email: emailForm.newEmail
-      });
-
-      // Actualizar el usuario en localStorage y estado
+      });
       const updatedUser = { ...user, email: emailForm.newEmail };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -213,9 +205,7 @@ export default function Perfil() {
       await api.put('/auth/profile', {
         nombre: editForm.nombre,
         telefono: editForm.telefono
-      });
-
-      // Actualizar el usuario en localStorage y estado
+      });
       const updatedUser = { ...user, nombre: editForm.nombre, telefono: editForm.telefono };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -243,9 +233,7 @@ export default function Perfil() {
     try {
       await api.delete('/auth/account', {
         data: { password }
-      });
-
-      // Limpiar datos locales
+      });
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       localStorage.removeItem('carrito');

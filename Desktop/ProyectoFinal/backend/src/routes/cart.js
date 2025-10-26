@@ -8,9 +8,7 @@ import {
 } from "../controllers/cartController.js";
 import { verifyToken } from "../middlewares/auth.js";
 
-const router = express.Router();
-
-// Todas las rutas del carrito requieren autenticación
+const router = express.Router();
 router.get("/", verifyToken, getCart);
 router.post("/items", verifyToken, addToCart);
 router.put("/items/:id", verifyToken, updateCartItem);
