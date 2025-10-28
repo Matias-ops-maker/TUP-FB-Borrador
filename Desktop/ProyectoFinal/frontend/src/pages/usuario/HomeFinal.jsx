@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import api from "../../api.js";
 import UserNavbar from "../../components/UserNavbar.jsx";
 
-const API_URL = import.meta.env.VITE_API_URL || 'http:
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 const API_KEY = import.meta.env.VITE_API_KEY || 'mi_api_key_super_secreta';
 
 export default function HomeFinal() {
@@ -254,7 +254,7 @@ export default function HomeFinal() {
                   src={producto.image} 
                   alt={producto.name}
                   onError={(e) => {
-                    e.target.src = 'https:
+                    e.target.src = 'https://via.placeholder.com/200x150/9ca3af?text=Error';
                   }}
                 />
                 {producto.stock < 100 && (

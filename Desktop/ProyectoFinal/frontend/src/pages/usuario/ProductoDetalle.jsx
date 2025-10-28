@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import UserNavbar from '../../components/UserNavbar.jsx';
 import '../../styles/catalogo.css';
 
-const API_URL = 'http:
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const API_KEY = import.meta.env.VITE_API_KEY || 'mi_api_key_super_secreta';
 
 export default function ProductoDetalle() {
   const { id } = useParams();

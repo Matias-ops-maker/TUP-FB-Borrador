@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../../styles/catalogo-new.css';
 import UserNavbar from '../../components/UserNavbar.jsx';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http:
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 const API_KEY = import.meta.env.VITE_API_KEY || 'mi_api_key_super_secreta';
 
 export default function Catalogo() {
@@ -260,7 +260,7 @@ export default function Catalogo() {
                         src={item.image} 
                         alt={item.name}
                         onError={(e) => {
-                          e.target.src = 'https:
+                          e.target.src = 'https://via.placeholder.com/50x50/9ca3af?text=Error';
                         }}
                       />
                       <div className="item-info">
@@ -318,7 +318,7 @@ export default function Catalogo() {
                       src={producto.image} 
                       alt={producto.name}
                       onError={(e) => {
-                        e.target.src = 'https:
+                        e.target.src = 'https://via.placeholder.com/200x150/9ca3af?text=Error';
                       }}
                     />
                     {producto.stock < 50 && (
