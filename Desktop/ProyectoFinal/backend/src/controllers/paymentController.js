@@ -1,4 +1,4 @@
-import { MercadoPagoConfig, Preference } from 'mercadopago';
+﻿import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 const client = new MercadoPagoConfig({ 
   accessToken: process.env.MP_ACCESS_TOKEN,
@@ -29,18 +29,12 @@ export async function createPayment(req, res) {
       metadata: metadata || {},
       expires: true,
       expiration_date_from: new Date().toISOString(),
-      expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 horas
+      expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() 
     };
 
     console.log('Creating payment preference with data:', JSON.stringify(body, null, 2));
 
     const response = await preference.create({ body });
-    
-    console.log('MercadoPago response:', {
-      id: response.id,
-      init_point: response.init_point,
-      sandbox_init_point: response.sandbox_init_point
-    });
     
     res.json({
       success: true,
@@ -49,9 +43,6 @@ export async function createPayment(req, res) {
       sandbox_init_point: response.sandbox_init_point
     });
   } catch (error) {
-    console.error('Error creating payment preference:', error);
-    console.error('Error details:', error.response?.data || error.message);
-    
     res.status(500).json({
       success: false,
       message: 'Error al crear la preferencia de pago',
@@ -67,13 +58,10 @@ export async function paymentWebhook(req, res) {
     
     if (type === 'payment') {
       const paymentId = data.id;
-      console.log('Payment notification received:', paymentId);
-
-    }
+      }
     
     res.status(200).send('OK');
   } catch (error) {
-    console.error('Webhook error:', error);
     res.status(500).send('Error');
   }
 }
@@ -89,10 +77,12 @@ export async function getPaymentStatus(req, res) {
       payment_method: 'credit_card'
     });
   } catch (error) {
-    console.error('Error getting payment status:', error);
     res.status(500).json({
       success: false,
       message: 'Error al obtener el estado del pago'
     });
   }
 }
+
+
+

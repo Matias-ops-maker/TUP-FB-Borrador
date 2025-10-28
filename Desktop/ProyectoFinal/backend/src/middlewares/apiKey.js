@@ -1,4 +1,4 @@
-export function checkApiKey(req, res, next) {
+﻿export function checkApiKey(req, res, next) {
     if (req.path === '/health') {
         return next();
     }
@@ -8,16 +8,17 @@ export function checkApiKey(req, res, next) {
     if (!key) {
         return res.status(401).json({ 
             error: "API Key requerida", 
-            message: "Incluya el header 'x-api-key' con una clave válida" 
+            message: "Incluya el header 'x-api-key' con una clave vÃ¡lida" 
         });
     }
     
     if (key !== process.env.API_KEY) {
         return res.status(401).json({ 
-            error: "API Key inválida",
-            message: "La clave proporcionada no es válida"
+            error: "API Key invÃ¡lida",
+            message: "La clave proporcionada no es vÃ¡lida"
         });
     }
     
     next();
 }
+

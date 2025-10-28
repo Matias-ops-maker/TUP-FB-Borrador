@@ -1,9 +1,9 @@
-import { Vehicle, Product, Fitment } from "../models/index.js";
+﻿import { Vehicle, Product, Fitment } from "../models/index.js";
 import { Op } from "sequelize";
 
 export async function listVehicles(req, res) {
     try {
-        const { page = 1, pageSize = 20, q, marca, modelo, año } = req.query;
+        const { page = 1, pageSize = 20, q, marca, modelo, aÃ±o } = req.query;
         const offset = (page - 1) * pageSize;
 
         const filtros = {};
@@ -15,14 +15,14 @@ export async function listVehicles(req, res) {
         }
         if (marca) filtros.marca = { [Op.like]: `%${marca}%` };
         if (modelo) filtros.modelo = { [Op.like]: `%${modelo}%` };
-        if (año) {
-            const añoNum = parseInt(año);
+        if (aÃ±o) {
+            const aÃ±oNum = parseInt(aÃ±o);
             filtros[Op.and] = [
-                { año_desde: { [Op.lte]: añoNum } },
+                { aÃ±o_desde: { [Op.lte]: aÃ±oNum } },
                 {
                     [Op.or]: [
-                        { año_hasta: { [Op.gte]: añoNum } },
-                        { año_hasta: null }
+                        { aÃ±o_hasta: { [Op.gte]: aÃ±oNum } },
+                        { aÃ±o_hasta: null }
                     ]
                 }
             ];
@@ -30,7 +30,7 @@ export async function listVehicles(req, res) {
 
         const { rows, count } = await Vehicle.findAndCountAll({
             where: filtros,
-            order: [['marca', 'ASC'], ['modelo', 'ASC'], ['año_desde', 'ASC']],
+            order: [['marca', 'ASC'], ['modelo', 'ASC'], ['aÃ±o_desde', 'ASC']],
             offset: parseInt(offset),
             limit: parseInt(pageSize),
         });
@@ -45,7 +45,6 @@ export async function listVehicles(req, res) {
             }
         });
     } catch (error) {
-        console.error('Error al listar vehículos:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -60,35 +59,33 @@ export async function getVehicle(req, res) {
             }]
         });
 
-        if (!vehicle) return res.status(404).json({ error: "Vehículo no encontrado" });
+        if (!vehicle) return res.status(404).json({ error: "VehÃ­culo no encontrado" });
         res.json(vehicle);
     } catch (error) {
-        console.error('Error al obtener vehículo:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
 
 export async function createVehicle(req, res) {
     try {
-        const { marca, modelo, año_desde, año_hasta, motor } = req.body;
+        const { marca, modelo, aÃ±o_desde, aÃ±o_hasta, motor } = req.body;
 
-        if (!marca || !modelo || !año_desde) {
+        if (!marca || !modelo || !aÃ±o_desde) {
             return res.status(400).json({ 
-                error: "Marca, modelo y año desde son requeridos" 
+                error: "Marca, modelo y aÃ±o desde son requeridos" 
             });
         }
 
         const vehicle = await Vehicle.create({ 
             marca, 
             modelo, 
-            año_desde, 
-            año_hasta, 
+            aÃ±o_desde, 
+            aÃ±o_hasta, 
             motor 
         });
         
         res.status(201).json(vehicle);
     } catch (error) {
-        console.error('Error al crear vehículo:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -96,12 +93,11 @@ export async function createVehicle(req, res) {
 export async function updateVehicle(req, res) {
     try {
         const vehicle = await Vehicle.findByPk(req.params.id);
-        if (!vehicle) return res.status(404).json({ error: "Vehículo no encontrado" });
+        if (!vehicle) return res.status(404).json({ error: "VehÃ­culo no encontrado" });
 
         await vehicle.update(req.body);
         res.json(vehicle);
     } catch (error) {
-        console.error('Error al actualizar vehículo:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -109,13 +105,12 @@ export async function updateVehicle(req, res) {
 export async function deleteVehicle(req, res) {
     try {
         const vehicle = await Vehicle.findByPk(req.params.id);
-        if (!vehicle) return res.status(404).json({ error: "Vehículo no encontrado" });
+        if (!vehicle) return res.status(404).json({ error: "VehÃ­culo no encontrado" });
         await Fitment.destroy({ where: { vehicle_id: vehicle.id } });
         
         await vehicle.destroy();
-        res.json({ msg: "Vehículo eliminado exitosamente" });
+        res.json({ msg: "VehÃ­culo eliminado exitosamente" });
     } catch (error) {
-        console.error('Error al eliminar vehículo:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -131,7 +126,6 @@ export async function getVehicleBrands(req, res) {
         const brandList = brands.map(v => v.marca);
         res.json(brandList);
     } catch (error) {
-        console.error('Error al obtener marcas de vehículos:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -150,7 +144,8 @@ export async function getVehicleModelsByBrand(req, res) {
         const modelList = models.map(v => v.modelo);
         res.json(modelList);
     } catch (error) {
-        console.error('Error al obtener modelos de vehículos:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
+
+

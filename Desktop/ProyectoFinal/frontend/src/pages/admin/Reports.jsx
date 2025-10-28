@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/usuario.css";
 
@@ -9,11 +9,11 @@ export default function Reports() {
         try {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Debes iniciar sesión como administrador');
+            alert('Debes iniciar sesiÃ³n como administrador');
             return;
         }
 
-        const res = await fetch(`http://localhost:4000/api/reports/sales/${type}`, {
+        const res = await fetch(`http:
             headers: { 
                 "x-api-key": "mi_api_key_super_secreta",
                 "Authorization": `Bearer ${token}`
@@ -21,7 +21,6 @@ export default function Reports() {
         });
 
         if (!res.ok) {
-            console.error("Error en la descarga:", res.status, res.statusText);
             alert("Error al descargar archivo");
             return;
         }
@@ -35,7 +34,6 @@ export default function Reports() {
         link.click();
         link.remove();
         } catch (error) {
-        console.error("Error en fetch:", error);
         alert("No se pudo descargar el archivo");
         }
     };
@@ -43,44 +41,44 @@ export default function Reports() {
     return (
         <div className="admin-container">
             <div className="admin-header">
-                <h1>📊 Reportes de Ventas</h1>
+                <h1>ðŸ“Š Reportes de Ventas</h1>
                 <button 
                     className="btn-secondary"
                     onClick={() => navigate('/admin/dashboard')}
                 >
-                    ← Volver al Dashboard
+                    â† Volver al Dashboard
                 </button>
             </div>
 
             <div className="admin-welcome">
-                <p>Aquí puedes descargar los reportes de ventas en diferentes formatos.</p>
+                <p>AquÃ­ puedes descargar los reportes de ventas en diferentes formatos.</p>
             </div>
 
             <div className="admin-sections">
                 <div className="admin-section">
-                    <h4>📄 Reportes Disponibles</h4>
+                    <h4>ðŸ“„ Reportes Disponibles</h4>
                     <div className="admin-buttons">
                         <button 
                             className="admin-action-btn primary"
                             onClick={() => downloadFile("pdf")}
                         >
-                            📄 Descargar PDF
+                            ðŸ“„ Descargar PDF
                         </button>
                         <button 
                             className="admin-action-btn success"
                             onClick={() => downloadFile("xlsx")}
                         >
-                            📊 Descargar Excel
+                            ðŸ“Š Descargar Excel
                         </button>
                     </div>
                 </div>
 
                 <div className="admin-section">
-                    <h4>📈 Información de Reportes</h4>
+                    <h4>ðŸ“ˆ InformaciÃ³n de Reportes</h4>
                     <div className="admin-stats">
-                        <span className="stat-item">📅 Datos actualizados al día de hoy</span>
-                        <span className="stat-item">💾 Formatos disponibles: PDF y Excel</span>
-                        <span className="stat-item">📊 Incluye ventas, productos y estadísticas</span>
+                        <span className="stat-item">ðŸ“… Datos actualizados al dÃ­a de hoy</span>
+                        <span className="stat-item">ðŸ’¾ Formatos disponibles: PDF y Excel</span>
+                        <span className="stat-item">ðŸ“Š Incluye ventas, productos y estadÃ­sticas</span>
                     </div>
                 </div>
             </div>

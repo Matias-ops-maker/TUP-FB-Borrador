@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../../styles/usuario.css";
 
@@ -14,15 +14,14 @@ export default function ForgotPassword() {
       return;
     }
     setError("");
-    setMessage(`Se envió un enlace de recuperación a ${email}`);
-    console.log("Enviar email de recuperación:", email);
+    setMessage(`Se enviÃ³ un enlace de recuperaciÃ³n a ${email}`);
     setEmail(""); 
   };
 
   return (
     <div className=" ">
       <div className="auth-card">
-        <h1 className="auth-title">Recuperar Contraseña</h1>
+        <h1 className="auth-title">Recuperar ContraseÃ±a</h1>
         {error && <p className="auth-error">{error}</p>}
         {message && <p className=" ">{message}</p>}
 
@@ -39,10 +38,12 @@ export default function ForgotPassword() {
 
         <div className="auth-footer">
           <p>
-            Recordaste tu contraseña? <Link to="/auth/login" className="auth-link">Inicia sesión</Link>
+            Recordaste tu contraseÃ±a? <Link to="/auth/login" className="auth-link">Inicia sesiÃ³n</Link>
           </p>
         </div>
       </div>
     </div>
   );
 }
+
+

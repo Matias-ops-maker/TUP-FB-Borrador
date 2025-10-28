@@ -1,4 +1,4 @@
-import express from "express";
+﻿import express from "express";
 import { register, login, getProfile, updateProfile, changePassword, deleteAccount } from "../controllers/authController.js";
 import { verifyToken } from "../middlewares/auth.js";
 
@@ -11,3 +11,4 @@ router.put("/change-password", verifyToken, changePassword);
 router.delete("/account", verifyToken, deleteAccount);
 
 export default router;
+

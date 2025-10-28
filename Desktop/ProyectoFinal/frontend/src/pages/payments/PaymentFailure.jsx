@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../../api';
 
@@ -21,7 +21,6 @@ const PaymentFailure = () => {
         
         setLoading(false);
       } catch (error) {
-        console.error('Error verifying payment:', error);
         setLoading(false);
       }
     };
@@ -50,7 +49,7 @@ const PaymentFailure = () => {
     <div className="payment-result-container failure">
       <div className="payment-result-card">
         <div className="failure-icon">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http:
             <circle cx="12" cy="12" r="11" fill="#ef4444"/>
             <path d="M8 8l8 8M16 8l-8 8" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
@@ -58,7 +57,7 @@ const PaymentFailure = () => {
         
         <h1>Pago no procesado</h1>
         <p className="failure-message">
-          Hubo un problema al procesar tu pago. No te preocupes, no se realizó ningún cargo.
+          Hubo un problema al procesar tu pago. No te preocupes, no se realizÃ³ ningÃºn cargo.
         </p>
 
         {paymentInfo && (
@@ -85,7 +84,7 @@ const PaymentFailure = () => {
             <li>Datos de la tarjeta incorrectos</li>
             <li>Fondos insuficientes</li>
             <li>Tarjeta vencida o bloqueada</li>
-            <li>Límites de compra excedidos</li>
+            <li>LÃ­mites de compra excedidos</li>
           </ul>
         </div>
 

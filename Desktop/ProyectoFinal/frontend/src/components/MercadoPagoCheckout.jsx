@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Wallet } from '@mercadopago/sdk-react';
 import api from '../api';
 
@@ -28,7 +28,7 @@ const MercadoPagoCheckout = ({ items, total, onSuccess, onError }) => {
           },
           auto_return: 'approved',
           external_reference: `order_${Date.now()}`,
-          notification_url: `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:4000'}/api/payments/webhook`
+          notification_url: `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http:
         };
 
         const response = await api.post('/payments/create', paymentData);
@@ -39,7 +39,6 @@ const MercadoPagoCheckout = ({ items, total, onSuccess, onError }) => {
           throw new Error(response.data.message || 'Error al crear la preferencia de pago');
         }
       } catch (err) {
-        console.error('Error creating payment:', err);
         setError(err.message || 'Error al procesar el pago');
         if (onError) onError(err);
       } finally {
@@ -71,7 +70,7 @@ const MercadoPagoCheckout = ({ items, total, onSuccess, onError }) => {
     return (
       <div className="mercadopago-loading">
         <div className="loading-spinner"></div>
-        <p>Preparando método de pago...</p>
+        <p>Preparando mÃ©todo de pago...</p>
       </div>
     );
   }
@@ -117,7 +116,7 @@ const MercadoPagoCheckout = ({ items, total, onSuccess, onError }) => {
       </div>
 
       <div className="payment-methods">
-        <h3>Método de pago</h3>
+        <h3>MÃ©todo de pago</h3>
         <Wallet 
           initialization={initialization} 
           customization={customization}

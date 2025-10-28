@@ -1,8 +1,11 @@
-import "../../styles/usuario.css";
+﻿import "../../styles/usuario.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../../api.js";
 import UserNavbar from "../../components/UserNavbar.jsx";
+
+const API_URL = import.meta.env.VITE_API_URL || 'http:
+const API_KEY = import.meta.env.VITE_API_KEY || 'mi_api_key_super_secreta';
 
 export default function HomeFinal() {
   const [productos, setProductos] = useState([]);
@@ -20,46 +23,31 @@ export default function HomeFinal() {
       try {
         setLoading(true);
         setError(null);
+
+        const response = await fetch(`${API_URL}/products?limit=8`, {
+          headers: {
+            'x-api-key': API_KEY
+          }
+        });
         
-        try {
-          const resProductos = await api.get('/products');
-          const productosData = resProductos.data.data || resProductos.data || [];
-          const productosDestacados = Array.isArray(productosData) ? productosData.slice(0, 8) : [];
-          
-          const productosFormateados = productosDestacados.map(producto => ({
-            id: producto.id,
-            name: producto.nombre,
-            brand: producto.Brand?.nombre || 'Sin marca',
-            price: parseFloat(producto.precio),
-            stock: producto.stock,
-            category: producto.Category?.nombre || 'Sin categoría',
-            image: producto.imagen_url || "https://via.placeholder.com/200x150/3B82F6/ffffff?text=Producto"
-          }));
-          
-          setProductos(productosFormateados);
-        } catch (err) {
-          console.error('Error cargando productos:', err);
-          setProductos([
-            {
-              id: 1,
-              name: "Filtro de Aceite Bosch",
-              brand: "Bosch",
-              price: 8500,
-              stock: 15,
-              category: "Filtros",
-              image: "https://images.unsplash.com/photo-1558618644-fbd4c54cd64d?w=200&h=150&fit=crop"
-            },
-            {
-              id: 2,
-              name: "Pastillas de Freno Brembo",
-              brand: "Brembo",
-              price: 28000,
-              stock: 8,
-              category: "Frenos", 
-              image: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=200&h=150&fit=crop"
-            }
-          ]);
+        if (!response.ok) {
+          throw new Error('Error al cargar productos');
         }
+        
+        const data = await response.json();
+        const productosData = data.data || [];
+        
+        const productosFormateados = productosData.map(producto => ({
+          id: producto.id,
+          name: producto.nombre,
+          brand: producto.Brand?.nombre || 'Sin marca',
+          price: parseFloat(producto.precio),
+          stock: producto.stock,
+          category: producto.Category?.nombre || 'Sin categorÃ­a',
+          image: producto.imagen_url || 'https:
+        }));
+        
+        setProductos(productosFormateados);
 
         try {
           const resCategorias = await api.get('/categories');
@@ -72,17 +60,15 @@ export default function HomeFinal() {
           
           setCategorias(categoriasFormatted);
         } catch (err) {
-          console.error('Error cargando categorías:', err);
           setCategorias([
-            { name: "Filtros", icon: "🔍", color: "#10B981" },
-            { name: "Frenos", icon: "🛑", color: "#EF4444" },
-            { name: "Motor", icon: "🔧", color: "#3B82F6" },
-            { name: "Eléctrica", icon: "⚡", color: "#8B5CF6" }
+            { name: "Filtros", icon: "ðŸ”", color: "#10B981" },
+            { name: "Frenos", icon: "ðŸ›‘", color: "#EF4444" },
+            { name: "Motor", icon: "ðŸ”§", color: "#3B82F6" },
+            { name: "ElÃ©ctrica", icon: "âš¡", color: "#8B5CF6" }
           ]);
         }
         
       } catch (error) {
-        console.error('Error general:', error);
         setError('Error cargando datos');
       } finally {
         setLoading(false);
@@ -123,19 +109,19 @@ export default function HomeFinal() {
 
   const getCategoryIcon = (nombre) => {
     const iconos = {
-      'Motor': '🔧',
-      'Filtros': '🔍', 
-      'Frenos': '🛑',
-      'Lubricantes': '🛢️',
-      'Eléctrica': '⚡',
-      'Suspensión': '🏎️',
-      'Transmisión': '⚙️',
-      'Encendido': '🔥',
-      'Neumáticos': '🛞',
-      'Escape': '💨',
-      'Climatización': '❄️'
+      'Motor': 'ðŸ”§',
+      'Filtros': 'ðŸ”', 
+      'Frenos': 'ðŸ›‘',
+      'Lubricantes': 'ðŸ›¢ï¸',
+      'ElÃ©ctrica': 'âš¡',
+      'SuspensiÃ³n': 'ðŸŽï¸',
+      'TransmisiÃ³n': 'âš™ï¸',
+      'Encendido': 'ðŸ”¥',
+      'NeumÃ¡ticos': 'ðŸ›ž',
+      'Escape': 'ðŸ’¨',
+      'ClimatizaciÃ³n': 'â„ï¸'
     };
-    return iconos[nombre] || '🔧';
+    return iconos[nombre] || 'ðŸ”§';
   };
 
   const getCategoryColor = (nombre) => {
@@ -144,13 +130,13 @@ export default function HomeFinal() {
       'Filtros': '#10B981',
       'Frenos': '#EF4444',
       'Lubricantes': '#F59E0B',
-      'Eléctrica': '#8B5CF6',
-      'Suspensión': '#06B6D4',
-      'Transmisión': '#84CC16',
+      'ElÃ©ctrica': '#8B5CF6',
+      'SuspensiÃ³n': '#06B6D4',
+      'TransmisiÃ³n': '#84CC16',
       'Encendido': '#F97316',
-      'Neumáticos': '#6B7280',
+      'NeumÃ¡ticos': '#6B7280',
       'Escape': '#64748B',
-      'Climatización': '#14B8A6'
+      'ClimatizaciÃ³n': '#14B8A6'
     };
     return colores[nombre] || '#3B82F6';
   };
@@ -195,7 +181,7 @@ export default function HomeFinal() {
         <UserNavbar />
         <div style={{padding: '40px', textAlign: 'center'}}>
           <div className="loading-spinner"></div>
-          <h2>🔄 Cargando RepuestosAuto...</h2>
+          <h2>ðŸ”„ Cargando RepuestosAuto...</h2>
           <p>Conectando con la base de datos...</p>
         </div>
       </div>
@@ -207,13 +193,13 @@ export default function HomeFinal() {
       <UserNavbar />
 
       <div className="hero">
-        <h1 className="hero-title">🚗 Encuentra los mejores repuestos automotrices</h1>
+        <h1 className="hero-title">ðŸš— Encuentra los mejores repuestos automotrices</h1>
         <p className="hero-subtitle">Todo lo que necesitas para tu auto en un solo lugar. Repuestos nuevos y usados de calidad.</p>
         <div className="hero-search-container">
           <div className="search-input-container">
             <input 
               type="text" 
-              placeholder="🔍 Buscar repuestos (ej: filtro aceite, pastillas freno...)" 
+              placeholder="ðŸ” Buscar repuestos (ej: filtro aceite, pastillas freno...)" 
               className="hero-search"
               value={searchTerm}
               onChange={handleSearchChange}
@@ -240,7 +226,7 @@ export default function HomeFinal() {
       </div>
 
       <section className="section">
-        <h2 className="section-title">🛠️ Categorías populares</h2>
+        <h2 className="section-title">ðŸ› ï¸ CategorÃ­as populares</h2>
         <div className="grid grid-cols-4 gap-4">
           {categorias.map((cat) => (
             <Link key={cat.name} to={`/catalogo?categoria=${cat.name}`} className="category-card">
@@ -255,7 +241,7 @@ export default function HomeFinal() {
       </section>
 
       <section className="section">
-        <h2 className="section-title">⭐ Productos destacados</h2>
+        <h2 className="section-title">â­ Productos destacados</h2>
         <div className="grid grid-cols-4 gap-4">
           {productos.map((producto) => (
             <div key={producto.id} className="product-card">
@@ -264,9 +250,15 @@ export default function HomeFinal() {
                 onClick={() => navigate(`/producto/${producto.id}`)}
                 style={{ cursor: 'pointer' }}
               >
-                <img src={producto.image} alt={producto.name} />
+                <img 
+                  src={producto.image} 
+                  alt={producto.name}
+                  onError={(e) => {
+                    e.target.src = 'https:
+                  }}
+                />
                 {producto.stock < 100 && (
-                  <span className="stock-badge">¡Últimas unidades!</span>
+                  <span className="stock-badge">Â¡Ãšltimas unidades!</span>
                 )}
               </div>
               <div className="product-info">
@@ -284,7 +276,7 @@ export default function HomeFinal() {
                     className="add-cart-btn"
                     onClick={() => agregarAlCarrito(producto)}
                   >
-                    🛒 Agregar
+                    ðŸ›’ Agregar
                   </button>
                 </div>
                 <p className="product-stock">Stock: {producto.stock} unidades</p>
@@ -293,12 +285,12 @@ export default function HomeFinal() {
           ))}
         </div>
         <div className="view-more">
-          <Link to="/catalogo" className="btn-primary">Ver todos los productos →</Link>
+          <Link to="/catalogo" className="btn-primary">Ver todos los productos â†’</Link>
         </div>
       </section>
 
       <section className="section">
-        <h2 className="section-title">🏭 Marcas que trabajamos</h2>
+        <h2 className="section-title">ðŸ­ Marcas que trabajamos</h2>
         <div className="brands-grid">
           {["Bosch", "Brembo", "Mobil", "Castrol", "NGK", "Monroe", "Sachs", "Mahle"].map((marca) => (
             <Link 
@@ -314,21 +306,23 @@ export default function HomeFinal() {
       </section>
 
       <div style={{padding: '20px', backgroundColor: error ? '#fee2e2' : '#dcfce7', margin: '20px', borderRadius: '10px', borderLeft: `4px solid ${error ? '#ef4444' : '#10b981'}`}}>
-        <h3>🧪 Estado del Sistema</h3>
+        <h3>ðŸ§ª Estado del Sistema</h3>
         {error ? (
           <div>
-            <p>❌ Error: {error}</p>
-            <p>🔄 Usando datos de fallback</p>
+            <p>âŒ Error: {error}</p>
+            <p>ðŸ”„ Usando datos de fallback</p>
           </div>
         ) : (
           <div>
-            <p>✅ API funcionando correctamente</p>
-            <p>✅ {productos.length} productos cargados</p>
-            <p>✅ {categorias.length} categorías cargadas</p>
-            <p>✅ Navegación operativa</p>
+            <p>âœ… API funcionando correctamente</p>
+            <p>âœ… {productos.length} productos cargados</p>
+            <p>âœ… {categorias.length} categorÃ­as cargadas</p>
+            <p>âœ… NavegaciÃ³n operativa</p>
           </div>
         )}
       </div>
     </div>
   );
 }
+
+

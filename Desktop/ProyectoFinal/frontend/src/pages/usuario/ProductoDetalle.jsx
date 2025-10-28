@@ -1,61 +1,56 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import UserNavbar from '../../components/UserNavbar.jsx';
 import '../../styles/catalogo.css';
+
+const API_URL = 'http:
 
 export default function ProductoDetalle() {
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [cantidad, setCantidad] = useState(1);
   const [carrito, setCarrito] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => {
     const carritoGuardado = localStorage.getItem('carrito');
     if (carritoGuardado) {
       setCarrito(JSON.parse(carritoGuardado));
-    }
-    const productos = [
-      {
-        id: 1,
-        name: "Filtro de Aceite Bosch P7077",
-        brand: "Bosch",
-        price: 8500,
-        stock: 150,
-        category: "Filtros",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
-        description: "Filtro de aceite de alta calidad para motores modernos. Diseñado con tecnología avanzada para proporcionar una filtración superior y prolongar la vida útil del motor.",
-        especificaciones: [
-          "Compatible con motores 1.4, 1.6, 2.0L",
-          "Eficiencia de filtrado del 99.5%",
-          "Resistente a altas temperaturas",
-          "Fácil instalación"
-        ],
-        garantia: "12 meses o 15,000 km"
-      },
-      {
-        id: 2,
-        name: "Filtro de Aire K&N E-9268",
-        brand: "K&N",
-        price: 15000,
-        stock: 80,
-        category: "Filtros",
-        image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop",
-        description: "Filtro de aire de alto flujo, lavable y reutilizable. Mejora el rendimiento del motor y la economía de combustible.",
-        especificaciones: [
-          "Material de algodón premium",
-          "Lavable y reutilizable",
-          "Incrementa la potencia hasta 4HP",
-          "Flujo de aire superior al filtro original"
-        ],
-        garantia: "Garantía de por vida"
-      }
-    ];
+    }
+  }, []);
 
-    const productoEncontrado = productos.find(p => p.id === parseInt(id));
-    setProducto(productoEncontrado);
-    setLoading(false);
+  useEffect(() => {
+    const fetchProducto = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const response = await fetch(`${API_URL}/products/${id}`, {
+          headers: {
+            'X-API-Key': 'mi_api_key_super_secreta'
+          }
+        });
+        
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError('Producto no encontrado');
+            return;
+          }
+          throw new Error('Error al cargar el producto');
+        }
+        
+        const data = await response.json();
+        setProducto(data);
+      } catch (err) {
+        setError('Error al cargar el producto');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducto();
   }, [id]);
 
   const agregarAlCarrito = () => {
@@ -75,10 +70,11 @@ export default function ProductoDetalle() {
     }
 
     setCarrito(nuevoCarrito);
-    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+
     window.dispatchEvent(new Event('storage'));
     
-    alert(`${cantidad} ${producto.name} agregado(s) al carrito!`);
+    alert(`${cantidad} ${producto.nombre} agregado(s) al carrito!`);
   };
 
   const formatearPrecio = (precio) => {
@@ -93,20 +89,20 @@ export default function ProductoDetalle() {
       <div className="page">
         <UserNavbar />
         <div style={{ padding: '40px', textAlign: 'center' }}>
-          <h2>⏳ Cargando producto...</h2>
+          <h2>â³ Cargando producto...</h2>
         </div>
       </div>
     );
   }
 
-  if (!producto) {
+  if (error || !producto) {
     return (
       <div className="page">
         <UserNavbar />
         <div style={{ padding: '40px', textAlign: 'center' }}>
-          <h2>❌ Producto no encontrado</h2>
+          <h2>âŒ {error || 'Producto no encontrado'}</h2>
           <button onClick={() => navigate('/catalogo')} className="btn-primary">
-            Volver al Catálogo
+            Volver al CatÃ¡logo
           </button>
         </div>
       </div>
@@ -132,43 +128,56 @@ export default function ProductoDetalle() {
             marginBottom: '20px'
           }}
         >
-          ← Volver
+          â† Volver
         </button>
 
         <div className="producto-detalle-content">
           <div className="producto-imagen-detalle">
-            <img src={producto.image} alt={producto.name} />
+            <img 
+              src={producto.imagen_url || 'https:
+              alt={producto.nombre}
+              onError={(e) => {
+                e.target.src = 'https:
+              }}
+              onLoad={() => {
+                }}
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+                display: 'block'
+              }}
+            />
             {producto.stock < 50 && (
-              <div className="stock-warning">¡Pocas unidades disponibles!</div>
+              <div className="stock-warning">Â¡Pocas unidades disponibles!</div>
             )}
           </div>
 
           <div className="producto-info-detalle">
             <div className="producto-header">
               <span className="producto-categoria">{producto.category}</span>
-              <h1>{producto.name}</h1>
-              <p className="producto-marca">🏭 {producto.brand}</p>
+              <h1>{producto.nombre}</h1>
+              <p className="producto-marca">ðŸ­ {producto.Brand?.nombre || 'Sin marca'}</p>
             </div>
 
             <div className="producto-precio-seccion">
               <div className="precio-principal">
-                {formatearPrecio(producto.price)}
+                {formatearPrecio(producto.precio)}
               </div>
               <div className="stock-info">
                 <span className={`stock-badge ${producto.stock > 100 ? 'high' : producto.stock > 50 ? 'medium' : 'low'}`}>
-                  📦 Stock: {producto.stock} unidades
+                  ðŸ“¦ Stock: {producto.stock} unidades
                 </span>
               </div>
             </div>
 
             <div className="producto-descripcion">
-              <h3>📋 Descripción</h3>
-              <p>{producto.description}</p>
+              <h3>ðŸ“‹ DescripciÃ³n</h3>
+              <p>{producto.descripcion}</p>
             </div>
 
             {producto.especificaciones && (
               <div className="producto-especificaciones">
-                <h3>⚙️ Especificaciones</h3>
+                <h3>âš™ï¸ Especificaciones</h3>
                 <ul>
                   {producto.especificaciones.map((spec, index) => (
                     <li key={index}>{spec}</li>
@@ -179,7 +188,7 @@ export default function ProductoDetalle() {
 
             {producto.garantia && (
               <div className="producto-garantia">
-                <h3>🛡️ Garantía</h3>
+                <h3>ðŸ›¡ï¸ GarantÃ­a</h3>
                 <p>{producto.garantia}</p>
               </div>
             )}
@@ -205,7 +214,7 @@ export default function ProductoDetalle() {
               </div>
 
               <div className="total-precio">
-                <strong>Total: {formatearPrecio(producto.price * cantidad)}</strong>
+                <strong>Total: {formatearPrecio(producto.precio * cantidad)}</strong>
               </div>
 
               <button 
@@ -225,7 +234,7 @@ export default function ProductoDetalle() {
                   marginTop: '20px'
                 }}
               >
-                {producto.stock === 0 ? '❌ Agotado' : '🛒 Agregar al Carrito'}
+                {producto.stock === 0 ? 'âŒ Agotado' : 'ðŸ›’ Agregar al Carrito'}
               </button>
             </div>
           </div>
@@ -251,6 +260,9 @@ export default function ProductoDetalle() {
         
         .producto-imagen-detalle {
           position: relative;
+          width: 100%;
+          max-width: 500px;
+          margin-bottom: 20px;
         }
         
         .producto-imagen-detalle img {
@@ -258,6 +270,7 @@ export default function ProductoDetalle() {
           height: 400px;
           object-fit: cover;
           border-radius: 8px;
+          border: 1px solid #e5e7eb;
         }
         
         .stock-warning {
@@ -336,7 +349,7 @@ export default function ProductoDetalle() {
         }
         
         .producto-especificaciones li:before {
-          content: "✓ ";
+          content: "âœ“ ";
           color: #10B981;
           font-weight: bold;
         }
@@ -395,3 +408,5 @@ export default function ProductoDetalle() {
     </div>
   );
 }
+
+

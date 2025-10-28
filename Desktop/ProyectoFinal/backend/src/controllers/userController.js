@@ -1,4 +1,4 @@
-import { User, Order } from "../models/index.js";
+﻿import { User, Order } from "../models/index.js";
 import { Op } from "sequelize";
 import bcryptjs from "bcryptjs";
 
@@ -45,7 +45,6 @@ export async function listUsers(req, res) {
         });
 
     } catch (error) {
-        console.error('Error al listar usuarios:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -75,7 +74,6 @@ export async function getUser(req, res) {
 
         res.json(user);
     } catch (error) {
-        console.error('Error al obtener usuario:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -92,7 +90,7 @@ export async function createUser(req, res) {
         }
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
-            return res.status(400).json({ error: "El email ya está registrado" });
+            return res.status(400).json({ error: "El email ya estÃ¡ registrado" });
         }
         const hashedPassword = await bcryptjs.hash(password, 10);
 
@@ -112,7 +110,6 @@ export async function createUser(req, res) {
         });
 
     } catch (error) {
-        console.error('Error al crear usuario:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -132,7 +129,7 @@ export async function updateUser(req, res) {
         if (email && email !== user.email) {
             const existingUser = await User.findOne({ where: { email } });
             if (existingUser) {
-                return res.status(400).json({ error: "El email ya está en uso" });
+                return res.status(400).json({ error: "El email ya estÃ¡ en uso" });
             }
         }
         const updateData = { nombre, email };
@@ -151,7 +148,6 @@ export async function updateUser(req, res) {
         });
 
     } catch (error) {
-        console.error('Error al actualizar usuario:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -173,7 +169,7 @@ export async function deleteUser(req, res) {
         const orderCount = await Order.count({ where: { user_id: id } });
         if (orderCount > 0) {
             return res.status(400).json({ 
-                error: "No se puede eliminar el usuario porque tiene órdenes asociadas" 
+                error: "No se puede eliminar el usuario porque tiene Ã³rdenes asociadas" 
             });
         }
 
@@ -181,7 +177,6 @@ export async function deleteUser(req, res) {
         res.json({ msg: "Usuario eliminado exitosamente" });
 
     } catch (error) {
-        console.error('Error al eliminar usuario:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -195,7 +190,7 @@ export async function resetUserPassword(req, res) {
         }
 
         if (!newPassword) {
-            return res.status(400).json({ error: "Nueva contraseña es requerida" });
+            return res.status(400).json({ error: "Nueva contraseÃ±a es requerida" });
         }
 
         const user = await User.findByPk(id);
@@ -206,10 +201,11 @@ export async function resetUserPassword(req, res) {
         user.password = hashedPassword;
         await user.save();
 
-        res.json({ msg: "Contraseña restablecida exitosamente" });
+        res.json({ msg: "ContraseÃ±a restablecida exitosamente" });
 
     } catch (error) {
-        console.error('Error al restablecer contraseña:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
+
+

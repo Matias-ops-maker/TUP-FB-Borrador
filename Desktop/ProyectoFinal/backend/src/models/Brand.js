@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+﻿import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
 const Brand = sequelize.define('Brand', {
@@ -18,3 +18,4 @@ const Brand = sequelize.define('Brand', {
 });
 
 export default Brand;
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../../api';
 
@@ -20,7 +20,6 @@ const PaymentPending = () => {
         
         setLoading(false);
       } catch (error) {
-        console.error('Error verifying payment:', error);
         setLoading(false);
       }
     };
@@ -37,8 +36,7 @@ const PaymentPending = () => {
           navigate('/payment-success');
         }
       } catch (error) {
-        console.error('Error checking payment status:', error);
-      }
+        }
     }
   };
 
@@ -59,7 +57,7 @@ const PaymentPending = () => {
     <div className="payment-result-container pending">
       <div className="payment-result-card">
         <div className="pending-icon">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http:
             <circle cx="12" cy="12" r="11" fill="#f59e0b"/>
             <circle cx="12" cy="12" r="3" fill="white"/>
           </svg>
@@ -67,7 +65,7 @@ const PaymentPending = () => {
         
         <h1>Pago en proceso</h1>
         <p className="pending-message">
-          Tu pago está siendo procesado. Te notificaremos por email cuando se confirme.
+          Tu pago estÃ¡ siendo procesado. Te notificaremos por email cuando se confirme.
         </p>
 
         {paymentInfo && (
@@ -82,7 +80,7 @@ const PaymentPending = () => {
               <span className="status-pending">{paymentInfo.status}</span>
             </div>
             <div className="detail-row">
-              <span>Método de pago:</span>
+              <span>MÃ©todo de pago:</span>
               <span>{paymentInfo.payment_method || 'MercadoPago'}</span>
             </div>
             <div className="detail-row">
@@ -93,12 +91,12 @@ const PaymentPending = () => {
         )}
 
         <div className="pending-info">
-          <h3>¿Qué significa esto?</h3>
+          <h3>Â¿QuÃ© significa esto?</h3>
           <ul>
             <li>El pago puede demorar hasta 24 horas en procesarse</li>
-            <li>Recibirás un email cuando se confirme</li>
+            <li>RecibirÃ¡s un email cuando se confirme</li>
             <li>Puedes verificar el estado en "Mis pedidos"</li>
-            <li>Si usaste transferencia bancaria, puede demorar más</li>
+            <li>Si usaste transferencia bancaria, puede demorar mÃ¡s</li>
           </ul>
         </div>
 
@@ -122,3 +120,4 @@ const PaymentPending = () => {
 };
 
 export default PaymentPending;
+

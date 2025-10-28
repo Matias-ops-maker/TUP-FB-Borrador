@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+﻿import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
 const CartItem = sequelize.define('CartItem', {
@@ -34,3 +34,4 @@ const CartItem = sequelize.define('CartItem', {
 });
 
 export default CartItem;
+

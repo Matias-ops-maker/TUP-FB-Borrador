@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+﻿import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
 const Fitment = sequelize.define('Fitment', {
@@ -29,3 +29,4 @@ const Fitment = sequelize.define('Fitment', {
 });
 
 export default Fitment;
+

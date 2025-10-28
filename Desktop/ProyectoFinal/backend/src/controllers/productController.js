@@ -1,4 +1,4 @@
-import { Product, Category, Brand, Vehicle, Fitment } from "../models/index.js";
+﻿import { Product, Category, Brand, Vehicle, Fitment } from "../models/index.js";
 import { Op } from "sequelize";
 
 export async function listProducts(req, res) {
@@ -53,7 +53,6 @@ export async function listProducts(req, res) {
             } 
         });
     } catch (error) {
-        console.error('Error al listar productos:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -67,7 +66,7 @@ export async function getProduct(req, res) {
                 {
                     model: Vehicle,
                     through: { attributes: [] },
-                    attributes: ['id', 'marca', 'modelo', 'año_desde', 'año_hasta', 'motor']
+                    attributes: ['id', 'marca', 'modelo', 'aÃ±o_desde', 'aÃ±o_hasta', 'motor']
                 }
             ]
         });
@@ -75,7 +74,6 @@ export async function getProduct(req, res) {
         if (!prod) return res.status(404).json({ error: "Producto no encontrado" });
         res.json(prod);
     } catch (error) {
-        console.error('Error al obtener producto:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -96,7 +94,7 @@ export async function createProduct(req, res) {
             vehicles = []
         } = req.body;
         if (!sku || !nombre || !precio || !category_id) {
-            return res.status(400).json({ error: "SKU, nombre, precio y categoría son requeridos" });
+            return res.status(400).json({ error: "SKU, nombre, precio y categorÃ­a son requeridos" });
         }
         const existingSku = await Product.findOne({ where: { sku } });
         if (existingSku) {
@@ -131,7 +129,6 @@ export async function createProduct(req, res) {
 
         res.status(201).json(newProduct);
     } catch (error) {
-        console.error('Error al crear producto:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -169,7 +166,6 @@ export async function updateProduct(req, res) {
 
         res.json(updatedProduct);
     } catch (error) {
-        console.error('Error al actualizar producto:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -183,7 +179,6 @@ export async function deleteProduct(req, res) {
         await prod.destroy();
         res.json({ msg: "Producto eliminado exitosamente" });
     } catch (error) {
-        console.error('Error al eliminar producto:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -219,7 +214,8 @@ export async function getProductsByVehicle(req, res) {
             }
         });
     } catch (error) {
-        console.error('Error al obtener productos por vehículo:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
+
+

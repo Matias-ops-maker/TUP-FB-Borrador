@@ -1,4 +1,4 @@
-import { Brand, Product } from "../models/index.js";
+﻿import { Brand, Product } from "../models/index.js";
 import { Op } from "sequelize";
 
 export async function listBrands(req, res) {
@@ -28,7 +28,6 @@ export async function listBrands(req, res) {
             }
         });
     } catch (error) {
-        console.error('Error al listar marcas:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -45,7 +44,6 @@ export async function getBrand(req, res) {
         if (!brand) return res.status(404).json({ error: "Marca no encontrada" });
         res.json(brand);
     } catch (error) {
-        console.error('Error al obtener marca:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -65,7 +63,6 @@ export async function createBrand(req, res) {
         const brand = await Brand.create({ nombre });
         res.status(201).json(brand);
     } catch (error) {
-        console.error('Error al crear marca:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -86,7 +83,6 @@ export async function updateBrand(req, res) {
         await brand.update(req.body);
         res.json(brand);
     } catch (error) {
-        console.error('Error al actualizar marca:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -105,7 +101,8 @@ export async function deleteBrand(req, res) {
         await brand.destroy();
         res.json({ msg: "Marca eliminada exitosamente" });
     } catch (error) {
-        console.error('Error al eliminar marca:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
+
+

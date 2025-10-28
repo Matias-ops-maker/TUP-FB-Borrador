@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+﻿import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
 const AuditLog = sequelize.define('AuditLog', {
@@ -37,3 +37,4 @@ const AuditLog = sequelize.define('AuditLog', {
 });
 
 export default AuditLog;
+

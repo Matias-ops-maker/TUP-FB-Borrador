@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+﻿import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
 const Vehicle = sequelize.define('Vehicle', {
@@ -15,11 +15,11 @@ const Vehicle = sequelize.define('Vehicle', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  año_desde: {
+  aÃ±o_desde: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  año_hasta: {
+  aÃ±o_hasta: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
@@ -33,3 +33,4 @@ const Vehicle = sequelize.define('Vehicle', {
 });
 
 export default Vehicle;
+

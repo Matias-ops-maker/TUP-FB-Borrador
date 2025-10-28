@@ -1,4 +1,4 @@
-import express from 'express';
+﻿import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -19,7 +19,7 @@ import paymentRoutes from './routes/payments.js';
 const app = express();
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: process.env.FRONTEND_URL || 'http:
   credentials: true
 }));
 app.use(express.json());
@@ -44,7 +44,6 @@ app.get('/health', (req, res) => res.json({
 }));
 
 app.use((error, req, res, _next) => {
-  console.error('Error:', error);
   res.status(500).json({
     error: 'Error interno del servidor',
     ...(process.env.NODE_ENV === 'development' && { details: error.message })
@@ -57,23 +56,30 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 4000;
 
+process.on('uncaughtException', (error) => {
+  
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  
+});
+
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log('✅ Conexión a la base de datos establecida');
-
     if (process.env.NODE_ENV !== 'production') {
       await sequelize.sync({ force: false });
-      console.log('✅ Modelos sincronizados');
-    }
+      }
 
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor ejecutándose en puerto ${PORT}`);
-      console.log(`📖 API disponible en http://localhost:${PORT}`);
-      console.log(`🏥 Health check en http://localhost:${PORT}/health`);
-    });
+    const server = app.listen(PORT, () => {
+      });
+
+    server.on('error', (error) => {
+      });
+
   } catch (err) {
-    console.error('❌ Error al iniciar el servidor:', err);
     process.exit(1);
   }
 })();
+
+

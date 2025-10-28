@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+﻿import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
 const OrderItem = sequelize.define('OrderItem', {
@@ -37,3 +37,4 @@ const OrderItem = sequelize.define('OrderItem', {
 });
 
 export default OrderItem;
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../api';
 import '../styles/payment-status.css';
@@ -31,8 +31,7 @@ const PaymentSuccess = () => {
         externalReference
       });
     } catch (error) {
-      console.error('Error processing payment success:', error);
-    } finally {
+      } finally {
       setLoading(false);
     }
   };
@@ -60,14 +59,14 @@ const PaymentSuccess = () => {
     <div className="payment-status-container">
       <div className="payment-status-content success">
         <div className="status-icon success-icon">
-          ✓
+          âœ“
         </div>
         
-        <h1>¡Pago Exitoso!</h1>
+        <h1>Â¡Pago Exitoso!</h1>
         
         <div className="status-message">
           <p>Tu pago ha sido procesado correctamente.</p>
-          <p>Recibirás un email de confirmación en breve.</p>
+          <p>RecibirÃ¡s un email de confirmaciÃ³n en breve.</p>
         </div>
         
         {paymentData && (

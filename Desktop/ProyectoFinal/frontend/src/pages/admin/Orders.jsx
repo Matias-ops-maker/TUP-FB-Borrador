@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+﻿import { useNavigate } from "react-router-dom";
 import "../../styles/usuario.css";
 
 export default function Orders() {
@@ -7,7 +7,7 @@ export default function Orders() {
         {
             id: 1,
             fecha: '2024-10-15',
-            cliente: 'Juan Pérez',
+            cliente: 'Juan PÃ©rez',
             total: 45000.00,
             estado: 'Entregado',
             productos: 3
@@ -15,7 +15,7 @@ export default function Orders() {
         {
             id: 2,
             fecha: '2024-10-20',
-            cliente: 'María García',
+            cliente: 'MarÃ­a GarcÃ­a',
             total: 28000.00,
             estado: 'En proceso',
             productos: 1
@@ -23,7 +23,7 @@ export default function Orders() {
         {
             id: 3,
             fecha: '2024-10-25',
-            cliente: 'Carlos López',
+            cliente: 'Carlos LÃ³pez',
             total: 12500.00,
             estado: 'Pendiente',
             productos: 2
@@ -49,12 +49,12 @@ export default function Orders() {
     return (
         <div className="admin-container">
             <div className="admin-header">
-                <h1>🛒 Gestión de Pedidos</h1>
+                <h1>ðŸ›’ GestiÃ³n de Pedidos</h1>
                 <button 
                     className="btn-secondary"
                     onClick={() => navigate('/admin/dashboard')}
                 >
-                    ← Volver al Dashboard
+                    â† Volver al Dashboard
                 </button>
             </div>
 
@@ -62,7 +62,7 @@ export default function Orders() {
                 <div className="search-container">
                     <input
                         type="text"
-                        placeholder="🔍 Buscar pedidos por cliente o ID..."
+                        placeholder="ðŸ” Buscar pedidos por cliente o ID..."
                         className="search-input"
                     />
                 </div>
@@ -117,13 +117,13 @@ export default function Orders() {
                                             className="btn-action edit"
                                             title="Ver detalles"
                                         >
-                                            👁️
+                                            ðŸ‘ï¸
                                         </button>
                                         <button 
                                             className="btn-action edit"
                                             title="Editar pedido"
                                         >
-                                            ✏️
+                                            âœï¸
                                         </button>
                                     </div>
                                 </td>
@@ -160,3 +160,4 @@ export default function Orders() {
         </div>
     );
 }
+

@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+﻿import jwt from "jsonwebtoken";
 import { User } from "../models/index.js";
 
 export async function verifyToken(req, res, next) {
@@ -13,7 +13,7 @@ export async function verifyToken(req, res, next) {
         req.user = user;
         next();
     } catch (err) {
-        return res.status(401).json({ error: "Token inválido" });
+        return res.status(401).json({ error: "Token invÃ¡lido" });
     }
 }
 
@@ -24,3 +24,4 @@ export async function verifyAdmin(req, res, next) {
     next();
 }
 export const authMiddleware = verifyToken;
+

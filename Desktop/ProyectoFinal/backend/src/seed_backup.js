@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+﻿import dotenv from "dotenv";
 dotenv.config();
 
 import { 
@@ -15,9 +15,7 @@ import bcrypt from "bcrypt";
 
 (async () => {
     try {
-        console.log("🌱 Iniciando seed de la base de datos...");
         await sequelize.sync({ force: true });
-        console.log("✅ Base de datos sincronizada");
         const passAdmin = await bcrypt.hash("admin123", 10);
         const admin = await User.create({ 
             nombre: "Administrador", 
@@ -28,20 +26,19 @@ import bcrypt from "bcrypt";
 
         const passUser = await bcrypt.hash("user123", 10);
         const user1 = await User.create({ 
-            nombre: "Juan Pérez", 
+            nombre: "Juan PÃ©rez", 
             email: "juan@gmail.com", 
             password: passUser,
             rol: "user"
         });
 
         const user2 = await User.create({ 
-            nombre: "María García", 
+            nombre: "MarÃ­a GarcÃ­a", 
             email: "maria@gmail.com", 
             password: passUser,
             rol: "user"
         });
 
-        console.log("✅ Usuarios creados");
         await Cart.create({ user_id: admin.id });
         await Cart.create({ user_id: user1.id });
         await Cart.create({ user_id: user2.id });
@@ -59,7 +56,7 @@ import bcrypt from "bcrypt";
         const monroe = await Brand.create({ nombre: "Monroe" });
         const bilstein = await Brand.create({ nombre: "Bilstein" });
         const sachs = await Brand.create({ nombre: "Sachs" });
-        const lemforder = await Brand.create({ nombre: "Lemförder" });
+        const lemforder = await Brand.create({ nombre: "LemfÃ¶rder" });
         const trw = await Brand.create({ nombre: "TRW" });
         const valeo = await Brand.create({ nombre: "Valeo" });
         const mahle = await Brand.create({ nombre: "Mahle" });
@@ -72,7 +69,6 @@ import bcrypt from "bcrypt";
         const michelin = await Brand.create({ nombre: "Michelin" });
         const continental = await Brand.create({ nombre: "Continental" });
 
-        console.log("✅ Marcas creadas");
         const motor = await Category.create({ 
             nombre: "Motor", 
             descripcion: "Componentes del motor" 
@@ -80,7 +76,7 @@ import bcrypt from "bcrypt";
         
         const filtros = await Category.create({ 
             nombre: "Filtros", 
-            descripcion: "Filtros de motor y habitáculo",
+            descripcion: "Filtros de motor y habitÃ¡culo",
             parent_id: motor.id 
         });
         
@@ -102,8 +98,8 @@ import bcrypt from "bcrypt";
         });
 
         const transmision = await Category.create({ 
-            nombre: "Transmisión", 
-            descripcion: "Sistema de transmisión" 
+            nombre: "TransmisiÃ³n", 
+            descripcion: "Sistema de transmisiÃ³n" 
         });
 
         const encendido = await Category.create({ 
@@ -112,18 +108,18 @@ import bcrypt from "bcrypt";
         });
 
         const suspension = await Category.create({ 
-            nombre: "Suspensión", 
-            descripcion: "Sistema de suspensión y dirección" 
+            nombre: "SuspensiÃ³n", 
+            descripcion: "Sistema de suspensiÃ³n y direcciÃ³n" 
         });
 
         const electrica = await Category.create({ 
-            nombre: "Eléctrica", 
-            descripcion: "Sistema eléctrico y electrónico" 
+            nombre: "ElÃ©ctrica", 
+            descripcion: "Sistema elÃ©ctrico y electrÃ³nico" 
         });
 
         const neumaticos = await Category.create({ 
-            nombre: "Neumáticos", 
-            descripcion: "Neumáticos y llantas" 
+            nombre: "NeumÃ¡ticos", 
+            descripcion: "NeumÃ¡ticos y llantas" 
         });
 
         const escape = await Category.create({ 
@@ -132,23 +128,21 @@ import bcrypt from "bcrypt";
         });
 
         const climatizacion = await Category.create({ 
-            nombre: "Climatización", 
+            nombre: "ClimatizaciÃ³n", 
             descripcion: "Sistema de aire acondicionado" 
         });
 
-        console.log("✅ Categorías creadas");
         const vehicles = await Vehicle.bulkCreate([
-            { marca: "Volkswagen", modelo: "Golf", año_desde: 2010, año_hasta: 2020, motor: "1.6 TDI" },
-            { marca: "Volkswagen", modelo: "Polo", año_desde: 2015, año_hasta: null, motor: "1.0 TSI" },
-            { marca: "Ford", modelo: "Focus", año_desde: 2012, año_hasta: 2018, motor: "2.0 TDCi" },
-            { marca: "Ford", modelo: "Fiesta", año_desde: 2013, año_hasta: null, motor: "1.6 Ti-VCT" },
-            { marca: "Chevrolet", modelo: "Cruze", año_desde: 2011, año_hasta: 2019, motor: "1.8 LT" },
-            { marca: "Toyota", modelo: "Corolla", año_desde: 2014, año_hasta: null, motor: "1.8 Hybrid" },
-            { marca: "Honda", modelo: "Civic", año_desde: 2016, año_hasta: null, motor: "1.5 VTEC" },
-            { marca: "Nissan", modelo: "Sentra", año_desde: 2013, año_hasta: 2020, motor: "1.6 16V" }
+            { marca: "Volkswagen", modelo: "Golf", aÃ±o_desde: 2010, aÃ±o_hasta: 2020, motor: "1.6 TDI" },
+            { marca: "Volkswagen", modelo: "Polo", aÃ±o_desde: 2015, aÃ±o_hasta: null, motor: "1.0 TSI" },
+            { marca: "Ford", modelo: "Focus", aÃ±o_desde: 2012, aÃ±o_hasta: 2018, motor: "2.0 TDCi" },
+            { marca: "Ford", modelo: "Fiesta", aÃ±o_desde: 2013, aÃ±o_hasta: null, motor: "1.6 Ti-VCT" },
+            { marca: "Chevrolet", modelo: "Cruze", aÃ±o_desde: 2011, aÃ±o_hasta: 2019, motor: "1.8 LT" },
+            { marca: "Toyota", modelo: "Corolla", aÃ±o_desde: 2014, aÃ±o_hasta: null, motor: "1.8 Hybrid" },
+            { marca: "Honda", modelo: "Civic", aÃ±o_desde: 2016, aÃ±o_hasta: null, motor: "1.5 VTEC" },
+            { marca: "Nissan", modelo: "Sentra", aÃ±o_desde: 2013, aÃ±o_hasta: 2020, motor: "1.6 16V" }
         ]);
 
-        console.log("✅ Vehículos creados");
         const products = await Product.bulkCreate([
             {
                 sku: "F001",
@@ -156,7 +150,7 @@ import bcrypt from "bcrypt";
                 descripcion: "Filtro de aceite compatible con motores VW/Audi 1.6-2.0 TDI",
                 precio: 3500.00,
                 costo: 2100.00,
-                imagen_url: "https://example.com/filtro-aceite.jpg",
+                imagen_url: "https:
                 stock: 25,
                 estado: "activo",
                 brand_id: mann.id,
@@ -176,7 +170,7 @@ import bcrypt from "bcrypt";
             {
                 sku: "B001",
                 nombre: "Pastillas de Freno Delanteras",
-                descripcion: "Pastillas de freno cerámicas para eje delantero",
+                descripcion: "Pastillas de freno cerÃ¡micas para eje delantero",
                 precio: 12000.00,
                 costo: 7200.00,
                 stock: 15,
@@ -187,7 +181,7 @@ import bcrypt from "bcrypt";
             {
                 sku: "B002",
                 nombre: "Pastillas de Freno Traseras",
-                descripcion: "Pastillas de freno orgánicas para eje trasero",
+                descripcion: "Pastillas de freno orgÃ¡nicas para eje trasero",
                 precio: 8500.00,
                 costo: 5100.00,
                 stock: 18,
@@ -197,8 +191,8 @@ import bcrypt from "bcrypt";
             },
             {
                 sku: "G001",
-                nombre: "Correa de Distribución",
-                descripcion: "Correa de distribución para motores 1.6-2.0",
+                nombre: "Correa de DistribuciÃ³n",
+                descripcion: "Correa de distribuciÃ³n para motores 1.6-2.0",
                 precio: 15000.00,
                 costo: 9000.00,
                 stock: 12,
@@ -208,8 +202,8 @@ import bcrypt from "bcrypt";
             },
             {
                 sku: "N001",
-                nombre: "Bujías Iridium",
-                descripcion: "Juego de 4 bujías de iridio NGK",
+                nombre: "BujÃ­as Iridium",
+                descripcion: "Juego de 4 bujÃ­as de iridio NGK",
                 precio: 18000.00,
                 costo: 10800.00,
                 stock: 20,
@@ -220,7 +214,7 @@ import bcrypt from "bcrypt";
             {
                 sku: "M001",
                 nombre: "Aceite Motor 5W-30",
-                descripcion: "Aceite sintético 5W-30 para motores modernos - 4L",
+                descripcion: "Aceite sintÃ©tico 5W-30 para motores modernos - 4L",
                 precio: 8900.00,
                 costo: 5340.00,
                 stock: 40,
@@ -241,7 +235,6 @@ import bcrypt from "bcrypt";
             }
         ]);
 
-        console.log("✅ Productos creados");
         const fitments = [
             { product_id: products[0].id, vehicle_id: vehicles[0].id },
             { product_id: products[0].id, vehicle_id: vehicles[1].id },
@@ -272,16 +265,10 @@ import bcrypt from "bcrypt";
 
         await Fitment.bulkCreate(fitments);
 
-        console.log("✅ Compatibilidades creadas");
-
-        console.log("🎉 Seed completado exitosamente!");
-        console.log("👤 Admin: admin@repuestos.com / admin123");
-        console.log("👤 Usuario: juan@gmail.com / user123");
-        console.log("👤 Usuario: maria@gmail.com / user123");
-        
         process.exit(0);
     } catch (err) {
-        console.error("❌ Error en seed:", err);
         process.exit(1);
     }
 })();
+
+

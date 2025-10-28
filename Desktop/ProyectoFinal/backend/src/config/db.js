@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+﻿import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -26,13 +26,13 @@ const sequelize = new Sequelize({
 const testConnection = async () => {
   try {
     await sequelize.authenticate();
-    console.log('✅ Conexión a la DB exitosa');
     return true;
   } catch (error) {
-    console.error('❌ Error al conectar la DB:', error);
+    console.error('âŒ Error al conectar la DB:', error);
     return false;
   }
 };
 
 export { testConnection };
 export default sequelize;
+

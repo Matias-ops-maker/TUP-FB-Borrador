@@ -1,4 +1,4 @@
-import { Cart, CartItem, Product, Category, Brand } from "../models/index.js";
+﻿import { Cart, CartItem, Product, Category, Brand } from "../models/index.js";
 
 export async function getCart(req, res) {
     try {
@@ -42,7 +42,6 @@ export async function getCart(req, res) {
             totalItems
         });
     } catch (error) {
-        console.error('Error al obtener carrito:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -52,7 +51,7 @@ export async function addToCart(req, res) {
         const { product_id, cantidad = 1 } = req.body;
 
         if (!product_id || cantidad <= 0) {
-            return res.status(400).json({ error: "Product ID y cantidad válida son requeridos" });
+            return res.status(400).json({ error: "Product ID y cantidad vÃ¡lida son requeridos" });
         }
         const product = await Product.findByPk(product_id);
         if (!product) return res.status(404).json({ error: "Producto no existe" });
@@ -99,7 +98,6 @@ export async function addToCart(req, res) {
 
         res.json(updatedItem);
     } catch (error) {
-        console.error('Error al agregar al carrito:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -110,7 +108,7 @@ export async function updateCartItem(req, res) {
         const { cantidad } = req.body;
 
         if (!cantidad || cantidad <= 0) {
-            return res.status(400).json({ error: "Cantidad válida es requerida" });
+            return res.status(400).json({ error: "Cantidad vÃ¡lida es requerida" });
         }
 
         const cartItem = await CartItem.findByPk(id, {
@@ -147,7 +145,6 @@ export async function updateCartItem(req, res) {
 
         res.json(updatedItem);
     } catch (error) {
-        console.error('Error al actualizar item del carrito:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -173,7 +170,6 @@ export async function removeCartItem(req, res) {
 
         res.json({ msg: "Item eliminado del carrito" });
     } catch (error) {
-        console.error('Error al eliminar item del carrito:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -193,7 +189,8 @@ export async function clearCart(req, res) {
 
         res.json({ msg: "Carrito vaciado exitosamente" });
     } catch (error) {
-        console.error('Error al vaciar carrito:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
+
+

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiRequest } from '../api.js';
 
@@ -14,13 +14,13 @@ export default function PublicReports() {
       let url = '';
       
       if (type === 'sales' && format === 'pdf') {
-        url = 'http://localhost:4000/api/reports/public/sales-summary.pdf';
+        url = 'http:
       } else if (type === 'sales' && format === 'xlsx') {
-        url = 'http://localhost:4000/api/reports/public/sales-summary.xlsx';
+        url = 'http:
       } else if (type === 'inventory' && format === 'pdf') {
-        url = 'http://localhost:4000/api/reports/public/inventory-summary.pdf';
+        url = 'http:
       } else if (type === 'inventory' && format === 'xlsx') {
-        url = 'http://localhost:4000/api/reports/public/inventory-summary.xlsx';
+        url = 'http:
       }
       
       if (url) {
@@ -28,8 +28,7 @@ export default function PublicReports() {
       }
       
     } catch (error) {
-      console.error('Error descargando reporte:', error);
-      setError('Error al descargar el reporte. Inténtalo de nuevo.');
+      setError('Error al descargar el reporte. IntÃ©ntalo de nuevo.');
     } finally {
       setLoading(false);
     }
@@ -40,17 +39,17 @@ export default function PublicReports() {
       {}
       <nav className="nav-bar">
         <div className="nav-brand">
-          <Link to="/">🏪 RepuestosAuto</Link>
+          <Link to="/">ðŸª RepuestosAuto</Link>
         </div>
         <div className="nav-links">
           <Link to="/">Inicio</Link>
-          <Link to="/catalogo">Catálogo</Link>
-          <Link to="/auth/login">Iniciar Sesión</Link>
+          <Link to="/catalogo">CatÃ¡logo</Link>
+          <Link to="/auth/login">Iniciar SesiÃ³n</Link>
         </div>
       </nav>
 
       <div className="container" style={{ maxWidth: '800px', margin: '2rem auto', padding: '0 1rem' }}>
-        <h1>📊 Reportes y Estadísticas</h1>
+        <h1>ðŸ“Š Reportes y EstadÃ­sticas</h1>
         <p>Descarga reportes de ventas e inventario en diferentes formatos.</p>
 
         {error && (
@@ -80,8 +79,8 @@ export default function PublicReports() {
             padding: '1.5rem',
             backgroundColor: '#fff'
           }}>
-            <h3>📈 Reporte de Ventas</h3>
-            <p>Estadísticas generales de ventas y productos más vendidos.</p>
+            <h3>ðŸ“ˆ Reporte de Ventas</h3>
+            <p>EstadÃ­sticas generales de ventas y productos mÃ¡s vendidos.</p>
             
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
               <button
@@ -97,7 +96,7 @@ export default function PublicReports() {
                   opacity: loading ? 0.6 : 1
                 }}
               >
-                📄 PDF
+                ðŸ“„ PDF
               </button>
               <button
                 onClick={() => downloadReport('sales', 'xlsx')}
@@ -112,7 +111,7 @@ export default function PublicReports() {
                   opacity: loading ? 0.6 : 1
                 }}
               >
-                📊 Excel
+                ðŸ“Š Excel
               </button>
             </div>
           </div>
@@ -124,7 +123,7 @@ export default function PublicReports() {
             padding: '1.5rem',
             backgroundColor: '#fff'
           }}>
-            <h3>📦 Reporte de Inventario</h3>
+            <h3>ðŸ“¦ Reporte de Inventario</h3>
             <p>Estado actual del inventario y productos con bajo stock.</p>
             
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
@@ -141,7 +140,7 @@ export default function PublicReports() {
                   opacity: loading ? 0.6 : 1
                 }}
               >
-                📄 PDF
+                ðŸ“„ PDF
               </button>
               <button
                 onClick={() => downloadReport('inventory', 'xlsx')}
@@ -156,7 +155,7 @@ export default function PublicReports() {
                   opacity: loading ? 0.6 : 1
                 }}
               >
-                📊 Excel
+                ðŸ“Š Excel
               </button>
             </div>
           </div>
@@ -171,12 +170,12 @@ export default function PublicReports() {
           borderRadius: '8px',
           border: '1px solid #dee2e6'
         }}>
-          <h3>💡 Información</h3>
+          <h3>ðŸ’¡ InformaciÃ³n</h3>
           <ul>
             <li>Los reportes se generan con datos actualizados</li>
             <li>Los archivos PDF son ideales para presentaciones</li>
-            <li>Los archivos Excel permiten análisis adicional</li>
-            <li>Para reportes detallados, <Link to="/auth/login">inicia sesión como administrador</Link></li>
+            <li>Los archivos Excel permiten anÃ¡lisis adicional</li>
+            <li>Para reportes detallados, <Link to="/auth/login">inicia sesiÃ³n como administrador</Link></li>
           </ul>
         </div>
 
@@ -186,10 +185,11 @@ export default function PublicReports() {
             padding: '2rem',
             fontSize: '1.2rem'
           }}>
-            ⏳ Generando reporte...
+            â³ Generando reporte...
           </div>
         )}
       </div>
     </div>
   );
 }
+

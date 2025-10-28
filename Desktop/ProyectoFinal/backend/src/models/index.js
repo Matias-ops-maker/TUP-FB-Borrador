@@ -1,4 +1,4 @@
-import sequelize from '../config/db.js';
+﻿import sequelize from '../config/db.js';
 import User from './User.js';
 import Product from './Product.js';
 import Brand from './Brand.js';
@@ -53,10 +53,8 @@ Product.hasMany(CartItem, { foreignKey: 'product_id' });
 export const syncModels = async () => {
   try {
     await sequelize.sync({ alter: true });
-    console.log('Modelos sincronizados con la base de datos.');
-  } catch (error) {
-    console.error('Error al sincronizar modelos:', error);
-  }
+    } catch (error) {
+    }
 };
 export {
   sequelize,
@@ -74,3 +72,4 @@ export {
   Payment,
   AuditLog,
 };
+

@@ -1,4 +1,4 @@
-import express from "express";
+﻿import express from "express";
 import { 
     salesPdf, 
     salesXlsx,
@@ -16,3 +16,4 @@ router.get("/inventory/xlsx", verifyToken, verifyAdmin, inventoryXlsx);
 router.get("/dashboard", verifyToken, verifyAdmin, dashboardStats);
 
 export default router;
+

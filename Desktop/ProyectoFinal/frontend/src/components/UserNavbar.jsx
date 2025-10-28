@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+﻿import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function UserNavbar() {
@@ -90,7 +90,7 @@ export default function UserNavbar() {
                             fontWeight: 'bold'
                         }}
                     >
-                        🏪 RepuestosAuto
+                        ðŸª RepuestosAuto
                     </Link>
                 </div>
                 
@@ -111,7 +111,7 @@ export default function UserNavbar() {
                         onMouseOver={(e) => e.target.style.background = '#374151'}
                         onMouseOut={(e) => e.target.style.background = 'transparent'}
                     >
-                        🛍️ Catálogo
+                        ðŸ›ï¸ CatÃ¡logo
                     </Link>
                     
                     <Link 
@@ -128,7 +128,7 @@ export default function UserNavbar() {
                             transition: 'background 0.3s'
                         }}
                     >
-                        🛒 Carrito ({cantidadItems})
+                        ðŸ›’ Carrito ({cantidadItems})
                     </Link>
                     
                     {user ? (
@@ -146,7 +146,7 @@ export default function UserNavbar() {
                                     background: '#3B82F6'
                                 }}
                             >
-                                👤 Mi Perfil
+                                ðŸ‘¤ Mi Perfil
                             </Link>
                             {user.rol === 'admin' && (
                                 <Link 
@@ -159,7 +159,7 @@ export default function UserNavbar() {
                                         background: '#8B5CF6'
                                     }}
                                 >
-                                    👑 Admin
+                                    ðŸ‘‘ Admin
                                 </Link>
                             )}
                             <button 
@@ -173,7 +173,7 @@ export default function UserNavbar() {
                                     cursor: 'pointer'
                                 }}
                             >
-                                🚪 Salir
+                                ðŸšª Salir
                             </button>
                         </>
                     ) : (
@@ -188,7 +188,7 @@ export default function UserNavbar() {
                                     background: '#3B82F6'
                                 }}
                             >
-                                🔑 Iniciar Sesión
+                                ðŸ”‘ Iniciar SesiÃ³n
                             </Link>
                             <Link 
                                 to="/auth/register"
@@ -200,7 +200,7 @@ export default function UserNavbar() {
                                     background: '#10B981'
                                 }}
                             >
-                                📝 Registrarse
+                                ðŸ“ Registrarse
                             </Link>
                         </>
                     )}
@@ -209,3 +209,4 @@ export default function UserNavbar() {
         </nav>
     );
 }
+

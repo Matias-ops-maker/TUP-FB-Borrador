@@ -1,4 +1,4 @@
-import { Category, Product } from "../models/index.js";
+﻿import { Category, Product } from "../models/index.js";
 import { Op } from "sequelize";
 
 export async function listCategories(req, res) {
@@ -41,7 +41,6 @@ export async function listCategories(req, res) {
             res.json(categories);
         }
     } catch (error) {
-        console.error('Error al listar categorías:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -67,10 +66,9 @@ export async function getCategory(req, res) {
             ]
         });
 
-        if (!category) return res.status(404).json({ error: "Categoría no encontrada" });
+        if (!category) return res.status(404).json({ error: "CategorÃ­a no encontrada" });
         res.json(category);
     } catch (error) {
-        console.error('Error al obtener categoría:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -80,12 +78,12 @@ export async function createCategory(req, res) {
         const { nombre, descripcion, parent_id } = req.body;
 
         if (!nombre) {
-            return res.status(400).json({ error: "El nombre de la categoría es requerido" });
+            return res.status(400).json({ error: "El nombre de la categorÃ­a es requerido" });
         }
         if (parent_id) {
             const parentCategory = await Category.findByPk(parent_id);
             if (!parentCategory) {
-                return res.status(400).json({ error: "La categoría padre no existe" });
+                return res.status(400).json({ error: "La categorÃ­a padre no existe" });
             }
         }
         const existingCategory = await Category.findOne({ 
@@ -95,7 +93,7 @@ export async function createCategory(req, res) {
             } 
         });
         if (existingCategory) {
-            return res.status(400).json({ error: "La categoría ya existe" });
+            return res.status(400).json({ error: "La categorÃ­a ya existe" });
         }
 
         const category = await Category.create({ nombre, descripcion, parent_id });
@@ -111,7 +109,6 @@ export async function createCategory(req, res) {
 
         res.status(201).json(newCategory);
     } catch (error) {
-        console.error('Error al crear categoría:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -119,17 +116,17 @@ export async function createCategory(req, res) {
 export async function updateCategory(req, res) {
     try {
         const category = await Category.findByPk(req.params.id);
-        if (!category) return res.status(404).json({ error: "Categoría no encontrada" });
+        if (!category) return res.status(404).json({ error: "CategorÃ­a no encontrada" });
 
         const { nombre, parent_id } = req.body;
         if (parent_id && parent_id !== category.parent_id) {
             if (parent_id === category.id) {
-                return res.status(400).json({ error: "Una categoría no puede ser padre de sí misma" });
+                return res.status(400).json({ error: "Una categorÃ­a no puede ser padre de sÃ­ misma" });
             }
             
             const parentCategory = await Category.findByPk(parent_id);
             if (!parentCategory) {
-                return res.status(400).json({ error: "La categoría padre no existe" });
+                return res.status(400).json({ error: "La categorÃ­a padre no existe" });
             }
         }
         if (nombre && nombre !== category.nombre) {
@@ -141,7 +138,7 @@ export async function updateCategory(req, res) {
                 } 
             });
             if (existingCategory) {
-                return res.status(400).json({ error: "El nombre de categoría ya existe" });
+                return res.status(400).json({ error: "El nombre de categorÃ­a ya existe" });
             }
         }
 
@@ -158,7 +155,6 @@ export async function updateCategory(req, res) {
 
         res.json(updatedCategory);
     } catch (error) {
-        console.error('Error al actualizar categoría:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -166,24 +162,25 @@ export async function updateCategory(req, res) {
 export async function deleteCategory(req, res) {
     try {
         const category = await Category.findByPk(req.params.id);
-        if (!category) return res.status(404).json({ error: "Categoría no encontrada" });
+        if (!category) return res.status(404).json({ error: "CategorÃ­a no encontrada" });
         const productCount = await Product.count({ where: { category_id: category.id } });
         if (productCount > 0) {
             return res.status(400).json({ 
-                error: "No se puede eliminar la categoría porque tiene productos asociados" 
+                error: "No se puede eliminar la categorÃ­a porque tiene productos asociados" 
             });
         }
         const subcategoryCount = await Category.count({ where: { parent_id: category.id } });
         if (subcategoryCount > 0) {
             return res.status(400).json({ 
-                error: "No se puede eliminar la categoría porque tiene subcategorías" 
+                error: "No se puede eliminar la categorÃ­a porque tiene subcategorÃ­as" 
             });
         }
 
         await category.destroy();
-        res.json({ msg: "Categoría eliminada exitosamente" });
+        res.json({ msg: "CategorÃ­a eliminada exitosamente" });
     } catch (error) {
-        console.error('Error al eliminar categoría:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
+
+

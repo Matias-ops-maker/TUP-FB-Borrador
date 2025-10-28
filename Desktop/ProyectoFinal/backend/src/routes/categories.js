@@ -1,4 +1,4 @@
-import express from "express";
+﻿import express from "express";
 import { 
     listCategories, 
     getCategory, 
@@ -16,3 +16,4 @@ router.put("/:id", verifyToken, verifyAdmin, updateCategory);
 router.delete("/:id", verifyToken, verifyAdmin, deleteCategory);
 
 export default router;
+

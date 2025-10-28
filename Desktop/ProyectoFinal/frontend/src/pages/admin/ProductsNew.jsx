@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api.js";
 import "../../styles/usuario.css";
@@ -14,9 +14,9 @@ export default function Products() {
         { id: 1, name: 'Filtros' },
         { id: 2, name: 'Frenos' },
         { id: 3, name: 'Aceites' },
-        { id: 4, name: 'Sistema Eléctrico' },
-        { id: 5, name: 'Suspensión' },
-        { id: 6, name: 'Transmisión' }
+        { id: 4, name: 'Sistema ElÃ©ctrico' },
+        { id: 5, name: 'SuspensiÃ³n' },
+        { id: 6, name: 'TransmisiÃ³n' }
     ];
     const fetchProducts = async () => {
         try {
@@ -25,7 +25,6 @@ export default function Products() {
             const productData = response.data.data || response.data || [];
             setProducts(Array.isArray(productData) ? productData : []);
         } catch (error) {
-            console.error("Error fetching products:", error);
             setProducts([]);
         } finally {
             setLoading(false);
@@ -36,7 +35,7 @@ export default function Products() {
         fetchProducts();
     }, []);
     const deleteProduct = async (id) => {
-        if (!confirm("¿Estás seguro de que quieres eliminar este producto?")) {
+        if (!confirm("Â¿EstÃ¡s seguro de que quieres eliminar este producto?")) {
             return;
         }
         
@@ -44,13 +43,12 @@ export default function Products() {
             await api.delete(`/products/${id}`);
             fetchProducts();
         } catch (error) {
-            console.error("Error deleting product:", error);
             alert("Error al eliminar el producto");
         }
     };
     const getCategoryName = (categoryId) => {
         const category = categories.find(cat => cat.id === categoryId);
-        return category ? category.name : 'Sin categoría';
+        return category ? category.name : 'Sin categorÃ­a';
     };
     const getFilteredProducts = () => {
         let filtered = [...products];
@@ -105,12 +103,12 @@ export default function Products() {
     return (
         <div className="admin-container">
             <div className="admin-header">
-                <h1>📦 Gestión de Productos</h1>
+                <h1>ðŸ“¦ GestiÃ³n de Productos</h1>
                 <button 
                     className="btn-primary"
                     onClick={() => navigate('/admin/products/new')}
                 >
-                    ➕ Nuevo Producto
+                    âž• Nuevo Producto
                 </button>
             </div>
 
@@ -119,7 +117,7 @@ export default function Products() {
                 <div className="search-container">
                     <input
                         type="text"
-                        placeholder="🔍 Buscar productos por nombre, SKU o marca..."
+                        placeholder="ðŸ” Buscar productos por nombre, SKU o marca..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="search-input"
@@ -132,7 +130,7 @@ export default function Products() {
                         onChange={(e) => setFilterCategory(e.target.value)}
                         className="filter-select"
                     >
-                        <option value="">Todas las categorías</option>
+                        <option value="">Todas las categorÃ­as</option>
                         {categories.map(cat => (
                             <option key={cat.id} value={cat.id}>
                                 {cat.name}
@@ -163,7 +161,7 @@ export default function Products() {
                         <tr>
                             <th>Imagen</th>
                             <th>Nombre</th>
-                            <th>Categoría</th>
+                            <th>CategorÃ­a</th>
                             <th>Precio</th>
                             <th>Stock</th>
                             <th>Estado</th>
@@ -174,14 +172,14 @@ export default function Products() {
                         {filteredProducts.length === 0 ? (
                             <tr>
                                 <td colSpan="7" className="no-data">
-                                    📦 No se encontraron productos
+                                    ðŸ“¦ No se encontraron productos
                                     {searchTerm && (
                                         <div>
                                             <button 
                                                 className="btn-link"
                                                 onClick={() => setSearchTerm('')}
                                             >
-                                                Limpiar búsqueda
+                                                Limpiar bÃºsqueda
                                             </button>
                                         </div>
                                     )}
@@ -192,11 +190,11 @@ export default function Products() {
                                 <tr key={product.id} className="product-row">
                                     <td className="image-cell">
                                         <img 
-                                            src={product.imagen_url || 'https://via.placeholder.com/60x60/f3f4f6/9ca3af?text=Sin+Imagen'} 
+                                            src={product.imagen_url || 'https:
                                             alt={product.nombre}
                                             className="product-image"
                                             onError={(e) => {
-                                                e.target.src = 'https://via.placeholder.com/60x60/f3f4f6/9ca3af?text=Sin+Imagen';
+                                                e.target.src = 'https:
                                             }}
                                         />
                                     </td>
@@ -222,7 +220,7 @@ export default function Products() {
                                     </td>
                                     <td className="status-cell">
                                         <span className={`status-badge ${product.stock > 0 ? 'active' : 'inactive'}`}>
-                                            {product.stock > 0 ? '✅ Disponible' : '❌ Agotado'}
+                                            {product.stock > 0 ? 'âœ… Disponible' : 'âŒ Agotado'}
                                         </span>
                                     </td>
                                     <td className="actions-cell">
@@ -232,14 +230,14 @@ export default function Products() {
                                                 onClick={() => navigate(`/admin/products/edit/${product.id}`)}
                                                 title="Editar producto"
                                             >
-                                                ✏️
+                                                âœï¸
                                             </button>
                                             <button 
                                                 className="btn-action delete"
                                                 onClick={() => deleteProduct(product.id)}
                                                 title="Eliminar producto"
                                             >
-                                                🗑️
+                                                ðŸ—‘ï¸
                                             </button>
                                         </div>
                                     </td>
@@ -278,3 +276,4 @@ export default function Products() {
         </div>
     );
 }
+

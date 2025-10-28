@@ -1,4 +1,4 @@
-import PDFDocument from "pdfkit";
+﻿import PDFDocument from "pdfkit";
 import ExcelJS from "exceljs";
 
 export async function salesPdf(req, res) {
@@ -6,21 +6,21 @@ export async function salesPdf(req, res) {
         const salesData = [
             { 
                 fecha: "2024-10-01", 
-                cliente: "Juan Pérez", 
+                cliente: "Juan PÃ©rez", 
                 productos: "Filtro de aceite, Pastillas de freno", 
                 total: 45000,
                 estado: "Entregado"
             },
             { 
                 fecha: "2024-10-02", 
-                cliente: "María García", 
+                cliente: "MarÃ­a GarcÃ­a", 
                 productos: "Aceite motor 5W-30", 
                 total: 28000,
                 estado: "En proceso"
             },
             { 
                 fecha: "2024-10-03", 
-                cliente: "Carlos López", 
+                cliente: "Carlos LÃ³pez", 
                 productos: "Amortiguador Monroe", 
                 total: 12500,
                 estado: "Pendiente"
@@ -50,12 +50,11 @@ export async function salesPdf(req, res) {
         const totalVentas = salesData.reduce((sum, order) => sum + order.total, 0);
         doc.moveDown(1);
         doc.fontSize(14).text(`Total de ventas: $${totalVentas.toFixed(2)}`);
-        doc.text(`Número de órdenes: ${salesData.length}`);
+        doc.text(`NÃºmero de Ã³rdenes: ${salesData.length}`);
 
         doc.end();
 
     } catch (error) {
-        console.error("Error al generar PDF de ventas:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -65,21 +64,21 @@ export async function salesXlsx(req, res) {
         const salesData = [
             { 
                 fecha: "2024-10-01", 
-                cliente: "Juan Pérez", 
+                cliente: "Juan PÃ©rez", 
                 productos: "Filtro de aceite, Pastillas de freno", 
                 total: 45000,
                 estado: "Entregado"
             },
             { 
                 fecha: "2024-10-02", 
-                cliente: "María García", 
+                cliente: "MarÃ­a GarcÃ­a", 
                 productos: "Aceite motor 5W-30", 
                 total: 28000,
                 estado: "En proceso"
             },
             { 
                 fecha: "2024-10-03", 
-                cliente: "Carlos López", 
+                cliente: "Carlos LÃ³pez", 
                 productos: "Amortiguador Monroe", 
                 total: 12500,
                 estado: "Pendiente"
@@ -116,7 +115,6 @@ export async function salesXlsx(req, res) {
         res.end();
 
     } catch (error) {
-        console.error("Error al generar Excel de ventas:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -141,7 +139,7 @@ export async function inventoryPdf(req, res) {
                 estado: "Disponible"
             },
             { 
-                nombre: "Aceite motor 5W-30 sintético 1L", 
+                nombre: "Aceite motor 5W-30 sintÃ©tico 1L", 
                 categoria: "Lubricantes",
                 marca: "Mobil 1",
                 precio: 28000,
@@ -163,7 +161,7 @@ export async function inventoryPdf(req, res) {
 
         inventoryData.forEach((product, index) => {
             doc.text(`${index + 1}. Producto: ${product.nombre}`);
-            doc.text(`   Categoría: ${product.categoria}`);
+            doc.text(`   CategorÃ­a: ${product.categoria}`);
             doc.text(`   Marca: ${product.marca}`);
             doc.text(`   Precio: $${product.precio.toFixed(2)}`);
             doc.text(`   Stock: ${product.stock} unidades`);
@@ -184,7 +182,6 @@ export async function inventoryPdf(req, res) {
         doc.end();
 
     } catch (error) {
-        console.error("Error al generar PDF de inventario:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -209,7 +206,7 @@ export async function inventoryXlsx(req, res) {
                 estado: "Disponible"
             },
             { 
-                nombre: "Aceite motor 5W-30 sintético 1L", 
+                nombre: "Aceite motor 5W-30 sintÃ©tico 1L", 
                 categoria: "Lubricantes",
                 marca: "Mobil 1",
                 precio: 28000,
@@ -223,7 +220,7 @@ export async function inventoryXlsx(req, res) {
 
         worksheet.columns = [
             { header: "Producto", key: "nombre", width: 40 },
-            { header: "Categoría", key: "categoria", width: 20 },
+            { header: "CategorÃ­a", key: "categoria", width: 20 },
             { header: "Marca", key: "marca", width: 20 },
             { header: "Precio", key: "precio", width: 15 },
             { header: "Stock", key: "stock", width: 10 },
@@ -250,7 +247,6 @@ export async function inventoryXlsx(req, res) {
         res.end();
 
     } catch (error) {
-        console.error("Error al generar Excel de inventario:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -266,19 +262,19 @@ export async function dashboardStats(req, res) {
             ventasRecientes: [
                 { 
                     fecha: "2024-10-01", 
-                    cliente: "Juan Pérez", 
+                    cliente: "Juan PÃ©rez", 
                     total: 45000,
                     estado: "Entregado"
                 },
                 { 
                     fecha: "2024-10-02", 
-                    cliente: "María García", 
+                    cliente: "MarÃ­a GarcÃ­a", 
                     total: 28000,
                     estado: "En proceso"
                 },
                 { 
                     fecha: "2024-10-03", 
-                    cliente: "Carlos López", 
+                    cliente: "Carlos LÃ³pez", 
                     total: 12500,
                     estado: "Pendiente"
                 }
@@ -293,7 +289,8 @@ export async function dashboardStats(req, res) {
         res.json(stats);
 
     } catch (error) {
-        console.error("Error al obtener estadísticas del dashboard:", error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
+
+

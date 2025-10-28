@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize';
+﻿import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.js';
 
 const Category = sequelize.define('Category', {
@@ -30,3 +30,4 @@ const Category = sequelize.define('Category', {
 });
 
 export default Category;
+

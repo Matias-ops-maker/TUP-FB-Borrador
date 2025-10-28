@@ -1,99 +1,90 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api.js";
-import "../../styles/usuario.css";
 
 export default function ProductFormNew() {
   const [formData, setFormData] = useState({
-    sku: '',
-    nombre: '',
-    descripcion: '',
-    precio: '',
-    stock: '',
-    category_id: '',
-    brand_id: '',
-    imagen_url: '',
-    estado: 'activo'
+    sku: "",
+    nombre: "",
+    descripcion: "",
+    precio: "",
+    stock: "",
+    category_id: "",
+    brand_id: "",
+    imagen_url: "",
+    estado: "activo"
   });
+  
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = Boolean(id);
 
   useEffect(() => {
-    loadInitialData();
-    if (isEdit) {
-      loadProduct();
-    }
-  }, [id]);
+    const loadData = async () => {
+      try {
+        const catResponse = await api.get("/categories");
+        setCategories(catResponse.data || []);
+      } catch {
+        setCategories([
+          { id: 1, nombre: "Filtros" },
+          { id: 2, nombre: "Frenos" },
+          { id: 3, nombre: "Aceites" }
+        ]);
+      }
 
-  const loadInitialData = async () => {
-    try {
-      const categoriesResponse = await api.get('/categories');
-      setCategories(categoriesResponse.data || []);
-      const brandsResponse = await api.get('/brands');
-      setBrands(brandsResponse.data || []);
-    } catch (error) {
-      console.error('Error cargando datos iniciales:', error);
-      setCategories([
-        { id: 1, nombre: 'Filtros' },
-        { id: 2, nombre: 'Frenos' },
-        { id: 3, nombre: 'Aceites' },
-        { id: 4, nombre: 'Sistema Eléctrico' },
-        { id: 5, nombre: 'Suspensión' },
-        { id: 6, nombre: 'Transmisión' }
-      ]);
-      setBrands([
-        { id: 1, nombre: 'Bosch' },
-        { id: 2, nombre: 'NGK' },
-        { id: 3, nombre: 'Mann Filter' },
-        { id: 4, nombre: 'Castrol' },
-        { id: 5, nombre: 'Monroe' },
-        { id: 6, nombre: 'Brembo' }
-      ]);
-    }
-  };
+      try {
+        const brandResponse = await api.get("/brands");
+        setBrands(brandResponse.data || []);
+      } catch {
+        setBrands([
+          { id: 1, nombre: "Bosch" },
+          { id: 2, nombre: "Mann Filter" },
+          { id: 3, nombre: "Castrol" }
+        ]);
+      }
 
-  const loadProduct = async () => {
-    try {
-      setLoading(true);
-      const response = await api.get(`/products/${id}`);
-      const product = response.data;
-      
-      setFormData({
-        sku: product.sku || '',
-        nombre: product.nombre || '',
-        descripcion: product.descripcion || '',
-        precio: product.precio || '',
-        stock: product.stock || '',
-        category_id: product.category_id || '',
-        brand_id: product.brand_id || '',
-        imagen_url: product.imagen_url || '',
-        estado: product.estado || 'activo'
-      });
-    } catch (error) {
-      console.error('Error cargando producto:', error);
-      setError('Error al cargar el producto');
-    } finally {
-      setLoading(false);
-    }
-  };
+      if (isEdit && id) {
+        try {
+          setLoading(true);
+          const response = await api.get(`/products/${id}`);
+          if (response.data) {
+            setFormData({
+              sku: response.data.sku || "",
+              nombre: response.data.nombre || "",
+              descripcion: response.data.descripcion || "",
+              precio: response.data.precio ? response.data.precio.toString() : "",
+              stock: response.data.stock ? response.data.stock.toString() : "",
+              category_id: response.data.category_id ? response.data.category_id.toString() : "",
+              brand_id: response.data.brand_id ? response.data.brand_id.toString() : "",
+              imagen_url: response.data.imagen_url || "",
+              estado: response.data.estado || "activo"
+            });
+          }
+        } catch (error) {
+          setError("Error al cargar el producto");
+          setError("Error al cargar el producto");
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadData();
+  }, [id, isEdit]);
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       const productData = {
@@ -108,213 +99,115 @@ export default function ProductFormNew() {
       if (isEdit) {
         await api.put(`/products/${id}`, productData);
       } else {
-        await api.post('/products', productData);
+        await api.post("/products", productData);
       }
 
-      navigate('/admin/products');
+      navigate("/admin/products");
     } catch (error) {
-      console.error('Error guardando producto:', error);
-      setError('Error al guardar el producto. Inténtalo de nuevo.');
+      setError("Error al guardar el producto");
+      setError("Error al guardar el producto");
     } finally {
       setLoading(false);
     }
   };
 
   if (loading && isEdit) {
-    return (
-      <div className="admin-container">
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p>Cargando producto...</p>
-        </div>
-      </div>
-    );
+    return <div style={{ padding: "40px", textAlign: "center" }}><h2>Cargando...</h2></div>;
   }
 
   return (
-    <div className="admin-container">
-      <div className="admin-header">
-        <h1>{isEdit ? '✏️ Editar Producto' : '➕ Nuevo Producto'}</h1>
-        <button 
-          className="btn-secondary"
-          onClick={() => navigate('/admin/products')}
-        >
-          ← Volver a Productos
+    <div style={{ padding: "20px", backgroundColor: "white", minHeight: "100vh" }}>
+      <div style={{ marginBottom: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1>{isEdit ? "Editar Producto" : "Nuevo Producto"}</h1>
+        <button onClick={() => navigate("/admin/products")} style={{ padding: "8px 16px", backgroundColor: "#6b7280", color: "white", border: "none", borderRadius: "4px" }}>
+          Volver
         </button>
       </div>
 
-      <div className="product-form-container">
-        <form onSubmit={handleSubmit} className="product-form">
-          {error && (
-            <div className="error-message">
-              <span>⚠️ {error}</span>
-            </div>
-          )}
+      {error && (
+        <div style={{ padding: "12px", backgroundColor: "#fef2f2", border: "1px solid #fecaca", borderRadius: "4px", marginBottom: "20px" }}>
+          <span style={{ color: "#dc2626" }}>{error}</span>
+        </div>
+      )}
 
-          <div className="form-grid">
-            <div className="form-group">
-              <label htmlFor="sku">SKU *</label>
-              <input
-                type="text"
-                id="sku"
-                name="sku"
-                value={formData.sku}
-                onChange={handleInputChange}
-                required
-                placeholder="Ej: FIL-001-MANN"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="nombre">Nombre del Producto *</label>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleInputChange}
-                required
-                placeholder="Ej: Filtro de aceite Mann Filter"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="precio">Precio (ARS) *</label>
-              <input
-                type="number"
-                id="precio"
-                name="precio"
-                value={formData.precio}
-                onChange={handleInputChange}
-                required
-                min="0"
-                step="0.01"
-                placeholder="0.00"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="stock">Stock *</label>
-              <input
-                type="number"
-                id="stock"
-                name="stock"
-                value={formData.stock}
-                onChange={handleInputChange}
-                required
-                min="0"
-                placeholder="0"
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="category_id">Categoría *</label>
-              <select
-                id="category_id"
-                name="category_id"
-                value={formData.category_id}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Seleccionar categoría</option>
-                {categories.map(cat => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.nombre}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="brand_id">Marca *</label>
-              <select
-                id="brand_id"
-                name="brand_id"
-                value={formData.brand_id}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Seleccionar marca</option>
-                {brands.map(brand => (
-                  <option key={brand.id} value={brand.id}>
-                    {brand.nombre}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="imagen_url">URL de Imagen</label>
-              <input
-                type="url"
-                id="imagen_url"
-                name="imagen_url"
-                value={formData.imagen_url}
-                onChange={handleInputChange}
-                placeholder="https://ejemplo.com/imagen.jpg"
-              />
-            </div>
+      <form onSubmit={handleSubmit} style={{ maxWidth: "800px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "20px" }}>
+          <div>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>SKU</label>
+            <input type="text" name="sku" value={formData.sku} onChange={handleInputChange} placeholder="SKU del producto" style={{ width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "4px" }} />
           </div>
 
-          <div className="form-group full-width">
-            <label htmlFor="descripcion">Descripción</label>
-            <textarea
-              id="descripcion"
-              name="descripcion"
-              value={formData.descripcion}
-              onChange={handleInputChange}
-              rows="4"
-              placeholder="Descripción detallada del producto..."
-            />
+          <div>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Nombre *</label>
+            <input type="text" name="nombre" value={formData.nombre} onChange={handleInputChange} placeholder="Nombre del producto" required style={{ width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "4px" }} />
           </div>
 
-          <div className="form-group checkbox-group">
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="estado"
-                checked={formData.estado === 'activo'}
-                onChange={(e) => setFormData(prev => ({
-                  ...prev,
-                  estado: e.target.checked ? 'activo' : 'inactivo'
-                }))}
-              />
-              <span className="checkmark"></span>
-              Producto activado
-            </label>
+          <div style={{ gridColumn: "span 2" }}>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Descripción</label>
+            <textarea name="descripcion" value={formData.descripcion} onChange={handleInputChange} placeholder="Descripción del producto" rows="3" style={{ width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "4px" }} />
           </div>
 
-          <div className="form-actions">
-            <button 
-              type="button" 
-              className="btn-cancel"
-              onClick={() => navigate('/admin/products')}
-            >
-              Cancelar
-            </button>
-            <button 
-              type="submit" 
-              className="btn-primary"
-              disabled={loading}
-            >
-              {loading ? 'Guardando...' : (isEdit ? 'Actualizar' : 'Crear Producto')}
-            </button>
+          <div>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Precio *</label>
+            <input type="number" name="precio" value={formData.precio} onChange={handleInputChange} placeholder="0.00" step="0.01" required style={{ width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "4px" }} />
           </div>
-        </form>
 
-        {formData.imagen_url && (
-          <div className="image-preview">
-            <h3>Vista previa de imagen</h3>
-            <img 
-              src={formData.imagen_url} 
-              alt="Vista previa"
-              onError={(e) => {
-                e.target.style.display = 'none';
-              }}
-            />
+          <div>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Stock *</label>
+            <input type="number" name="stock" value={formData.stock} onChange={handleInputChange} placeholder="0" required style={{ width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "4px" }} />
           </div>
-        )}
-      </div>
+
+          <div>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Categoría *</label>
+            <select name="category_id" value={formData.category_id} onChange={handleInputChange} required style={{ width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "4px" }}>
+              <option value="">Seleccionar categoría</option>
+              {categories.map(category => (
+                <option key={category.id} value={category.id}>{category.nombre}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Marca *</label>
+            <select name="brand_id" value={formData.brand_id} onChange={handleInputChange} required style={{ width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "4px" }}>
+              <option value="">Seleccionar marca</option>
+              {brands.map(brand => (
+                <option key={brand.id} value={brand.id}>{brand.nombre}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>URL de Imagen</label>
+            <input type="url" name="imagen_url" value={formData.imagen_url} onChange={handleInputChange} placeholder="https:
+          </div>
+
+          <div>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>Estado</label>
+            <select name="estado" value={formData.estado} onChange={handleInputChange} style={{ width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "4px" }}>
+              <option value="activo">Activo</option>
+              <option value="inactivo">Inactivo</option>
+            </select>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: "10px", marginTop: "30px" }}>
+          <button type="button" onClick={() => navigate("/admin/products")} style={{ padding: "10px 20px", backgroundColor: "#6b7280", color: "white", border: "none", borderRadius: "4px" }}>
+            Cancelar
+          </button>
+          <button type="submit" disabled={loading} style={{ padding: "10px 20px", backgroundColor: loading ? "#9ca3af" : "#3b82f6", color: "white", border: "none", borderRadius: "4px", cursor: loading ? "not-allowed" : "pointer" }}>
+            {loading ? "Guardando..." : (isEdit ? "Actualizar" : "Crear")} Producto
+          </button>
+        </div>
+      </form>
+
+      {formData.imagen_url && (
+        <div style={{ marginTop: "30px", maxWidth: "400px" }}>
+          <h3>Vista previa de imagen</h3>
+          <img src={formData.imagen_url} alt="Vista previa" onError={(e) => { e.target.style.display = "none"; }} style={{ maxWidth: "100%", height: "auto", border: "1px solid #d1d5db", borderRadius: "4px" }} />
+        </div>
+      )}
     </div>
   );
 }
+

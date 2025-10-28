@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import api from '../api';
 import '../styles/checkout.css';
 
 const CheckoutNew = () => {
+  
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -20,21 +21,23 @@ const CheckoutNew = () => {
   });
 
   useEffect(() => {
-    fetchCart();
+    loadCartFromLocalStorage();
   }, []);
 
-  const fetchCart = async () => {
+  const loadCartFromLocalStorage = () => {
     try {
-      const response = await api.get('/cart');
-      if (response.data.success) {
-        setCart(response.data.items);
-        const calculatedTotal = response.data.items.reduce((sum, item) => 
-          sum + (parseFloat(item.precio) * item.cantidad), 0
-        );
+      const savedCart = localStorage.getItem('carrito');
+      if (savedCart) {
+        const cartItems = JSON.parse(savedCart);
+        setCart(cartItems);
+        const calculatedTotal = cartItems.reduce((sum, item) => {
+          const precio = item.precio || item.price || 0;
+          const cantidad = item.cantidad || 0;
+          return sum + (precio * cantidad);
+        }, 0);
         setTotal(calculatedTotal);
       }
     } catch (error) {
-      console.error('Error fetching cart:', error);
       setError('Error al cargar el carrito');
     }
   };
@@ -58,7 +61,7 @@ const CheckoutNew = () => {
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(checkoutData.email)) {
-      setError('El email no es válido');
+      setError('El email no es vÃ¡lido');
       return false;
     }
     
@@ -73,7 +76,7 @@ const CheckoutNew = () => {
     }
 
     if (cart.length === 0) {
-      setError('El carrito está vacío');
+      setError('El carrito estÃ¡ vacÃ­o');
       return;
     }
 
@@ -120,24 +123,20 @@ const CheckoutNew = () => {
         }
       };
 
-      console.log('Enviando datos de pago:', paymentData);
-
       const response = await api.post('/payments/create', paymentData);
       
       if (response.data.success) {
         const initPoint = response.data.sandbox_init_point || response.data.init_point;
         
         if (initPoint) {
-          console.log('Redirigiendo a MercadoPago:', initPoint);
           window.location.href = initPoint;
         } else {
-          throw new Error('No se recibió la URL de pago');
+          throw new Error('No se recibiÃ³ la URL de pago');
         }
       } else {
         throw new Error(response.data.message || 'Error al crear la preferencia de pago');
       }
     } catch (error) {
-      console.error('Error en checkout:', error);
       setError(
         error.response?.data?.message || 
         error.message || 
@@ -148,13 +147,23 @@ const CheckoutNew = () => {
     }
   };
 
-  if (cart.length === 0 && !loading) {
+  if (loading) {
+    return (
+      <div className="checkout-container">
+        <div className="checkout-content">
+          <h2>Cargando...</h2>
+        </div>
+      </div>
+    );
+  }
+
+  if (cart.length === 0) {
     return (
       <div className="checkout-container">
         <div className="checkout-content">
           <h2>Checkout</h2>
           <div className="empty-cart">
-            <p>Tu carrito está vacío</p>
+            <p>Tu carrito estÃ¡ vacÃ­o</p>
             <button 
               onClick={() => window.location.href = '/productos'}
               className="btn btn-primary"
@@ -179,7 +188,7 @@ const CheckoutNew = () => {
         )}
 
         <div className="checkout-sections">
-          {/* Resumen del pedido */}
+          {}
           <div className="order-summary">
             <h3>Resumen del Pedido</h3>
             <div className="cart-items">
@@ -202,7 +211,7 @@ const CheckoutNew = () => {
             </div>
           </div>
 
-          {/* Datos del comprador */}
+          {}
           <div className="buyer-data">
             <h3>Datos del Comprador</h3>
             <form className="checkout-form">
@@ -244,7 +253,7 @@ const CheckoutNew = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="telefono">Teléfono *</label>
+                  <label htmlFor="telefono">TelÃ©fono *</label>
                   <input
                     type="tel"
                     id="telefono"
@@ -269,7 +278,7 @@ const CheckoutNew = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="codigoPostal">Código Postal</label>
+                  <label htmlFor="codigoPostal">CÃ³digo Postal</label>
                   <input
                     type="text"
                     id="codigoPostal"
@@ -281,7 +290,7 @@ const CheckoutNew = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="direccion">Dirección *</label>
+                <label htmlFor="direccion">DirecciÃ³n *</label>
                 <input
                   type="text"
                   id="direccion"
@@ -319,7 +328,7 @@ const CheckoutNew = () => {
           </div>
         </div>
 
-        {/* Botón de pago */}
+        {}
         <div className="payment-section">
           <button
             onClick={handleCheckout}
@@ -330,9 +339,9 @@ const CheckoutNew = () => {
           </button>
           
           <div className="payment-info">
-            <p>✓ Pago seguro con MercadoPago</p>
-            <p>✓ Aceptamos todas las tarjetas</p>
-            <p>✓ Pago en efectivo en Rapipago y Pago Fácil</p>
+            <p>âœ“ Pago seguro con MercadoPago</p>
+            <p>âœ“ Aceptamos todas las tarjetas</p>
+            <p>âœ“ Pago en efectivo en Rapipago y Pago FÃ¡cil</p>
           </div>
         </div>
       </div>
@@ -341,3 +350,5 @@ const CheckoutNew = () => {
 };
 
 export default CheckoutNew;
+
+

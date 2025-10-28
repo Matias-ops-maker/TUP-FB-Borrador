@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/catalogo.css';
 import UserNavbar from '../../components/UserNavbar.jsx';
@@ -7,7 +7,8 @@ export default function Carrito() {
   const [carrito, setCarrito] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => {
+
     const carritoGuardado = localStorage.getItem('carrito');
     if (carritoGuardado) {
       setCarrito(JSON.parse(carritoGuardado));
@@ -27,28 +28,35 @@ export default function Carrito() {
     );
 
     setCarrito(nuevoCarrito);
-    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+
     window.dispatchEvent(new Event('storage'));
   };
 
   const eliminarDelCarrito = (productoId) => {
     const nuevoCarrito = carrito.filter(item => item.id !== productoId);
     setCarrito(nuevoCarrito);
-    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+    localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
+
     window.dispatchEvent(new Event('storage'));
   };
 
   const vaciarCarrito = () => {
-    const confirmar = window.confirm('¿Estás seguro de que quieres vaciar todo el carrito?');
+    const confirmar = window.confirm('Â¿EstÃ¡s seguro de que quieres vaciar todo el carrito?');
     if (confirmar) {
       setCarrito([]);
-      localStorage.removeItem('carrito');
+      localStorage.removeItem('carrito');
+
       window.dispatchEvent(new Event('storage'));
     }
   };
 
   const calcularSubtotal = () => {
-    return carrito.reduce((total, item) => total + (item.precio * item.cantidad), 0);
+    return carrito.reduce((total, item) => {
+      const precio = item.precio || item.price || 0;
+      const cantidad = item.cantidad || 0;
+      return total + (precio * cantidad);
+    }, 0);
   };
 
   const calcularEnvio = () => {
@@ -79,7 +87,7 @@ export default function Carrito() {
 
       <div className="carrito-page-container">
         <div className="carrito-header">
-          <h1>🛒 Mi Carrito de Compras</h1>
+          <h1>ðŸ›’ Mi Carrito de Compras</h1>
           <button 
             className="btn-volver"
             onClick={() => navigate('/catalogo')}
@@ -93,17 +101,17 @@ export default function Carrito() {
               fontSize: '14px'
             }}
           >
-            ← Seguir Comprando
+            â† Seguir Comprando
           </button>
         </div>
 
         {carrito.length === 0 ? (
           <div className="carrito-vacio">
             <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-              <h2>🛒 Tu carrito está vacío</h2>
-              <p>¡Agrega algunos productos increíbles!</p>
+              <h2>ðŸ›’ Tu carrito estÃ¡ vacÃ­o</h2>
+              <p>Â¡Agrega algunos productos increÃ­bles!</p>
               <Link to="/catalogo" className="btn-primary" style={{ marginTop: '20px', display: 'inline-block' }}>
-                Ir al Catálogo
+                Ir al CatÃ¡logo
               </Link>
             </div>
           </div>
@@ -125,7 +133,7 @@ export default function Carrito() {
                     fontSize: '14px'
                   }}
                 >
-                  🗑️ Vaciar Carrito
+                  ðŸ—‘ï¸ Vaciar Carrito
                 </button>
               </div>
 
@@ -133,13 +141,19 @@ export default function Carrito() {
                 {carrito.map(item => (
                   <div key={item.id} className="carrito-item-detalle">
                     <div className="item-imagen">
-                      <img src={item.imagen_url || item.image} alt={item.nombre || item.name} />
+                      <img 
+                        src={item.imagen_url || item.image} 
+                        alt={item.nombre || item.name}
+                        onError={(e) => {
+                          e.target.src = 'https:
+                        }}
+                      />
                     </div>
                     
                     <div className="item-info-detalle">
                       <h4>{item.nombre || item.name}</h4>
-                      <p className="item-marca">🏭 {item.brand || item.Brand?.nombre}</p>
-                      <p className="item-categoria">🏷️ {item.category || item.Category?.nombre}</p>
+                      <p className="item-marca">ðŸ­ {item.brand || item.Brand?.nombre}</p>
+                      <p className="item-categoria">ðŸ·ï¸ {item.category || item.Category?.nombre}</p>
                       <p className="item-precio-unitario">
                         Precio unitario: {formatearPrecio(item.precio || item.price)}
                       </p>
@@ -177,7 +191,7 @@ export default function Carrito() {
                         cursor: 'pointer'
                       }}
                     >
-                      🗑️
+                      ðŸ—‘ï¸
                     </button>
                   </div>
                 ))}
@@ -186,7 +200,7 @@ export default function Carrito() {
 
             <div className="carrito-resumen">
               <div className="resumen-card">
-                <h3>📋 Resumen del Pedido</h3>
+                <h3>ðŸ“‹ Resumen del Pedido</h3>
                 
                 <div className="resumen-linea">
                   <span>Subtotal ({cantidadItems} items):</span>
@@ -194,10 +208,10 @@ export default function Carrito() {
                 </div>
                 
                 <div className="resumen-linea">
-                  <span>Envío:</span>
+                  <span>EnvÃ­o:</span>
                   <span>
                     {calcularEnvio() === 0 ? (
-                      <span style={{ color: '#10B981' }}>¡GRATIS!</span>
+                      <span style={{ color: '#10B981' }}>Â¡GRATIS!</span>
                     ) : (
                       formatearPrecio(calcularEnvio())
                     )}
@@ -221,7 +235,7 @@ export default function Carrito() {
                 <div className="envio-info">
                   {calcularSubtotal() < 100000 && (
                     <p style={{ fontSize: '0.9em', color: '#F59E0B', marginTop: '10px' }}>
-                      💡 Agrega {formatearPrecio(100000 - calcularSubtotal())} más para envío gratis
+                      ðŸ’¡ Agrega {formatearPrecio(100000 - calcularSubtotal())} mÃ¡s para envÃ­o gratis
                     </p>
                   )}
                 </div>
@@ -242,7 +256,7 @@ export default function Carrito() {
                     fontWeight: 'bold'
                   }}
                 >
-                  💳 Proceder al Checkout con MercadoPago
+                  ðŸ’³ Proceder al Checkout con MercadoPago
                 </Link>
                 
                 <Link 
@@ -260,7 +274,7 @@ export default function Carrito() {
                     fontSize: '14px'
                   }}
                 >
-                  🛍️ Seguir Comprando
+                  ðŸ›ï¸ Seguir Comprando
                 </Link>
               </div>
             </div>
@@ -403,3 +417,5 @@ export default function Carrito() {
     </div>
   );
 }
+
+

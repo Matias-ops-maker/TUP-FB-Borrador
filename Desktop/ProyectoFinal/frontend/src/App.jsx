@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+﻿import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import Sidebar from "./components/Sidebar"
 import Dashboard from "./pages/admin/Dashboard"
@@ -71,3 +71,4 @@ export default function App() {
         </BrowserRouter>
     )
 }
+

@@ -1,4 +1,4 @@
-import express from "express";
+﻿import express from "express";
 import { 
     publicSalesPdf, 
     publicSalesXlsx,
@@ -13,3 +13,4 @@ router.get("/inventory-summary.pdf", publicInventoryPdf);
 router.get("/inventory-summary.xlsx", publicInventoryXlsx);
 
 export default router;
+

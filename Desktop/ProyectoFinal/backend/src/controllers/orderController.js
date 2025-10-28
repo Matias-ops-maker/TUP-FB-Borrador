@@ -1,4 +1,4 @@
-import { Order, OrderItem, Cart, CartItem, Product, User, Category, Brand, Payment } from "../models/index.js";
+﻿import { Order, OrderItem, Cart, CartItem, Product, User, Category, Brand, Payment } from "../models/index.js";
 import { sequelize } from "../models/index.js";
 import { Op } from "sequelize";
 
@@ -16,7 +16,7 @@ export async function placeOrder(req, res) {
 
         if (!cart || !cart.CartItems || cart.CartItems.length === 0) {
             await t.rollback();
-            return res.status(400).json({ error: "Carrito vacío" });
+            return res.status(400).json({ error: "Carrito vacÃ­o" });
         }
         for (const item of cart.CartItems) {
             if (item.Product.stock < item.cantidad) {
@@ -74,7 +74,6 @@ export async function placeOrder(req, res) {
 
     } catch (error) {
         await t.rollback();
-        console.error('Error al procesar orden:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -138,7 +137,6 @@ export async function listOrders(req, res) {
         });
 
     } catch (error) {
-        console.error('Error al listar órdenes:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -174,7 +172,6 @@ export async function getOrder(req, res) {
 
         res.json(order);
     } catch (error) {
-        console.error('Error al obtener orden:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -185,7 +182,7 @@ export async function updateOrderStatus(req, res) {
         const validStates = ['pendiente', 'procesando', 'enviado', 'entregado', 'cancelado'];
 
         if (!estado || !validStates.includes(estado)) {
-            return res.status(400).json({ error: "Estado inválido" });
+            return res.status(400).json({ error: "Estado invÃ¡lido" });
         }
 
         const order = await Order.findByPk(req.params.id);
@@ -211,7 +208,6 @@ export async function updateOrderStatus(req, res) {
 
         res.json({ msg: "Estado de orden actualizado", order });
     } catch (error) {
-        console.error('Error al actualizar estado de orden:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
@@ -240,7 +236,8 @@ export async function getOrderStats(req, res) {
             totalRevenue: totalRevenue || 0
         });
     } catch (error) {
-        console.error('Error al obtener estadísticas de órdenes:', error);
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
+
+

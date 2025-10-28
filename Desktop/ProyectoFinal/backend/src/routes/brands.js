@@ -1,4 +1,4 @@
-import express from "express";
+﻿import express from "express";
 import { 
     listBrands, 
     getBrand, 
@@ -16,3 +16,4 @@ router.put("/:id", verifyToken, verifyAdmin, updateBrand);
 router.delete("/:id", verifyToken, verifyAdmin, deleteBrand);
 
 export default router;
+
