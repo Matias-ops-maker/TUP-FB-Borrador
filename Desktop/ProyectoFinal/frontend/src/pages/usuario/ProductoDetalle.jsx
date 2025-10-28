@@ -134,13 +134,11 @@ export default function ProductoDetalle() {
         <div className="producto-detalle-content">
           <div className="producto-imagen-detalle">
             <img 
-              src={producto.imagen_url || 'https:
+              src={producto.imagen_url || 'https://via.placeholder.com/400x300/9ca3af?text=Sin+Imagen'}
               alt={producto.nombre}
               onError={(e) => {
-                e.target.src = 'https:
+                e.target.src = 'https://via.placeholder.com/400x300/9ca3af?text=Error+Imagen';
               }}
-              onLoad={() => {
-                }}
               style={{
                 maxWidth: '100%',
                 height: 'auto',
@@ -148,7 +146,7 @@ export default function ProductoDetalle() {
               }}
             />
             {producto.stock < 50 && (
-              <div className="stock-warning">Â¡Pocas unidades disponibles!</div>
+              <div className="stock-warning">¡Pocas unidades disponibles!</div>
             )}
           </div>
 

@@ -64,8 +64,8 @@ export default function ProductFormNew() {
               estado: response.data.estado || "activo"
             });
           }
-        } catch (error) {
-          setError("Error al cargar el producto");
+        } catch (err) {
+          console.error('Error loading product:', err);
           setError("Error al cargar el producto");
         } finally {
           setLoading(false);
@@ -103,8 +103,8 @@ export default function ProductFormNew() {
       }
 
       navigate("/admin/products");
-    } catch (error) {
-      setError("Error al guardar el producto");
+    } catch (err) {
+      console.error('Error saving product:', err);
       setError("Error al guardar el producto");
     } finally {
       setLoading(false);
@@ -179,7 +179,7 @@ export default function ProductFormNew() {
 
           <div>
             <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>URL de Imagen</label>
-            <input type="url" name="imagen_url" value={formData.imagen_url} onChange={handleInputChange} placeholder="https:
+            <input type="url" name="imagen_url" value={formData.imagen_url} onChange={handleInputChange} placeholder="https://ejemplo.com/imagen.jpg" style={{ width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "4px" }} />
           </div>
 
           <div>

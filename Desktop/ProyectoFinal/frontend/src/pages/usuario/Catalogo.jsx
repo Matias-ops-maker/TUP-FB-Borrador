@@ -66,7 +66,7 @@ export default function Catalogo() {
         price: producto.precio,
         stock: producto.stock,
         category: producto.Category?.nombre || 'Sin categorÃ­a',
-        image: producto.imagen_url || 'https:
+        image: producto.imagen_url || 'https://via.placeholder.com/200x150/9ca3af?text=Sin+Imagen',
         description: producto.descripcion || 'Sin descripciÃ³n'
       }));
       

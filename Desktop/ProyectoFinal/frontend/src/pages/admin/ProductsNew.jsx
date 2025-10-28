@@ -9,7 +9,8 @@ export default function Products() {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterCategory, setFilterCategory] = useState("");
     const [sortBy, setSortBy] = useState("name");
-    const navigate = useNavigate();
+    const navigate = useNavigate();
+
     const categories = [
         { id: 1, name: 'Filtros' },
         { id: 2, name: 'Frenos' },
@@ -17,11 +18,13 @@ export default function Products() {
         { id: 4, name: 'Sistema ElÃ©ctrico' },
         { id: 5, name: 'SuspensiÃ³n' },
         { id: 6, name: 'TransmisiÃ³n' }
-    ];
+    ];
+
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            const response = await api.get("/products");
+            const response = await api.get("/products");
+
             const productData = response.data.data || response.data || [];
             setProducts(Array.isArray(productData) ? productData : []);
         } catch (error) {
@@ -33,7 +36,8 @@ export default function Products() {
 
     useEffect(() => {
         fetchProducts();
-    }, []);
+    }, []);
+
     const deleteProduct = async (id) => {
         if (!confirm("Â¿EstÃ¡s seguro de que quieres eliminar este producto?")) {
             return;
@@ -45,25 +49,30 @@ export default function Products() {
         } catch (error) {
             alert("Error al eliminar el producto");
         }
-    };
+    };
+
     const getCategoryName = (categoryId) => {
         const category = categories.find(cat => cat.id === categoryId);
         return category ? category.name : 'Sin categorÃ­a';
-    };
+    };
+
     const getFilteredProducts = () => {
-        let filtered = [...products];
+        let filtered = [...products];
+
         if (searchTerm) {
             filtered = filtered.filter(product =>
                 (product.nombre || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
                 (product.sku || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
                 (product.Brand?.nombre || '').toLowerCase().includes(searchTerm.toLowerCase())
             );
-        }
+        }
+
         if (filterCategory) {
             filtered = filtered.filter(product => 
                 product.category_id === parseInt(filterCategory)
             );
-        }
+        }
+
         filtered.sort((a, b) => {
             switch (sortBy) {
                 case 'name':
@@ -190,11 +199,11 @@ export default function Products() {
                                 <tr key={product.id} className="product-row">
                                     <td className="image-cell">
                                         <img 
-                                            src={product.imagen_url || 'https:
+                                            src={product.imagen_url || 'https://via.placeholder.com/50x50/9ca3af?text=Sin+Imagen'}
                                             alt={product.nombre}
                                             className="product-image"
                                             onError={(e) => {
-                                                e.target.src = 'https:
+                                                e.target.src = 'https://via.placeholder.com/50x50/9ca3af?text=Error';
                                             }}
                                         />
                                     </td>

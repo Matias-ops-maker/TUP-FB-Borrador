@@ -5,14 +5,14 @@ echo ========================================
 
 REM Crear ventana separada para el backend
 echo Iniciando Backend...
-start "Backend Server" /d "C:\Users\Usuario\REPOSITORIOS\Front-Back-borrador-TUP\Desktop\ProyectoFinal\backend" cmd /k "npm start"
+start "Backend Server" /d "C:\Users\Usuario\Downloads\Front-Back-borrador-TUP\Desktop\ProyectoFinal\backend" cmd /k "npm start"
 
 REM Esperar un momento antes de iniciar el frontend
 timeout /t 3 /nobreak > nul
 
 REM Crear ventana separada para el frontend  
 echo Iniciando Frontend...
-start "Frontend Server" /d "C:\Users\Usuario\REPOSITORIOS\Front-Back-borrador-TUP\Desktop\ProyectoFinal\frontend" cmd /k "npm run dev"
+start "Frontend Server" /d "C:\Users\Usuario\Downloads\Front-Back-borrador-TUP\Desktop\ProyectoFinal\frontend" cmd /k "npm run dev"
 
 REM Esperar y abrir el navegador
 timeout /t 5 /nobreak > nul
